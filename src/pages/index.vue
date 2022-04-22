@@ -1,50 +1,49 @@
 <script setup lang="ts">
-const name = $ref('')
 
-const router = useRouter()
-const go = () => {
-  if (name)
-    router.push(`/hi/${encodeURIComponent(name)}`)
-}
 </script>
 
 <template>
-  <div>
-    <div i-carbon-campsite text-4xl inline-block />
-    <p>
-      <a rel="noreferrer" href="https://github.com/antfu/vitesse-lite" target="_blank">
-        Vitesse Lite
-      </a>
-    </p>
-    <p>
-      <em text-sm op75>Opinionated Vite Starter Template</em>
-    </p>
-
-    <div py-4 />
-
-    <input
-      id="input"
-      v-model="name"
-      placeholder="What's your name?"
-      type="text"
-      autocomplete="false"
-      p="x-4 y-2"
-      w="250px"
-      text="center"
-      bg="transparent"
-      border="~ rounded gray-200 dark:gray-700"
-      outline="none active:none"
-      @keydown.enter="go"
-    >
-
-    <div>
-      <button
-        class="m-3 text-sm btn"
-        :disabled="!name"
-        @click="go"
+  <div mx-10 mt-4 flex justify-between>
+    <div flex-1>
+      <n-grid x-gap="12" :cols="2">
+        <n-gi v-for="(_, i) in 10" :key="i">
+          <n-card
+            title="全站十大" :segmented="{
+              content: true,
+            }"
+            mb-6
+          >
+            <template #header-extra>
+              更多
+            </template>
+            卡片内容
+          </n-card>
+        </n-gi>
+      </n-grid>
+    </div>
+    <div w-70 ml-10 flex flex-col>
+      <n-card
+        title="失物招领" :segmented="{
+          content: true,
+        }"
+        mb-6
       >
-        Go
-      </button>
+        <template #header-extra>
+          更多
+        </template>
+        卡片内容
+      </n-card>
+      <n-card
+        title="热门版面" :segmented="{
+          content: true,
+        }"
+        mb-6
+      >
+        <template #header-extra>
+          更多
+        </template>
+        卡片内容
+      </n-card>
     </div>
   </div>
 </template>

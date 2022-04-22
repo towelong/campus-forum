@@ -1,46 +1,79 @@
 <script setup lang="ts">
 // const router = useRouter()
+interface Menu {
+  name: string
+  path: string
+  icon: string
+}
+const menus: Menu[] = [
+  {
+    name: '首页',
+    path: '/',
+    icon: 'i-carbon-home',
+  },
+  {
+    name: '板块目录',
+    path: '/forum',
+    icon: 'i-carbon-template',
+  },
+  {
+    name: '板块收藏',
+    path: '/collection',
+    icon: 'i-carbon-star',
+  },
+  {
+    name: '关注',
+    path: '/follow',
+    icon: 'i-carbon-user-favorite',
+  },
+]
 </script>
 <template>
   <n-layout h-screen>
-    <n-layout-header style="height: 64px; padding: 24px" bordered>
-      <div flex items-center justify-between>
-        <p i-carbon-forum text-xl />
-        <div flex>
-          <p>登录</p>
-          <p>注册</p>
-        </div>
+    <n-layout-header style="height: 64px;" flex flex-col justify-center bordered>
+      <div flex items-center justify-center px-6>
+        <n-grid x-gap="4" :cols="3">
+          <n-gi flex items-center>
+            <p i-carbon-forum text-xl />
+            <p font-serif ml-2>
+              农商云影
+            </p>
+          </n-gi>
+          <n-gi flex items-center>
+            <n-input-group>
+              <n-input :style="{ width: '50%' }" placeholder="搜索板块、帖子、用户" />
+              <n-button type="primary" ghost>
+                搜索
+              </n-button>
+            </n-input-group>
+          </n-gi>
+          <n-gi flex items-center justify-center>
+            <div flex>
+              <p mx-6>
+                注册
+              </p>
+              <p mx-6>
+                登录
+              </p>
+              <p mx-6>
+                帮助中心
+              </p>
+            </div>
+          </n-gi>
+        </n-grid>
       </div>
     </n-layout-header>
     <n-layout position="absolute" style="top: 64px" has-sider class="bg-[#F4F5F8]">
       <n-layout-sider
-        bordered
-        show-trigger
-        collapse-mode="width"
-        :native-scrollbar="false"
-        :collapsed-width="16"
-        :width="220"
-        mr-4 mb-2
+        bordered show-trigger collapse-mode="width"
+        :native-scrollbar="false" :collapsed-width="16"
+        :width="220" mr-4 mb-2
       >
-        <router-link to="/">
-          <div
-            flex="~" items-center mx-4 px-1 py-2 my-1 rounded
-            class="hover:bg-[#F4F5F7]"
-          >
-            <p i-carbon-home text-xl />
+        <router-link v-for="menu in menus" :key="menu.path" :to="menu.path">
+          <div flex="~" items-center mx-4 px-1 py-2 my-1 rounded class="hover:bg-[#F4F5F7]">
+            <p :class="menu.icon" text-xl />
             <p ml-2>
-              首页
-            </p>
-          </div>
-        </router-link>
-        <router-link to="/forum">
-          <div
-            flex="~" items-center mx-4 px-1 py-2 my-1 rounded
-            class="hover:bg-[#F4F5F7]"
-          >
-            <p i-carbon-home text-xl />
-            <p ml-2>
-              布局
+              {{ menu.name }}
             </p>
           </div>
         </router-link>
@@ -50,45 +83,6 @@
       </n-layout>
     </n-layout>
   </n-layout>
-  <!-- <n-layout h-screen>
-    <n-layout-header style="height: 64px; padding: 24px" bordered>
-      颐和园路
-    </n-layout-header>
-    <n-layout position="absolute" style="top: 64px; bottom: 64px" has-sider>
-      <n-layout-sider
-        content-style="padding: 24px;"
-        :native-scrollbar="false"
-        bordered
-      >
-        <n-h2>海淀桥</n-h2>
-        <n-h2>海淀桥</n-h2>
-        <n-h2>海淀桥</n-h2>
-        <n-h2>海淀桥</n-h2>
-        <n-h2>海淀桥</n-h2>
-        <n-h2>海淀桥</n-h2>
-        <n-h2>海淀桥</n-h2>
-        <n-h2>海淀桥</n-h2>
-        <n-h2>海淀桥</n-h2>
-        <n-h2>海淀桥</n-h2>
-        <n-h2>海淀桥</n-h2>
-        <n-h2>海淀桥</n-h2>
-      </n-layout-sider>
-      <n-layout content-style="padding: 24px;" :native-scrollbar="false">
-        <n-h2>平山道</n-h2>
-        <n-h2>平山道</n-h2>
-        <n-h2>平山道</n-h2>
-        <n-h2>平山道</n-h2>
-        <n-h2>平山道</n-h2>
-        <n-h2>平山道</n-h2>
-        <n-h2>平山道</n-h2>
-        <n-h2>平山道</n-h2>
-        <n-h2>平山道</n-h2>
-        <n-h2>平山道</n-h2>
-        <n-h2>平山道</n-h2>
-        <n-h2>平山道</n-h2>
-      </n-layout>
-    </n-layout>
-  </n-layout> -->
 </template>
 
 <style scoped>

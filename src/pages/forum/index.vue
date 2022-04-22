@@ -32,16 +32,6 @@ const toggleStar = useToggle(star)
 <template>
   <div p-4>
     <h1 text-2xl mb-4 class="text-color">
-      我的收藏
-    </h1>
-    <n-grid x-gap="12" :cols="4" :y-gap="8" mb-4>
-      <n-gi>
-        <div class="demo-card text-color text-xl flex justify-center items-center">
-          无
-        </div>
-      </n-gi>
-    </n-grid>
-    <h1 text-2xl mb-4 class="text-color">
       所有板块
     </h1>
     <n-grid x-gap="12" :cols="3" :y-gap="8">

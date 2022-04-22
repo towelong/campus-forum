@@ -2,14 +2,14 @@
 // import { useMessage } from 'naive-ui'
 import { h } from 'vue'
 import type { DataTableColumns } from 'naive-ui'
-import { NButton, NTag } from 'naive-ui'
+import { NButton, NTag, useMessage } from 'naive-ui'
 import UserProfile from '~/components/UserProfile.vue'
 import LastReply from '~/components/LastReply.vue'
 const props = defineProps<{ id: string }>()
-// const message = useMessage()
+const message = useMessage()
 const handleUpdateValue = (value: string) => {
   // alert(value)
-  console.log(value)
+  message.info(value)
 }
 
 interface List {
@@ -60,7 +60,7 @@ const createColumns = ({
           'a',
           {
             onClick: () => {
-              console.log(row.title)
+              message.info(row.title)
             },
             style: {
               cursor: 'pointer',
@@ -126,18 +126,40 @@ const data: List[] = [
 ]
 const columns = createColumns({
   play(row: List) {
-    console.log(row)
+    message.info(row.title)
   },
 })
 const pagination = ref({
   pageSize: 10,
 })
+
+const handleBack = () => {
+  message.info('返回')
+}
 </script>
 
 <template>
   <div>
     <p>列表: {{ props.id }} </p>
-    <n-card title="测试" style="margin-bottom: 16px">
+    <n-card style="margin-bottom: 16px">
+      <template #header>
+        <n-page-header @back="handleBack">
+          <template #title>
+            <a
+              href="https://anyway.fm/"
+              style="text-decoration: none; color: inherit"
+            >Anyway.FM</a>
+          </template>
+          <template #header>
+            <n-breadcrumb>
+              <n-breadcrumb-item>播客</n-breadcrumb-item>
+              <n-breadcrumb-item>精选</n-breadcrumb-item>
+              <n-breadcrumb-item>超级精选</n-breadcrumb-item>
+              <n-breadcrumb-item>Anyway.FM</n-breadcrumb-item>
+            </n-breadcrumb>
+          </template>
+        </n-page-header>
+      </template>
       <template #header-extra>
         <n-button type="primary">
           发表
