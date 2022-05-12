@@ -7,6 +7,7 @@ import UserProfile from '~/components/UserProfile.vue'
 import LastReply from '~/components/LastReply.vue'
 const props = defineProps<{ id: string }>()
 const message = useMessage()
+const router = useRouter()
 const handleUpdateValue = (value: string) => {
   // alert(value)
   message.info(value)
@@ -61,6 +62,7 @@ const createColumns = ({
           {
             onClick: () => {
               message.info(row.title)
+              router.push(`/post/${row.id}?forum=${props.id}`)
             },
             style: {
               cursor: 'pointer',
