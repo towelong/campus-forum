@@ -12,7 +12,7 @@ const menus: Menu[] = [
     icon: 'i-carbon-home',
   },
   {
-    name: '板块目录',
+    name: '所有板块',
     path: '/forum',
     icon: 'i-carbon-template',
   },

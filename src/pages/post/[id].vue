@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import { useMessage } from 'naive-ui'
+// import { useMessage } from 'naive-ui'
 const props = defineProps<{
   id: string
   forum: string
 }>()
 const router = useRouter()
-const message = useMessage()
+// const message = useMessage()
 const route = useRoute()
 const handleBack = () => {
   router.push(`/forum/detail/${route.query.forum}`)
 }
+
+const page = ref(1)
+const pageSize = ref(10)
 </script>
 
 <template>
@@ -42,9 +45,11 @@ const handleBack = () => {
       <UserReply />
       <UserReply />
       <UserReply />
-      <!-- <template #footer>
-        1231
-      </template> -->
+      <template #footer>
+        <div flex justify-end mr-12>
+          <n-pagination v-model:page="page" v-model:page-size="pageSize" :page-count="10" />
+        </div>
+      </template>
     </n-card>
   </div>
 </template>
