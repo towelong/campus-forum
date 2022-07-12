@@ -1,7 +1,14 @@
 {
   "cSpell.words": [
+    "antfu",
+    "iconify",
+    "jsdawn",
     "sider",
-    "Vitesse"
+    "tinymce",
+    "unocss",
+    "vfonts",
+    "Vitesse",
+    "vueuse"
   ],
   "prettier.enable": false,
   "typescript.tsdk": "node_modules/typescript/lib",
