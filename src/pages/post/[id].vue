@@ -13,6 +13,7 @@ const handleBack = () => {
 
 const page = ref(1)
 const pageSize = ref(10)
+const value = ref('')
 </script>
 
 <template>
@@ -45,6 +46,16 @@ const pageSize = ref(10)
       <UserReply />
       <UserReply />
       <UserReply />
+      <div class="flex justify-center items-center my-2">
+        <div class="w-2/3 ">
+          <n-input v-model:value="value" type="textarea" placeholder="评论" />
+        </div>
+        <div ml-2>
+          <n-button type="primary">
+            回复
+          </n-button>
+        </div>
+      </div>
       <template #footer>
         <div flex justify-end mr-12>
           <n-pagination v-model:page="page" v-model:page-size="pageSize" :page-count="10" />

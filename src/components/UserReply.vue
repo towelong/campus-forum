@@ -8,6 +8,9 @@ const props = withDefaults(defineProps<{
   name: 'PeacefulBY',
   isAuthor: false,
 })
+
+const page = ref(1)
+// const [open, toggle] = useToggle(false)
 </script>
 
 <template>
@@ -50,27 +53,12 @@ const props = withDefaults(defineProps<{
           发表于 2022-05-12 15:41:49
         </p>
       </div>
-      <div v-if="!props.isAuthor" class="bg-[#F7F8FA] p-2">
-        <div flex flex-col>
-          <div flex>
-            <img
-              class="w-10 h-10"
-              src="https://gss0.bdstatic.com/6LZ1dD3d1sgCo2Kml5_Y_D3/sys/portrait/item/tb.1.683a949b.ujmqt3E6neU9jVwXXYl8yA" alt=""
-            >
-            <p text-blue-700 ml-1>
-              我舞影凌乱
-            </p>
-            <p mr-1>
-              :
-            </p>
-            <p>试过了五百多分开通不了</p>
-          </div>
-          <div flex justify-end text-slate-400>
-            <p>发表于 2022-06-21 12:48:08</p>
-            <p ml-2 text-blue-700>
-              回复
-            </p>
-          </div>
+      <div v-if="!props.isAuthor" class="bg-[#F7F8FA] p-1">
+        <div v-for="(_, i) in 2" :key="i">
+          <reply />
+        </div>
+        <div flex justify-end>
+          <n-pagination v-model:page="page" :page-count="1" />
         </div>
       </div>
     </div>
