@@ -1,58 +1,51 @@
 <script setup lang="ts">
 const router = useRouter()
-const go = (id: string) => {
+const go = (id: number) => {
   if (id)
     router.push(`/forum/detail/${id}`)
 }
-const options = ref([
-  {
-    name: '张三',
-    src: 'https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg',
-  },
-  {
-    name: '李四',
-    src: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
-  },
-  {
-    name: '王五',
-    src: 'https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg',
-  },
-  {
-    name: '赵六',
-    src: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg',
-  },
-  {
-    name: '七仔',
-    src: 'https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg',
-  },
-])
 const star = ref(false)
 const toggleStar = useToggle(star)
+
+const props = defineProps<{
+  data: {
+    id: number
+    name: string
+    info: string
+    logo: string
+    users: {
+      nickname: string
+      avatar: string
+      src: string
+    }[]
+  }
+}>()
+
 </script>
 
 <template>
-  <div class="card" flex="~ col" p-6 @click="go('123')">
+  <div class="card" flex="~ col" p-6 @click="go(props.data.id)">
     <div flex items-center justify-between>
       <img
         rounded w-10 h-10 mb-2
-        src="https://avataaars.io/?avatarStyle=Circle&topType=WinterHat1&accessoriesType=Prescription01&hatColor=Gray01&facialHairType=BeardLight&facialHairColor=BrownDark&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light"
+        :src="props.data.logo"
       >
       <p v-if="!star" i-carbon-star @click.stop="toggleStar()" />
       <p v-else i-carbon-star-filled text-yellow @click.stop="toggleStar()" />
     </div>
     <p class="text-color mb-2 text-xl">
-      Friendly Partner
+      {{ props.data.name }}
     </p>
     <p mb-2>
-      the United Nations can remain in TimorLeste as a friendly partner.
+      {{ props.data.info }}
     </p>
-    <n-avatar-group :options="options" :size="30" :max="3" ml-auto>
-      <template #avatar="{ option: { name, src } }">
+    <n-avatar-group :options="props.data.users" :size="30" :max="5" ml-auto>
+      <template #avatar="{ option: { nickname, avatar } }">
         <n-tooltip>
           <template #trigger>
-            <n-avatar :src="src" size="small" />
+            <n-avatar :src="avatar" size="small" />
           </template>
-          {{ name }}
+          {{ nickname }}
         </n-tooltip>
       </template>
     </n-avatar-group>
