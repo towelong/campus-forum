@@ -10,6 +10,7 @@ specifiers:
   '@vitejs/plugin-vue': ^2.3.3
   '@vue/test-utils': ^2.0.2
   '@vueuse/core': ^8.9.2
+  dayjs: ^1.11.4
   eslint: ^8.19.0
   jsdom: ^19.0.0
   naive-ui: ^2.31.0
@@ -33,6 +34,7 @@ dependencies:
   '@jsdawn/vue3-tinymce': 1.1.7
   '@vicons/ionicons5': 0.12.0
   '@vueuse/core': 8.9.2_vue@3.2.37
+  dayjs: 1.11.4
   pinia: 2.0.17_j6bzmzd4ujpabbp5objtwxyjp4
   pinia-plugin-persistedstate: 2.1.0_pinia@2.0.17
   query-string: 7.1.1
@@ -1223,6 +1225,10 @@ packages:
     resolution: {integrity: sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==}
     engines: {node: '>=0.11'}
     dev: true
+
+  /dayjs/1.11.4:
+    resolution: {integrity: sha512-Zj/lPM5hOvQ1Bf7uAvewDaUcsJoI6JmNqmHhHl3nyumwe0XHwt8sWdOVAPACJzCebL8gQCi+K49w7iKWnGwX9g==}
+    dev: false
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}

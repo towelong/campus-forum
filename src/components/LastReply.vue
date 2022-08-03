@@ -10,9 +10,11 @@ const props = withDefaults(defineProps<{
 
 <template>
   <div flex flex-col text-sm justify-between>
-    <p>
+    <p hover:text-emerald-700 cursor-pointer>
       {{ props.name }}
     </p>
-    <p>{{ props.last }}</p>
+    <p text-xs text-neutral mt-1>
+      {{ props.last }}
+    </p>
   </div>
 </template>

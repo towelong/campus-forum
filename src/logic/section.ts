@@ -6,7 +6,7 @@ export function getSectionList() {
   const count = ref(10)
   const initurl = '/section'
   const url = ref(initurl)
-  const { data, error, statusCode } = useFetch(url, { refetch: true }).get().json()
+  const { data, error, statusCode, isFetching, isFinished } = useFetch(url, { refetch: true }).get().json()
 
   watch([page, count],
     (value) => {
@@ -21,5 +21,12 @@ export function getSectionList() {
     statusCode,
     page,
     count,
+    isFetching,
+    isFinished,
   }
+}
+
+export function getSectionDetail(id: string) {
+  const { data, isFinished, isFetching, error, statusCode } = useFetch(`/section/${id}`).get().json()
+  return { detail: data, isFinished, isFetching, error, statusCode }
 }

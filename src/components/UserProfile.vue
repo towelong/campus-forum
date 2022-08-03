@@ -14,8 +14,12 @@ const props = withDefaults(defineProps<{
   <div flex items-center>
     <img :src="props.avatar" w-12 h-12 rounded-3xl>
     <div flex flex-col text-sm justify-between max-h-12 ml-2>
-      <h3>{{ props.name }}</h3>
-      <p>{{ props.time }}</p>
+      <h3 hover:text-emerald-700 cursor-pointer>
+        {{ props.name }}
+      </h3>
+      <p text-xs text-neutral mt-1>
+        {{ props.time }}
+      </p>
     </div>
   </div>
 </template>
