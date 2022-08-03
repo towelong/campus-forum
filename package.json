@@ -3,7 +3,7 @@
   "packageManager": "pnpm@6.32.3",
   "scripts": {
     "build": "vite build",
-    "dev": "vite --port 3333 --open",
+    "dev": "vite --port 3333 --mode development --open",
     "lint": "eslint .",
     "typecheck": "vue-tsc --noEmit",
     "preview": "vite preview",
@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "@jsdawn/vue3-tinymce": "^1.1.7",
+    "@vicons/ionicons5": "^0.12.0",
     "@vueuse/core": "^8.9.2",
+    "pinia": "^2.0.17",
+    "pinia-plugin-persistedstate": "^2.1.0",
     "vue": "^3.2.37",
     "vue-router": "^4.1.2"
   },

@@ -1,4 +1,5 @@
-<script setup lang="ts">
+<script setup lang="ts">import type { FormInst, FormRules } from 'naive-ui'
+
 // const router = useRouter()
 interface Menu {
   name: string
@@ -27,6 +28,27 @@ const menus: Menu[] = [
     icon: 'i-carbon-user-favorite',
   },
 ]
+
+const showModal = ref(false)
+const toggleModal = useToggle(showModal)
+
+const model = ref({
+  username: '',
+  password: '',
+})
+const formRef = ref<FormInst | null>(null)
+const rules: FormRules = {
+  username: {
+    required: true,
+    message: '请输入用户名',
+    trigger: ['blur', 'input'],
+  },
+  password: {
+    required: true,
+    message: '请输入密码',
+    trigger: ['blur', 'input'],
+  },
+}
 </script>
 <template>
   <n-layout h-screen>
@@ -49,15 +71,67 @@ const menus: Menu[] = [
           </n-gi>
           <n-gi flex items-center justify-center>
             <div flex>
-              <p mx-6>
-                注册
-              </p>
-              <p mx-6>
-                登录
+              <p mx-6 @click="toggleModal()">
+                注册/登录
               </p>
               <p mx-6>
                 帮助中心
               </p>
+              <n-modal
+                v-model:show="showModal"
+                preset="card"
+                :auto-focus="false"
+                :mask-closable="false"
+                style="width: 360px;"
+              >
+                <n-tabs default-value="signin" size="large" justify-content="space-evenly">
+                  <n-tab-pane name="signin" tab="登录">
+                    <n-form ref="formRef" :model="model" :rules="rules">
+                      <n-form-item label="用户名" path="username">
+                        <n-input v-model:value="model.username" placeholder="请输入用户名" />
+                      </n-form-item>
+                      <n-form-item label="密码" path="password">
+                        <n-input
+                          v-model:value="model.password"
+                          type="password" placeholder="请输入密码"
+                          show-password-on="click"
+                        />
+                      </n-form-item>
+                      <n-button type="primary" block secondary strong>
+                        登录
+                      </n-button>
+                    </n-form>
+                  </n-tab-pane>
+                  <n-tab-pane name="signup" tab="注册">
+                    <n-form ref="formRef" :model="model" :rules="rules">
+                      <n-form-item label="用户名" path="username">
+                        <n-input v-model:value="model.username" placeholder="请输入用户名" />
+                      </n-form-item>
+                      <n-form-item label="密码" path="password">
+                        <n-input
+                          v-model:value="model.password"
+                          type="password" placeholder="请输入密码"
+                          show-password-on="click"
+                        />
+                      </n-form-item>
+                      <n-form-item label="重复密码" path="password">
+                        <n-input
+                          v-model:value="model.password"
+                          type="password" placeholder="请再次输入密码"
+                          show-password-on="click"
+                        />
+                      </n-form-item>
+                      <n-button type="primary" block secondary strong>
+                        注册
+                      </n-button>
+                    </n-form>
+                  </n-tab-pane>
+                </n-tabs>
+              </n-modal>
+
+              <!-- :bordered="false"
+                :auto-focus="false"
+                aria-modal="true" -->
             </div>
           </n-gi>
         </n-grid>
