@@ -2,7 +2,7 @@
 </script>
 
 <template>
-  <div mx-10 mt-4 flex justify-between>
+  <div mx-1 mt-4 flex justify-between>
     <div flex-1>
       <n-grid x-gap="12" :cols="2">
         <n-gi v-for="(_, i) in 10" :key="i">
@@ -20,7 +20,7 @@
         </n-gi>
       </n-grid>
     </div>
-    <div w-70 ml-10 flex flex-col>
+    <div w-70 ml-6 flex flex-col>
       <n-card
         title="失物招领" :segmented="{
           content: true,

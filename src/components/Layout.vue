@@ -1,4 +1,5 @@
-<script setup lang="ts">import type { FormInst, FormRules } from 'naive-ui'
+<script setup lang="ts">
+import type { FormInst, FormRules } from 'naive-ui'
 
 // const router = useRouter()
 interface Menu {
@@ -53,23 +54,27 @@ const rules: FormRules = {
 <template>
   <n-layout h-screen>
     <n-layout-header style="height: 64px;" flex flex-col justify-center bordered>
-      <div flex items-center justify-center px-6>
-        <n-grid x-gap="4" :cols="3">
-          <n-gi flex items-center>
-            <p i-carbon-forum text-xl />
-            <p font-serif ml-2>
-              农商云影
+      <div flex items-center justify-between>
+        <!-- left  -->
+        <div w-55 flex px-2>
+          <div flex items-center>
+            <p i-carbon-ibm-z-cloud-mod-stack text-2xl />
+            <p font-serif ml-2 text-2xl>
+              Cloud Shadow
             </p>
-          </n-gi>
-          <n-gi flex items-center>
+          </div>
+        </div>
+        <!-- right -->
+        <div flex flex-1 justify-between px-4>
+          <div flex items-center>
             <n-input-group>
-              <n-input :style="{ width: '50%' }" placeholder="搜索板块、帖子、用户" />
+              <n-input placeholder="搜索板块、帖子、用户" />
               <n-button type="primary" ghost>
                 搜索
               </n-button>
             </n-input-group>
-          </n-gi>
-          <n-gi flex items-center justify-center>
+          </div>
+          <div flex items-center justify-center>
             <div flex>
               <p mx-6 @click="toggleModal()">
                 注册/登录
@@ -128,13 +133,9 @@ const rules: FormRules = {
                   </n-tab-pane>
                 </n-tabs>
               </n-modal>
-
-              <!-- :bordered="false"
-                :auto-focus="false"
-                aria-modal="true" -->
             </div>
-          </n-gi>
-        </n-grid>
+          </div>
+        </div>
       </div>
     </n-layout-header>
     <n-layout position="absolute" style="top: 64px" has-sider class="bg-[#F4F5F8]">
