@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { getSectionList } from '~/logic/section'
 
-const { data, isFetching, isFinished } = getSectionList()
+const { data, isFetching, isFinished, error } = getSectionList()
 
 const items = computed(() => data.value?.items)
 
 </script>
 <template>
   <div>
-    <div v-if="isFetching" p-4>
+    <div v-if="isFetching || error" p-4>
       <h1 text-2xl mb-4 class="text-color">
         所有板块
       </h1>

@@ -16,6 +16,22 @@ const handleUpdateValue = (value: string) => {
   message.info(value)
 }
 
+const pagination = ref({
+  // 每页数量
+  pageSize: 10,
+  // 总条数
+  itemCount: 0,
+})
+
+const { detail, isFinished, isFetching } = getSectionDetail(props.id)
+const dataDetail = computed(() => detail.value)
+watch(dataDetail, () => {
+  if (dataDetail.value) {
+    pagination.value.itemCount = dataDetail.value.posts.total
+    pagination.value.pageSize = dataDetail.value.posts.count
+  }
+})
+
 interface List {
   id: number
   title: string
@@ -68,7 +84,7 @@ const createColumns = ({
           {
             onClick: () => {
               message.info(row.title)
-              router.push(`/post/${row.id}?forum=${props.id}`)
+              router.push(`/post/${row.id}?forum=${props.id}&name=${dataDetail.value.name}`)
             },
             style: {
               cursor: 'pointer',
@@ -133,23 +149,10 @@ const columns = createColumns({
     message.info(row.title)
   },
 })
-const pagination = ref({
-  // 每页数量
-  pageSize: 10,
-  // 总条数
-  itemCount: 0,
-})
+
 const handleBack = () => {
   message.info('返回')
 }
-const { detail, isFinished, isFetching } = getSectionDetail(props.id)
-const dataDetail = computed(() => detail.value)
-watch(dataDetail, () => {
-  if (dataDetail.value) {
-    pagination.value.itemCount = dataDetail.value.posts.total
-    pagination.value.pageSize = dataDetail.value.posts.count
-  }
-})
 
 </script>
 
