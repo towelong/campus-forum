@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FormInst, FormRules } from 'naive-ui'
+import type { FormInst, FormRules, LayoutInst } from 'naive-ui'
 
 // const router = useRouter()
 interface Menu {
@@ -50,6 +50,8 @@ const rules: FormRules = {
     trigger: ['blur', 'input'],
   },
 }
+const contentRef = ref<LayoutInst | null>(null)
+provide('contentRef', contentRef)
 </script>
 <template>
   <n-layout h-screen>
@@ -153,7 +155,7 @@ const rules: FormRules = {
           </div>
         </router-link>
       </n-layout-sider>
-      <n-layout content-style="padding:10px 20px 20px 0;" :native-scrollbar="false" class="bg-[#F4F5F8]">
+      <n-layout ref="contentRef" content-style="padding:10px 20px 20px 0;" :native-scrollbar="false" class="bg-[#F4F5F8]">
         <slot />
       </n-layout>
     </n-layout>

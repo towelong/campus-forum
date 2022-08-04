@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { Ref } from 'vue'
 import { getPostDetail } from '~/logic/post.js'
 import PostContent from '~/components/PostContent.vue'
 
@@ -23,6 +24,11 @@ const {
   count,
   page,
 } = getPostDetail(props.id)
+const contentRef = inject<Ref>('contentRef')
+const next = (currentPage: number) => {
+  page.value = currentPage
+  contentRef?.value?.scrollTo({ top: 0, behavior: 'smooth' })
+}
 
 </script>
 
@@ -52,7 +58,7 @@ const {
         </div>
       </n-card>
     </div>
-    <div v-if="isFinished" px-6>
+    <div v-if="isFinished" ref="el" px-6>
       <n-card>
         <template #header>
           <n-page-header @back="handleBack">
@@ -91,6 +97,7 @@ const {
               v-model:page="page"
               :page-size="count"
               :item-count="data.comments.total"
+              :on-update:page="next"
             />
           </div>
         </template>
