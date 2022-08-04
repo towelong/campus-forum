@@ -1,6 +1,8 @@
 import { useFetch } from '~/request'
 
 export function getPostDetail(id: string) {
+  // const page = ref(0)
+  // const count = ref(10)
   const { data, isFetching, isFinished, error } = useFetch(`/post/${id}`).get().json()
   return {
     data,
