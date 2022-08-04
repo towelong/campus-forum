@@ -4,7 +4,6 @@ const props = defineProps<{
   comment: Comment
 }>()
 
-const page = ref(1)
 const [open, setOpen] = useToggle(false)
 const value = ref('')
 </script>
@@ -52,12 +51,16 @@ const value = ref('')
       </div>
       <!-- 回复 -->
       <div v-if="props.comment.reply_infos.length > 0" class="bg-[#F7F8FA] p-1">
-        <div v-for="(_, i) in 2" :key="i">
-          <reply />
+        <div v-for="(reply, i) in props.comment.reply_infos" :key="`reply-${i}`">
+          <reply :reply="reply" />
         </div>
-        <div flex justify-end>
+        <div pl-1 flex items-center cursor-pointer text-emerald-700>
+          <p>查看更多回复</p>
+          <p i-ri-arrow-down-s-line />
+        </div>
+        <!-- <div flex justify-end>
           <n-pagination v-model:page="page" :page-count="1" />
-        </div>
+        </div> -->
       </div>
       <template v-if="open">
         <n-input v-model:value="value" mt-1 type="textarea" placeholder="回复" />

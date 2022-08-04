@@ -7,14 +7,14 @@ export interface CommentInfo {
   digg_count: number
   reply_count: number
   is_author: boolean
-  create_time: Date
+  create_time: string
 }
 
 export interface UserInfo {
   id: number
   nickname: string
   avatar: string
-  create_time: Date
+  create_time: string
 }
 
 export interface ReplyInfo2 {
@@ -27,15 +27,15 @@ export interface ReplyInfo2 {
   reply_pics: string[]
   digg_count: number
   is_author: boolean
-  create_time: Date
-  delete_time?: any
+  create_time: string
+  delete_time?: string
 }
 
 export interface ReplyUser {
   id: number
   nickname: string
   avatar: string
-  create_time: Date
+  create_time: string
 }
 
 export interface UserInfo2 {
@@ -55,8 +55,8 @@ export interface ParentReply {
   reply_pics: string[]
   digg_count: number
   is_author: boolean
-  create_time: Date
-  delete_time?: any
+  create_time: string
+  delete_time?: string
 }
 
 export interface ReplyInfo {

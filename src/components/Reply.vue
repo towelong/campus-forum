@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import type { ReplyInfo } from '~/models/comments'
 const value = ref<string>('')
 const [open, toggle] = useToggle(false)
+const props = defineProps<{
+  reply: ReplyInfo
+}>()
 </script>
 
 <template>
@@ -8,16 +12,23 @@ const [open, toggle] = useToggle(false)
     <div flex>
       <img
         class="w-10 h-10"
-        src="https://gss0.bdstatic.com/6LZ1dD3d1sgCo2Kml5_Y_D3/sys/portrait/item/tb.1.683a949b.ujmqt3E6neU9jVwXXYl8yA"
+        :src="props.reply.user_info.avatar"
         alt=""
       >
-      <p text-emerald-700 ml-1>
-        我舞影凌乱
+      <p v-if="props.reply.parent_reply" ml-1>
+        <span text-emerald-700>{{ props.reply.user_info.nickname }}</span>
+        <span px-2>回复</span>
+        <span text-emerald-700>{{ props.reply.reply_user.nickname }}</span>
       </p>
-      <p mr-1>
+      <p v-else text-emerald-700 ml-1>
+        {{ props.reply.user_info.nickname }}
+      </p>
+      <p mx-1>
         :
       </p>
-      <p>试过了五百多分开通不了</p>
+      <p>
+        {{ props.reply.reply_info.reply_content }}
+      </p>
     </div>
     <div flex justify-end text-slate-400>
       <p mr-1>

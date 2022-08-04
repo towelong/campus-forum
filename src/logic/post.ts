@@ -2,7 +2,7 @@ import { useFetch } from '~/request'
 
 export function getPostDetail(id: string) {
   const page = ref(1)
-  const count = ref(2)
+  const count = ref(5)
 
   const prefix = `/post/${id}`
   const initurl = `${prefix}?page=${page.value - 1}&count=${count.value}`
