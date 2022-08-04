@@ -24,7 +24,7 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="card" flex="~ col" p-6 @click="go(props.data.id)">
+  <div class="card h-50" flex="~ col" p-6 @click="go(props.data.id)">
     <div flex items-center justify-between>
       <img
         rounded w-10 h-10 mb-2
@@ -37,7 +37,9 @@ const props = defineProps<{
       {{ props.data.name }}
     </p>
     <p mb-2>
-      {{ props.data.info }}
+      <n-ellipsis :line-clamp="2">
+        {{ props.data.info }}
+      </n-ellipsis>
     </p>
     <n-avatar-group :options="props.data.users" :size="30" :max="5" ml-auto>
       <template #avatar="{ option: { nickname, avatar } }">
@@ -54,7 +56,6 @@ const props = defineProps<{
 
 <style scoped>
 .card {
-  /* height: 168px; */
   /* background-color: rgba(0, 128, 0, 0.12); */
   background-color: white;
   border-radius: 10px;

@@ -8,7 +8,10 @@ const items = computed(() => data.value?.items)
 </script>
 <template>
   <div>
-    <div v-if="isFetching">
+    <div v-if="isFetching" p-4>
+      <h1 text-2xl mb-4 class="text-color">
+        所有板块
+      </h1>
       <n-grid x-gap="12" :cols="3" :y-gap="8">
         <n-gi v-for="(_, i) in 12" :key="i">
           <n-skeleton h-42 rounded-2xl />
