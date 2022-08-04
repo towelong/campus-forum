@@ -32,7 +32,6 @@ declare module '@vue/runtime-core' {
     NPageHeader: typeof import('naive-ui')['NPageHeader']
     NPagination: typeof import('naive-ui')['NPagination']
     NSkeleton: typeof import('naive-ui')['NSkeleton']
-    NSpace: typeof import('naive-ui')['NSpace']
     NTabPane: typeof import('naive-ui')['NTabPane']
     NTabs: typeof import('naive-ui')['NTabs']
     NTag: typeof import('naive-ui')['NTag']

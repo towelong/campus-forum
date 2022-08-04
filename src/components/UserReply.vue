@@ -5,7 +5,8 @@ const props = defineProps<{
 }>()
 
 const page = ref(1)
-// const [open, toggle] = useToggle(false)
+const [open, setOpen] = useToggle(false)
+const value = ref('')
 </script>
 
 <template>
@@ -18,7 +19,7 @@ const page = ref(1)
             {{ props.comment.user_info.nickname }}
           </n-ellipsis>
         </p>
-        <p>发帖数：31</p>
+        <!-- <p>发帖数：31</p> -->
       </div>
       <n-tag v-if="props.comment.is_author" type="success" size="small">
         楼主
@@ -30,11 +31,14 @@ const page = ref(1)
       </p>
       <div flex justify-between w-full>
         <div flex>
-          <div flex justify-center items-center text-xs>
+          <div
+            flex justify-center items-center text-xs cursor-pointer
+            @click="setOpen(!open)"
+          >
             <p i-carbon-chat />
             <p>回复</p>
           </div>
-          <div flex justify-center items-center px-2 text-xs>
+          <div flex justify-center items-center px-2 text-xs cursor-pointer>
             <p i-carbon-warning-alt />
             <p>举报</p>
           </div>
@@ -55,6 +59,14 @@ const page = ref(1)
           <n-pagination v-model:page="page" :page-count="1" />
         </div>
       </div>
+      <template v-if="open">
+        <n-input v-model:value="value" mt-1 type="textarea" placeholder="回复" />
+        <div flex justify-end my-1>
+          <n-button type="primary">
+            发表
+          </n-button>
+        </div>
+      </template>
     </div>
   </div>
 </template>

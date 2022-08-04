@@ -20,13 +20,12 @@ const props = defineProps<{
 
 // const page = ref(1)
 // const [open, toggle] = useToggle(false)
-console.log(props.data)
 </script>
 
 <template>
-  <!-- 帖子内容 -->
   <div>
-    <div class="flex border-b border-slate-200">
+    <!-- 帖子内容 -->
+    <div v-if="props.data.comments.page === 0" class="flex border-b border-slate-200">
       <div flex flex-col items-center px-4 py-6 border-r border-slate-200>
         <img :src="props.data.user.avatar" w-30 h-30 rounded-3xl>
         <div flex flex-col text-sm justify-between max-h-12 mx-2>
@@ -35,7 +34,7 @@ console.log(props.data)
               {{ props.data.user.nickname }}
             </n-ellipsis>
           </p>
-          <p>发帖数：31</p>
+          <!-- <p>发帖数：31</p> -->
         </div>
         <n-tag type="success" size="small">
           楼主
@@ -47,7 +46,7 @@ console.log(props.data)
         </p>
         <div flex justify-between w-full>
           <div flex>
-            <div flex justify-center items-center px-2 text-xs>
+            <div flex justify-center items-center text-xs cursor-pointer>
               <p i-carbon-warning-alt />
               <p>举报</p>
             </div>

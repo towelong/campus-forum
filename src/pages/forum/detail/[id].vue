@@ -12,7 +12,6 @@ const props = defineProps<{ id: string }>()
 const message = useMessage()
 const router = useRouter()
 const handleUpdateValue = (value: string) => {
-  // alert(value)
   message.info(value)
 }
 
@@ -83,7 +82,7 @@ const createColumns = ({
           'a',
           {
             onClick: () => {
-              message.info(row.title)
+              // message.info(row.title)
               router.push(`/post/${row.id}?forum=${props.id}&name=${dataDetail.value.name}`)
             },
             style: {
@@ -151,7 +150,7 @@ const columns = createColumns({
 })
 
 const handleBack = () => {
-  message.info('返回')
+  router.push('/forum')
 }
 
 </script>

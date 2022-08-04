@@ -13,17 +13,22 @@ const handleBack = () => {
   router.push(`/forum/detail/${route.query.forum}`)
 }
 
-const page = ref(1)
-const pageSize = ref(10)
 const value = ref('')
 
-const { data, isFinished, isFetching, error } = getPostDetail(props.id)
+const {
+  data,
+  isFinished,
+  isFetching,
+  error,
+  count,
+  page,
+} = getPostDetail(props.id)
 
 </script>
 
 <template>
   <div>
-    <div v-if="error || isFetching">
+    <div v-if="error || isFetching" px-6>
       <n-card>
         <template #header>
           <n-page-header @back="handleBack">
@@ -47,7 +52,7 @@ const { data, isFinished, isFetching, error } = getPostDetail(props.id)
         </div>
       </n-card>
     </div>
-    <div v-if="isFinished">
+    <div v-if="isFinished" px-6>
       <n-card>
         <template #header>
           <n-page-header @back="handleBack">
@@ -82,7 +87,11 @@ const { data, isFinished, isFetching, error } = getPostDetail(props.id)
         </div>
         <template #footer>
           <div flex justify-end mr-12>
-            <n-pagination v-model:page="page" v-model:page-size="pageSize" :page-count="10" />
+            <n-pagination
+              v-model:page="page"
+              :page-size="count"
+              :item-count="data.comments.total"
+            />
           </div>
         </template>
       </n-card>
