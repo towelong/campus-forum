@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { Comment } from '~/models/comments'
 import type { User } from '~/models/user'
+import { fromNow } from '~/utils/time'
+
 const props = defineProps<{
   data: {
     id: number
@@ -46,13 +48,13 @@ const props = defineProps<{
         </p>
         <div flex justify-between w-full>
           <div flex>
-            <div flex justify-center items-center text-xs cursor-pointer>
+            <div flex justify-center items-center text-sm cursor-pointer text-slate-400>
               <p i-carbon-warning-alt />
               <p>举报</p>
             </div>
           </div>
           <p class="text-slate-400">
-            发表于 {{ props.data.create_time }}
+            发表于{{ fromNow(props.data.create_time) }}
           </p>
         </div>
       </div>

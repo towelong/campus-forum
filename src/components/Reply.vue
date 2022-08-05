@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import type { ReplyInfo } from '~/models/comments'
+import { fromNow } from '~/utils/time'
+
 const value = ref<string>('')
 const [open, toggle] = useToggle(false)
 const props = defineProps<{
@@ -15,34 +17,48 @@ const props = defineProps<{
         :src="props.reply.user_info.avatar"
         alt=""
       >
-      <p v-if="props.reply.parent_reply" ml-1>
-        <span text-emerald-700>{{ props.reply.user_info.nickname }}</span>
-        <span px-2>回复</span>
-        <span text-emerald-700>{{ props.reply.reply_user.nickname }}</span>
-      </p>
-      <p v-else text-emerald-700 ml-1>
-        {{ props.reply.user_info.nickname }}
-      </p>
-      <p mx-1>
-        :
-      </p>
-      <p>
-        {{ props.reply.reply_info.reply_content }}
-      </p>
+      <div flex flex-col flex-1>
+        <!-- 内容 -->
+        <div flex>
+          <p v-if="props.reply.parent_reply" ml-1>
+            <span text-emerald-700>
+              <n-ellipsis style="max-width: 100px">
+                {{ props.reply.user_info.nickname }}
+              </n-ellipsis>
+            </span>
+            <span px-2>回复</span>
+            <span text-emerald-700>
+              <n-ellipsis style="max-width: 100px">
+                {{ props.reply.reply_user.nickname }}
+              </n-ellipsis>
+            </span>
+          </p>
+          <p v-else text-emerald-700 ml-1>
+            <n-ellipsis style="max-width: 100px">
+              {{ props.reply.user_info.nickname }}
+            </n-ellipsis>
+          </p>
+          <span px-1>:</span>
+          <p text-sm>
+            {{ props.reply.reply_info.reply_content }}
+          </p>
+        </div>
+        <div flex justify-between items-center text-slate-400 text-sm>
+          <div
+            flex justify-center items-center cursor-pointer
+            text-slate-400 m-2
+            @click="toggle()"
+          >
+            <p i-carbon-chat />
+            <p>回复</p>
+          </div>
+          <p mr-1>
+            发表于{{ fromNow(props.reply.reply_info.create_time) }}
+          </p>
+        </div>
+      </div>
     </div>
-    <div flex justify-end text-slate-400>
-      <p mr-1>
-        发表于 {{ props.reply.reply_info.create_time }}
-      </p>
-      <!-- <p ml-2 text-emerald-700 cursor-pointer @click="toggle()">
-        回复
-      </p> -->
-      <n-button text @click="toggle()">
-        <p text-emerald-700>
-          回复
-        </p>
-      </n-button>
-    </div>
+
     <template v-if="open">
       <n-input v-model:value="value" type="textarea" placeholder="回复" />
       <div flex justify-end my-1>

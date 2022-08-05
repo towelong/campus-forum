@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { getReplies } from '~/logic'
 import type { Comment, ReplyInfo } from '~/models/comments'
+import { fromNow } from '~/utils/time'
 
 const props = defineProps<{
   comment: Comment
@@ -46,24 +47,24 @@ const more = async() => {
         {{ props.comment.comment_info.comment_content }}
       </p>
       <div flex justify-between w-full>
-        <div flex>
+        <div flex text-slate-400>
           <div
-            flex justify-center items-center text-xs cursor-pointer
+            flex justify-center items-center text-sm cursor-pointer
             @click="setOpen(!open)"
           >
             <p i-carbon-chat />
             <p>回复</p>
           </div>
-          <div flex justify-center items-center px-2 text-xs cursor-pointer>
+          <div flex justify-center items-center px-2 text-sm cursor-pointer>
             <p i-carbon-warning-alt />
             <p>举报</p>
           </div>
-          <div flex justify-center items-center px-2 text-xs>
+          <div flex justify-center items-center px-2 text-sm>
             <p>回复({{ props.comment.reply_total }})</p>
           </div>
         </div>
-        <p class="text-slate-400">
-          发表于 {{ props.comment.comment_info.create_time }}
+        <p class="text-slate-400 text-sm">
+          发表于{{ fromNow(props.comment.comment_info.create_time) }}
         </p>
       </div>
       <!-- 回复 -->
