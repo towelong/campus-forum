@@ -34,7 +34,6 @@ declare module '@vue/runtime-core' {
     NSkeleton: typeof import('naive-ui')['NSkeleton']
     NTabPane: typeof import('naive-ui')['NTabPane']
     NTabs: typeof import('naive-ui')['NTabs']
-    NTag: typeof import('naive-ui')['NTag']
     NTooltip: typeof import('naive-ui')['NTooltip']
     PostContent: typeof import('./src/components/PostContent.vue')['default']
     Reply: typeof import('./src/components/Reply.vue')['default']

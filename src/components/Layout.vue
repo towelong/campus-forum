@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import type { FormInst, FormRules, LayoutInst } from 'naive-ui'
+import { useMessage } from 'naive-ui'
+import { userLogin } from '~/logic'
+import { useUserStore } from '~/store'
 
+const message = useMessage()
+const { model, execute, data, statusCode } = userLogin()
+const user = useUserStore()
 // const router = useRouter()
 interface Menu {
   name: string
@@ -33,10 +39,6 @@ const menus: Menu[] = [
 const showModal = ref(false)
 const toggleModal = useToggle(showModal)
 
-const model = ref({
-  username: '',
-  password: '',
-})
 const formRef = ref<FormInst | null>(null)
 const rules: FormRules = {
   username: {
@@ -52,6 +54,29 @@ const rules: FormRules = {
 }
 const contentRef = ref<LayoutInst | null>(null)
 provide('contentRef', contentRef)
+const login = async(e: MouseEvent) => {
+  e.preventDefault()
+  formRef.value?.validate(async(errors) => {
+    if (!errors) {
+      await execute()
+      if (statusCode.value === 200) {
+        message.success('登录成功！')
+        user.save(data.value)
+        toggleModal()
+      }
+      else {
+        message.error(data.value.message)
+        model.value = {
+          username: '',
+          password: '',
+        }
+      }
+    }
+    else {
+      message.error('请输入必填项')
+    }
+  })
+}
 </script>
 <template>
   <n-layout h-screen>
@@ -78,8 +103,11 @@ provide('contentRef', contentRef)
           </div>
           <div flex items-center justify-center>
             <div flex>
-              <p mx-6 @click="toggleModal()">
+              <p v-if="!user.user" mx-6 @click="toggleModal()">
                 注册/登录
+              </p>
+              <p v-else mx-6 @click="toggleModal()">
+                退出
               </p>
               <p mx-6>
                 帮助中心
@@ -104,7 +132,10 @@ provide('contentRef', contentRef)
                           show-password-on="click"
                         />
                       </n-form-item>
-                      <n-button type="primary" block secondary strong>
+                      <n-button
+                        type="primary" block secondary strong
+                        @click="login"
+                      >
                         登录
                       </n-button>
                     </n-form>

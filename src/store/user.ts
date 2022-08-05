@@ -1,32 +1,33 @@
 import { acceptHMRUpdate, defineStore } from 'pinia'
+import type { UserInfo } from '~/models/user'
 
 interface UserStore {
-  userInfo: UserInfo
-  token: string
+  user: UserInfo
+  tokens: Tokens
 }
 
-interface UserInfo {
-  id: number
-  nickname: string
-  avatar: string
+interface Tokens {
+  access_token: string
+  refresh_token: string
 }
 
 export const useUserStore = defineStore('user', {
   state: () => ({
-    userInfo: {},
-    token: '',
+    user: {},
+    tokens: {},
   } as UserStore),
   actions: {
-    save(user: UserStore) {
+    save(userStore: UserStore) {
       this.$patch({
-        userInfo: user.userInfo,
-        token: user.token,
+        user: userStore.user,
+        tokens: userStore.tokens,
       })
     },
     logout() {
       this.$reset()
     },
   },
+  persist: true,
 })
 
 if (import.meta.hot)

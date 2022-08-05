@@ -1,16 +1,24 @@
 import { useFetch } from '~/request'
 
 export const userLogin = () => {
-  const username = ref('')
-  const password = ref('')
+  const model = ref({
+    username: '',
+    password: '',
+  })
+  const {
+    post, data, statusCode, execute, error,
+  } = useFetch('/user/login',
+    { immediate: false }).json()
 
-  const { data, error, statusCode } = useFetch('/user/login', { immediate: true }).json()
+  watchEffect(() => {
+    post(model.value)
+  })
 
   return {
-    username,
-    password,
+    model,
     data,
     error,
     statusCode,
+    execute,
   }
 }
