@@ -1,11 +1,28 @@
 <script setup lang="ts">
-import type { Comment } from '~/models/comments'
+import { getReplies } from '~/logic'
+import type { Comment, ReplyInfo } from '~/models/comments'
+
 const props = defineProps<{
   comment: Comment
 }>()
 
 const [open, setOpen] = useToggle(false)
 const value = ref('')
+const {
+  data,
+  isFetching,
+  execute,
+  error,
+} = getReplies(props.comment.comment_id)
+
+const replies = ref<ReplyInfo[] | undefined>(undefined)
+replies.value = props.comment.reply_infos
+
+const more = async() => {
+  await execute()
+  replies.value = data.value
+}
+
 </script>
 
 <template>
@@ -42,7 +59,7 @@ const value = ref('')
             <p>举报</p>
           </div>
           <div flex justify-center items-center px-2 text-xs>
-            <p>回复({{ props.comment.reply_infos.length }})</p>
+            <p>回复({{ props.comment.reply_total }})</p>
           </div>
         </div>
         <p class="text-slate-400">
@@ -51,11 +68,23 @@ const value = ref('')
       </div>
       <!-- 回复 -->
       <div v-if="props.comment.reply_infos.length > 0" class="bg-[#F7F8FA] p-1">
-        <div v-for="(reply, i) in props.comment.reply_infos" :key="`reply-${i}`">
+        <div v-for="(reply, i) in replies" :key="`reply-${i}`">
           <reply :reply="reply" />
         </div>
-        <div pl-1 flex items-center cursor-pointer text-emerald-700>
-          <p>查看更多回复</p>
+        <div v-if="isFetching" pl-10>
+          加载中...
+        </div>
+        <div v-if="error" pl-10>
+          加载失败
+        </div>
+        <div
+          v-if="replies && props.comment.reply_total > replies.length"
+          pl-10 flex items-center cursor-pointer text-emerald-700
+          @click="more"
+        >
+          <p hover:underline="~ offset-2">
+            查看更多回复
+          </p>
           <p i-ri-arrow-down-s-line />
         </div>
         <!-- <div flex justify-end>

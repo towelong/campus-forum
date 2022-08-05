@@ -32,7 +32,7 @@ const props = defineProps<{
     </div>
     <div flex justify-end text-slate-400>
       <p mr-1>
-        发表于 2022-06-21 12:48:08
+        发表于 {{ props.reply.reply_info.create_time }}
       </p>
       <!-- <p ml-2 text-emerald-700 cursor-pointer @click="toggle()">
         回复

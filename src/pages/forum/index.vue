@@ -18,7 +18,7 @@ const items = computed(() => data.value?.items)
         </n-gi>
       </n-grid>
     </div>
-    <div v-if="isFinished" p-4>
+    <div v-if="isFinished && !error" p-4>
       <h1 text-2xl mb-4 class="text-color">
         所有板块
       </h1>

@@ -74,4 +74,12 @@ export interface Comment {
   user_info: UserInfo
   reply_infos: ReplyInfo[]
   is_author: boolean
+  reply_total: number
+}
+
+export interface ReplyPage {
+  replies: ReplyInfo[]
+  count: number
+  page: number
+  total: number
 }

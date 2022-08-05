@@ -22,7 +22,7 @@ const pagination = ref({
   itemCount: 0,
 })
 
-const { detail, isFinished, isFetching } = getSectionDetail(props.id)
+const { detail, isFinished, isFetching, error } = getSectionDetail(props.id)
 const dataDetail = computed(() => detail.value)
 watch(dataDetail, () => {
   if (dataDetail.value) {
@@ -163,7 +163,7 @@ const handleBack = () => {
         <n-skeleton text :repeat="8" />
       </n-card>
     </div>
-    <div v-if="isFinished">
+    <div v-if="isFinished && !error">
       <n-card style="margin-bottom: 16px">
         <template #header>
           <n-page-header @back="handleBack">
