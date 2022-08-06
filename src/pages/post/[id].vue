@@ -1,14 +1,15 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
+import { useMessage } from 'naive-ui'
 import { getPostDetail } from '~/logic/post'
 import PostContent from '~/components/PostContent.vue'
 import { useUserStore } from '~/store/user'
-// import { useMessage } from 'naive-ui'
+import { createComment } from '~/logic'
 const props = defineProps<{
   id: string
 }>()
 const router = useRouter()
-// const message = useMessage()
+const message = useMessage()
 const route = useRoute()
 const handleBack = () => {
   router.push(`/forum/detail/${route.query.forum}`)
@@ -22,6 +23,7 @@ const {
   error,
   count,
   page,
+  execute,
 } = getPostDetail(props.id)
 const contentRef = inject<Ref>('contentRef')
 const next = (currentPage: number) => {
@@ -30,8 +32,17 @@ const next = (currentPage: number) => {
 }
 
 const input = ref<any>(null)
-const handleSubmit = (value: string) => {
-  // console.log(value)
+const { comment, commentData, commentExecute, commentStatusCode } = createComment()
+const handleSubmit = async(value: string) => {
+  comment.value = {
+    post_id: props.id,
+    comment_content: value,
+  }
+  await commentExecute()
+  if (commentStatusCode.value === 201) {
+    message.success(commentData.value.message)
+    await execute()
+  }
 }
 const handleComment = () => {
   input.value?.focusToInput()

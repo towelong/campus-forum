@@ -83,3 +83,9 @@ export interface ReplyPage {
   page: number
   total: number
 }
+
+export interface CommentModel {
+  post_id: string
+  comment_content: string
+  comment_pics?: string[]
+}

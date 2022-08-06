@@ -14,6 +14,7 @@ export function getPostDetail(id: string) {
     isFetching,
     isFinished,
     error,
+    execute,
   } = useFetch(url, { refetch: true }).get().json()
 
   watch(page,
@@ -25,6 +26,7 @@ export function getPostDetail(id: string) {
 
   return {
     data,
+    execute,
     isFetching,
     isFinished,
     error,

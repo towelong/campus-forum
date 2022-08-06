@@ -7,8 +7,7 @@ export const userLogin = () => {
   })
   const {
     post, data, statusCode, execute, error, isFetching,
-  } = useFetch('/user/login',
-    { immediate: false }).json()
+  } = useFetch('/user/login', { immediate: false }).json()
 
   watchEffect(() => {
     post(model.value)
