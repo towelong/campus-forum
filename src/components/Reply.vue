@@ -61,13 +61,31 @@ onClickOutside(
           </p>
         </div>
         <div flex justify-between items-center text-slate-400 text-sm>
-          <div
+          <!-- <div
             flex justify-center items-center cursor-pointer
             text-slate-400 m-2
             @click="handleReply"
           >
             <p i-carbon-chat />
             <p>回复</p>
+          </div> -->
+          <div
+            v-if="!open"
+            flex justify-center items-center cursor-pointer
+            text-slate-400 m-2
+            @click="handleReply"
+          >
+            <p i-ri-chat-4-line />
+            <p>回复</p>
+          </div>
+          <div
+            v-else
+            flex justify-center items-center cursor-pointer
+            text-slate-400 m-2
+            @click="toggle(false)"
+          >
+            <p i-ri-chat-4-fill />
+            <p>取消回复</p>
           </div>
           <p mr-1>
             发表于{{ fromNow(props.reply.reply_info.create_time) }}

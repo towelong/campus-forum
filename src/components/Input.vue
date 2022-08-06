@@ -21,8 +21,12 @@ function handleSubmit() {
 
 <template>
   <div flex justify-around w-full>
-    <img v-if="props.avatar" class="w-14 h-14 rounded-[50%] border-1 border-slate-300" :src="props.avatar" alt="" srcset="">
-    <div flex-1 ml-2>
+    <img
+      v-if="props.avatar"
+      class="w-14 h-14 rounded-[50%] border-1 border-slate-300 mr-2"
+      :src="props.avatar" alt=""
+    >
+    <div flex-1>
       <n-input
         ref="inputRef" v-model:value="content"
         type="textarea" placeholder="评论"

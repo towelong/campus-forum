@@ -28,9 +28,12 @@ const handleSubmit = (value: string) => {
   // console.log(value)
 }
 const handleComment = async() => {
-  setOpen(!open.value)
+  setOpen(true)
   await nextTick()
   input.value?.focusToInput()
+}
+const handleCancelComment = () => {
+  setOpen(false)
 }
 
 onClickOutside(
@@ -44,9 +47,15 @@ onClickOutside(
 
 <template>
   <div class="flex border-b border-slate-200">
-    <div flex flex-col items-center px-4 py-6 border-r border-slate-200>
-      <img :src="props.comment.user_info.avatar" w-30 h-30 rounded-3xl>
-      <div flex flex-col text-sm justify-between max-h-12 mx-2>
+    <div
+      flex flex-col items-center max-w-38
+      px-4 py-6 border-r border-slate-200
+    >
+      <img
+        :src="props.comment.user_info.avatar"
+        class="w-30 h-30 rounded-[50%]"
+      >
+      <div flex flex-col text-sm justify-between max-h-12 mx-2 mt-2>
         <p>
           <n-ellipsis :line-clamp="1">
             {{ props.comment.user_info.nickname }}
@@ -65,11 +74,20 @@ onClickOutside(
       <div flex justify-between w-full>
         <div flex text-slate-400>
           <div
+            v-if="!open"
             flex justify-center items-center text-sm cursor-pointer
             @click="handleComment"
           >
-            <p i-carbon-chat />
+            <p i-ri-chat-4-line />
             <p>回复</p>
+          </div>
+          <div
+            v-else
+            flex justify-center items-center text-sm cursor-pointer
+            @click="handleCancelComment"
+          >
+            <p i-ri-chat-4-fill />
+            <p>取消回复</p>
           </div>
           <div flex justify-center items-center px-2 text-sm cursor-pointer>
             <p i-carbon-warning-alt />

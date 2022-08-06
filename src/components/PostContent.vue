@@ -28,9 +28,15 @@ const props = defineProps<{
   <div>
     <!-- 帖子内容 -->
     <div v-if="props.data.comments.page === 0" class="flex border-b border-slate-200">
-      <div flex flex-col items-center px-4 py-6 border-r border-slate-200>
-        <img :src="props.data.user.avatar" w-30 h-30 rounded-3xl>
-        <div flex flex-col text-sm justify-between max-h-12 mx-2>
+      <div
+        flex flex-col items-center max-w-38
+        px-4 py-6 border-r border-slate-200
+      >
+        <img
+          :src="props.data.user.avatar"
+          class="w-30 h-30 rounded-[50%]"
+        >
+        <div flex flex-col text-sm justify-between max-h-12 mx-2 mt-2>
           <p>
             <n-ellipsis :line-clamp="1">
               {{ props.data.user.nickname }}
