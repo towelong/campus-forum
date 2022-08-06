@@ -8,12 +8,12 @@ const emit = defineEmits<{
 }>()
 
 const inputRef = ref<HTMLElement | null>(null)
+const content = ref('')
 function focusToInput() {
   inputRef.value?.focus()
 }
-defineExpose({ focusToInput })
+defineExpose({ focusToInput, content })
 
-const content = ref('')
 function handleSubmit() {
   emit('submit', content.value)
 }

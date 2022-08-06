@@ -9,7 +9,7 @@ const props = defineProps<{
 
 const input = ref<any>(null)
 const handleSubmit = (value: string) => {
-  // console.log(value)
+  input.value.content = ''
 }
 const handleReply = async() => {
   toggle()
@@ -27,6 +27,7 @@ onClickOutside(
 </script>
 
 <template>
+  <!-- [帖子-> 评论 -> 回复->回复] -->
   <div flex flex-col pt-1 mb-1 border-b-1 border-light-700>
     <div flex>
       <img
@@ -61,14 +62,6 @@ onClickOutside(
           </p>
         </div>
         <div flex justify-between items-center text-slate-400 text-sm>
-          <!-- <div
-            flex justify-center items-center cursor-pointer
-            text-slate-400 m-2
-            @click="handleReply"
-          >
-            <p i-carbon-chat />
-            <p>回复</p>
-          </div> -->
           <div
             v-if="!open"
             flex justify-center items-center cursor-pointer

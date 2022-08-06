@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { getReplies } from '~/logic'
+import { useMessage } from 'naive-ui'
+import { createReply, getReplies } from '~/logic'
 import type { Comment, ReplyInfo } from '~/models/comments'
 import { fromNow } from '~/utils/time'
 
 const props = defineProps<{
   comment: Comment
 }>()
-
+const message = useMessage()
 const [open, setOpen] = useToggle(false)
 const {
   data,
@@ -23,9 +24,26 @@ const more = async() => {
   replies.value = data.value
 }
 
+const {
+  replyForm,
+  replyData,
+  replyExecute,
+  replyStatusCode,
+} = createReply()
+
 const input = ref<any>(null)
-const handleSubmit = (value: string) => {
-  // console.log(value)
+const handleSubmit = async(value: string) => {
+  replyForm.value = {
+    comment_id: props.comment.comment_id,
+    reply_content: value,
+  }
+  await replyExecute()
+  if (replyStatusCode.value === 201) {
+    message.success(replyData.value.message)
+    // 重新加载数据
+    await more()
+  }
+  input.value.content = ''
 }
 const handleComment = async() => {
   setOpen(true)
@@ -46,6 +64,7 @@ onClickOutside(
 </script>
 
 <template>
+  <!-- [帖子-> 评论 -> 回复] -->
   <div class="flex border-b border-slate-200">
     <div
       flex flex-col items-center max-w-38
@@ -102,7 +121,7 @@ onClickOutside(
         </p>
       </div>
       <!-- 回复 -->
-      <div v-if="props.comment.reply_infos.length > 0" class="bg-[#F7F8FA] p-1">
+      <div v-if="replies && replies.length > 0" class="bg-[#F7F8FA] p-1">
         <div v-for="(reply, i) in replies" :key="`reply-${i}`">
           <reply :reply="reply" />
         </div>

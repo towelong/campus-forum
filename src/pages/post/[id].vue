@@ -99,7 +99,7 @@ const handleComment = () => {
         </template>
         <p border-b border-slate-200 />
         <PostContent :data="data" />
-        <!-- 评论框 -->
+        <!-- [帖子->评论] -->
         <div mt-1>
           <n-card title="评论">
             <Input
