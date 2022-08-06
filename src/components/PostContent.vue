@@ -45,7 +45,7 @@ const props = defineProps<{
           <!-- <p>发帖数：31</p> -->
         </div>
         <n-tag type="success" size="small">
-          楼主
+          作者
         </n-tag>
       </div>
       <div class="px-6 py-2 flex flex-col justify-between flex-1">

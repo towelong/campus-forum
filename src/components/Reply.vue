@@ -72,6 +72,7 @@ onClickOutside(
               <n-ellipsis style="max-width: 100px">
                 {{ props.reply.user_info.nickname }}
               </n-ellipsis>
+              <span v-if="props.reply.is_author" text-emerald-700>(作者)</span>
             </span>
             <span px-2>回复</span>
             <span text-emerald-700>
@@ -84,6 +85,7 @@ onClickOutside(
             <n-ellipsis style="max-width: 100px">
               {{ props.reply.user_info.nickname }}
             </n-ellipsis>
+            <span v-if="props.reply.is_author" text-emerald-700>(作者)</span>
           </p>
           <span px-1>:</span>
           <p text-sm>
