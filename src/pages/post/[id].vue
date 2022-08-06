@@ -31,7 +31,7 @@ const next = (currentPage: number) => {
 
 const input = ref<any>(null)
 const handleSubmit = (value: string) => {
-  console.log(value)
+  // console.log(value)
 }
 const handleComment = () => {
   input.value?.focusToInput()

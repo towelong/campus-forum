@@ -2,11 +2,28 @@
 import type { ReplyInfo } from '~/models/comments'
 import { fromNow } from '~/utils/time'
 
-const value = ref<string>('')
 const [open, toggle] = useToggle(false)
 const props = defineProps<{
   reply: ReplyInfo
 }>()
+
+const input = ref<any>(null)
+const handleSubmit = (value: string) => {
+  // console.log(value)
+}
+const handleReply = async() => {
+  toggle()
+  await nextTick()
+  input.value?.focusToInput()
+}
+
+onClickOutside(
+  input,
+  (event) => {
+    open.value = false
+  },
+)
+
 </script>
 
 <template>
@@ -47,7 +64,7 @@ const props = defineProps<{
           <div
             flex justify-center items-center cursor-pointer
             text-slate-400 m-2
-            @click="toggle()"
+            @click="handleReply"
           >
             <p i-carbon-chat />
             <p>回复</p>
@@ -60,12 +77,7 @@ const props = defineProps<{
     </div>
 
     <template v-if="open">
-      <n-input v-model:value="value" type="textarea" placeholder="回复" />
-      <div flex justify-end my-1>
-        <n-button type="primary">
-          发表
-        </n-button>
-      </div>
+      <Input ref="input" @submit="handleSubmit" />
     </template>
   </div>
 </template>

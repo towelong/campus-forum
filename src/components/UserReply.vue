@@ -8,7 +8,6 @@ const props = defineProps<{
 }>()
 
 const [open, setOpen] = useToggle(false)
-const value = ref('')
 const {
   data,
   isFetching,
@@ -23,6 +22,23 @@ const more = async() => {
   await execute()
   replies.value = data.value
 }
+
+const input = ref<any>(null)
+const handleSubmit = (value: string) => {
+  // console.log(value)
+}
+const handleComment = async() => {
+  setOpen(!open.value)
+  await nextTick()
+  input.value?.focusToInput()
+}
+
+onClickOutside(
+  input,
+  (event) => {
+    open.value = false
+  },
+)
 
 </script>
 
@@ -50,7 +66,7 @@ const more = async() => {
         <div flex text-slate-400>
           <div
             flex justify-center items-center text-sm cursor-pointer
-            @click="setOpen(!open)"
+            @click="handleComment"
           >
             <p i-carbon-chat />
             <p>回复</p>
@@ -93,12 +109,7 @@ const more = async() => {
         </div> -->
       </div>
       <template v-if="open">
-        <n-input v-model:value="value" mt-1 type="textarea" placeholder="回复" />
-        <div flex justify-end my-1>
-          <n-button type="primary">
-            发表
-          </n-button>
-        </div>
+        <Input ref="input" mt-1 @submit="handleSubmit" />
       </template>
     </div>
   </div>
