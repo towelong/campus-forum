@@ -9,7 +9,7 @@ interface Menu {
   path: string
   icon: string
 }
-const menus: Menu[] = [
+const initMenus: Menu[] = [
   {
     name: '首页',
     path: '/',
@@ -20,6 +20,9 @@ const menus: Menu[] = [
     path: '/forum',
     icon: 'i-carbon-template',
   },
+]
+
+const authMenus = [
   {
     name: '板块收藏',
     path: '/collection',
@@ -31,6 +34,14 @@ const menus: Menu[] = [
     icon: 'i-carbon-user-favorite',
   },
 ]
+
+const menus = ref<Menu[]>(initMenus)
+watchEffect(() => {
+  if (user.isExist)
+    menus.value = menus.value.concat(authMenus)
+  else
+    menus.value = initMenus
+})
 
 const showModal = ref(false)
 const toggleModal = useToggle(showModal)
