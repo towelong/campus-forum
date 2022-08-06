@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getSectionList } from '~/logic/section'
+import { getSectionList } from '~/logic'
 
 const { data, isFetching, isFinished, error } = getSectionList()
 
