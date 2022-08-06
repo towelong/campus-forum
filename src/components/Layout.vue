@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import type { FormInst, FormRules, LayoutInst } from 'naive-ui'
-import { useMessage } from 'naive-ui'
-import { userLogin } from '~/logic'
+import type { LayoutInst } from 'naive-ui'
+
 import { useUserStore } from '~/store'
 
-const message = useMessage()
-const { model, execute, data, statusCode } = userLogin()
 const user = useUserStore()
-// const router = useRouter()
 interface Menu {
   name: string
   path: string
@@ -39,44 +35,9 @@ const menus: Menu[] = [
 const showModal = ref(false)
 const toggleModal = useToggle(showModal)
 
-const formRef = ref<FormInst | null>(null)
-const rules: FormRules = {
-  username: {
-    required: true,
-    message: '请输入用户名',
-    trigger: ['blur', 'input'],
-  },
-  password: {
-    required: true,
-    message: '请输入密码',
-    trigger: ['blur', 'input'],
-  },
-}
 const contentRef = ref<LayoutInst | null>(null)
 provide('contentRef', contentRef)
-const login = async(e: MouseEvent) => {
-  e.preventDefault()
-  formRef.value?.validate(async(errors) => {
-    if (!errors) {
-      await execute()
-      if (statusCode.value === 200) {
-        message.success('登录成功！')
-        user.save(data.value)
-        toggleModal()
-      }
-      else {
-        message.error(data.value.message)
-        model.value = {
-          username: '',
-          password: '',
-        }
-      }
-    }
-    else {
-      message.error('请输入必填项')
-    }
-  })
-}
+
 </script>
 <template>
   <n-layout h-screen>
@@ -102,12 +63,13 @@ const login = async(e: MouseEvent) => {
             </n-input-group>
           </div>
           <div flex items-center justify-center>
-            <div flex>
-              <p v-if="!user.user" mx-6 @click="toggleModal()">
+            <div flex items-center justify-center>
+              <p v-if="!user.isExist" mx-6 @click="toggleModal()">
                 注册/登录
               </p>
-              <p v-else mx-6 @click="toggleModal()">
-                退出
+              <p v-else mx-6 flex items-center justify-center>
+                <!-- 退出 -->
+                <user-info />
               </p>
               <p mx-6>
                 帮助中心
@@ -119,52 +81,7 @@ const login = async(e: MouseEvent) => {
                 :mask-closable="false"
                 style="width: 360px;"
               >
-                <n-tabs default-value="signin" size="large" justify-content="space-evenly">
-                  <n-tab-pane name="signin" tab="登录">
-                    <n-form ref="formRef" :model="model" :rules="rules">
-                      <n-form-item label="用户名" path="username">
-                        <n-input v-model:value="model.username" placeholder="请输入用户名" />
-                      </n-form-item>
-                      <n-form-item label="密码" path="password">
-                        <n-input
-                          v-model:value="model.password"
-                          type="password" placeholder="请输入密码"
-                          show-password-on="click"
-                        />
-                      </n-form-item>
-                      <n-button
-                        type="primary" block secondary strong
-                        @click="login"
-                      >
-                        登录
-                      </n-button>
-                    </n-form>
-                  </n-tab-pane>
-                  <n-tab-pane name="signup" tab="注册">
-                    <n-form ref="formRef" :model="model" :rules="rules">
-                      <n-form-item label="用户名" path="username">
-                        <n-input v-model:value="model.username" placeholder="请输入用户名" />
-                      </n-form-item>
-                      <n-form-item label="密码" path="password">
-                        <n-input
-                          v-model:value="model.password"
-                          type="password" placeholder="请输入密码"
-                          show-password-on="click"
-                        />
-                      </n-form-item>
-                      <n-form-item label="重复密码" path="password">
-                        <n-input
-                          v-model:value="model.password"
-                          type="password" placeholder="请再次输入密码"
-                          show-password-on="click"
-                        />
-                      </n-form-item>
-                      <n-button type="primary" block secondary strong>
-                        注册
-                      </n-button>
-                    </n-form>
-                  </n-tab-pane>
-                </n-tabs>
+                <login-or-register :toggle="toggleModal" />
               </n-modal>
             </div>
           </div>

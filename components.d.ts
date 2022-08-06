@@ -10,6 +10,7 @@ declare module '@vue/runtime-core' {
     Input: typeof import('./src/components/Input.vue')['default']
     LastReply: typeof import('./src/components/LastReply.vue')['default']
     Layout: typeof import('./src/components/Layout.vue')['default']
+    LoginOrRegister: typeof import('./src/components/LoginOrRegister.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NAvatarGroup: typeof import('naive-ui')['NAvatarGroup']
     NBackTop: typeof import('naive-ui')['NBackTop']
@@ -18,6 +19,7 @@ declare module '@vue/runtime-core' {
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']
     NDataTable: typeof import('naive-ui')['NDataTable']
+    NDropdown: typeof import('naive-ui')['NDropdown']
     NEllipsis: typeof import('naive-ui')['NEllipsis']
     NForm: typeof import('naive-ui')['NForm']
     NFormItem: typeof import('naive-ui')['NFormItem']
@@ -43,6 +45,7 @@ declare module '@vue/runtime-core' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SectionItem: typeof import('./src/components/SectionItem.vue')['default']
+    UserInfo: typeof import('./src/components/UserInfo.vue')['default']
     UserProfile: typeof import('./src/components/UserProfile.vue')['default']
     UserReply: typeof import('./src/components/UserReply.vue')['default']
   }

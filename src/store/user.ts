@@ -16,6 +16,9 @@ export const useUserStore = defineStore('user', {
     user: {},
     tokens: {},
   } as UserStore),
+  getters: {
+    isExist: state => state.user.id !== undefined,
+  },
   actions: {
     save(userStore: UserStore) {
       this.$patch({

@@ -6,7 +6,7 @@ export const userLogin = () => {
     password: '',
   })
   const {
-    post, data, statusCode, execute, error,
+    post, data, statusCode, execute, error, isFetching,
   } = useFetch('/user/login',
     { immediate: false }).json()
 
@@ -20,5 +20,44 @@ export const userLogin = () => {
     error,
     statusCode,
     execute,
+    isFetching,
+  }
+}
+
+export const userRegister = () => {
+  const model = ref({
+    nickname: '',
+    username: '',
+    password: '',
+    confirm_password: '',
+    email: '', // optional
+  })
+  const {
+    post, data, execute, error, statusCode, isFetching,
+  } = useFetch('/user/register',
+    { immediate: false }).json()
+
+  watchEffect(() => {
+    post(model.value)
+  })
+
+  function resetRegisterForm() {
+    model.value = {
+      nickname: '',
+      username: '',
+      password: '',
+      confirm_password: '',
+      email: '', // optional
+    }
+  }
+
+  return {
+    registerModel: model,
+    registerData: data,
+    registerStatusCode: statusCode,
+    registerError: error,
+    registerExecute: execute,
+    resetRegisterForm,
+    registerFetching: isFetching,
   }
 }
