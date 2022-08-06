@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { Ref } from 'vue'
-import { getPostDetail } from '~/logic/post.js'
+import { getPostDetail } from '~/logic/post'
 import PostContent from '~/components/PostContent.vue'
-
+import { useUserStore } from '~/store/user'
 // import { useMessage } from 'naive-ui'
 const props = defineProps<{
   id: string
@@ -13,8 +13,7 @@ const route = useRoute()
 const handleBack = () => {
   router.push(`/forum/detail/${route.query.forum}`)
 }
-
-const value = ref('')
+const user = useUserStore()
 
 const {
   data,
@@ -28,6 +27,14 @@ const contentRef = inject<Ref>('contentRef')
 const next = (currentPage: number) => {
   page.value = currentPage
   contentRef?.value?.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+const input = ref<any>(null)
+const handleSubmit = (value: string) => {
+  console.log(value)
+}
+const handleComment = () => {
+  input.value?.focusToInput()
 }
 
 </script>
@@ -75,21 +82,21 @@ const next = (currentPage: number) => {
           </n-page-header>
         </template>
         <template #header-extra>
-          <n-button type="primary">
+          <n-button type="primary" @click="handleComment">
             回复
           </n-button>
         </template>
         <p border-b border-slate-200 />
         <PostContent :data="data" />
-        <div class="flex justify-center items-center my-2">
-          <div class="w-2/3 ">
-            <n-input v-model:value="value" type="textarea" placeholder="评论" />
-          </div>
-          <div ml-2>
-            <n-button type="primary">
-              回复
-            </n-button>
-          </div>
+        <!-- 评论框 -->
+        <div mt-1>
+          <n-card title="评论">
+            <Input
+              ref="input"
+              :avatar="user.user.avatar"
+              @submit="handleSubmit"
+            />
+          </n-card>
         </div>
         <template #footer>
           <div flex justify-end mr-12>

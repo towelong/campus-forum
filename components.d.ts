@@ -7,6 +7,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Counter: typeof import('./src/components/Counter.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
+    Input: typeof import('./src/components/Input.vue')['default']
     LastReply: typeof import('./src/components/LastReply.vue')['default']
     Layout: typeof import('./src/components/Layout.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
@@ -22,6 +23,7 @@ declare module '@vue/runtime-core' {
     NFormItem: typeof import('naive-ui')['NFormItem']
     NGi: typeof import('naive-ui')['NGi']
     NGrid: typeof import('naive-ui')['NGrid']
+    NIcon: typeof import('naive-ui')['NIcon']
     NInput: typeof import('naive-ui')['NInput']
     NInputGroup: typeof import('naive-ui')['NInputGroup']
     NLayout: typeof import('naive-ui')['NLayout']
@@ -34,6 +36,7 @@ declare module '@vue/runtime-core' {
     NSkeleton: typeof import('naive-ui')['NSkeleton']
     NTabPane: typeof import('naive-ui')['NTabPane']
     NTabs: typeof import('naive-ui')['NTabs']
+    NTag: typeof import('naive-ui')['NTag']
     NTooltip: typeof import('naive-ui')['NTooltip']
     PostContent: typeof import('./src/components/PostContent.vue')['default']
     Reply: typeof import('./src/components/Reply.vue')['default']
