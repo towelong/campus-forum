@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { getSectionList } from '~/logic'
 
-const { data, isFetching, isFinished, error } = getSectionList()
+const { data, isFetching, isFinished, error, execute } = getSectionList()
 
 const items = computed(() => data.value?.items)
 
@@ -24,7 +24,7 @@ const items = computed(() => data.value?.items)
       </h1>
       <n-grid x-gap="12" :cols="3" :y-gap="8">
         <n-gi v-for="(item, i) in items" :key="i">
-          <SectionItem :data="item" />
+          <SectionItem :data="item" :refresh="execute" />
         </n-gi>
       </n-grid>
     </div>

@@ -14,7 +14,7 @@ export function getSectionList() {
     res = useAuthFetch(url, { refetch: true }).get().json()
   }
   else { res = useFetch(url, { refetch: true }).get().json() }
-  const { data, error, statusCode, isFetching, isFinished } = res
+  const { data, error, statusCode, isFetching, isFinished, execute } = res
 
   watch([page, count],
     (value) => {
@@ -31,6 +31,7 @@ export function getSectionList() {
     count,
     isFetching,
     isFinished,
+    execute,
   }
 }
 

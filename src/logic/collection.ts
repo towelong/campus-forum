@@ -36,37 +36,32 @@ export function getMyCollections() {
   }
 }
 
-// export function cancelCollect() {
-//   const sectionId = ref(0)
+export function cancelCollect(sectionId: Ref<number>) {
+  const res = useAuthFetch('/section/collection', { immediate: false }).json()
+  const {
+    data,
+    isFetching,
+    isFinished,
+    error,
+    execute,
+    statusCode,
+  } = res
 
-//   const {
-//     data,
-//     isFetching,
-//     isFinished,
-//     error,
-//     execute,
-//     delete,
-//     statusCode,
-//   } = useAuthFetch('/section/collection', { immediate: false }).json()
+  watchEffect(() => {
+    res.delete({
+      section_id: sectionId.value,
+    })
+  })
 
-//   const id = computed(() => sectionId.value)
-
-//   watchEffect(() => {
-//     delete({
-//       section_id: id.value,
-//     })
-//   })
-
-//   return {
-//     data,
-//     isFetching,
-//     isFinished,
-//     error,
-//     execute,
-//     sectionId,
-//     statusCode,
-//   }
-// }
+  return {
+    data,
+    execute,
+    statusCode,
+    isFetching,
+    isFinished,
+    error,
+  }
+}
 
 export function collect(sectionId: Ref<number>) {
   const {
@@ -91,7 +86,6 @@ export function collect(sectionId: Ref<number>) {
     isFinished,
     error,
     execute,
-    sectionId,
     statusCode,
   }
 }

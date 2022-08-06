@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useMessage } from 'naive-ui'
-import { collect } from '~/logic'
+import { cancelCollect, collect } from '~/logic'
 import { useUserStore } from '~/store/user'
 
 const router = useRouter()
@@ -23,6 +23,7 @@ const props = defineProps<{
     }[]
     is_collected: boolean
   }
+  refresh: () => void
 }>()
 
 const star = ref(props.data.is_collected)
@@ -30,22 +31,26 @@ const toggleStar = useToggle(star)
 
 const userStore = useUserStore()
 const sectionId = ref(props.data.id)
-const { execute, statusCode, data } = collect(sectionId)
 
 async function stared() {
+  const { execute, statusCode, data } = collect(sectionId)
   await execute()
-  if (statusCode.value === 201)
+  if (statusCode.value === 201) {
+    await props.refresh()
     toggleStar()
-  else
-    message.error(data.value.message)
+  }
+  else { message.error(data.value.message) }
 }
 
 async function cancel() {
-  // const { sectionId, execute, statusCode } = collect()
-  // sectionId.value = props.data.id
-  // await execute()
-  // if (statusCode.value === 201)
-  toggleStar()
+  const { execute, statusCode, data } = cancelCollect(sectionId)
+  sectionId.value = props.data.id
+  await execute()
+  if (statusCode.value === 200) {
+    await props.refresh()
+    toggleStar()
+  }
+  else { message.error(data.value.message) }
 }
 
 </script>
