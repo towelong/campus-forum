@@ -17,7 +17,7 @@ export const useAuthFetch = createFetch({
     },
     onFetchError(ctx) {
       const user = useUserStore()
-      if (ctx.data.code === 401)
+      if (ctx.response?.status === 401)
         user.logout()
       return ctx
     },
