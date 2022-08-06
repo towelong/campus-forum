@@ -43,6 +43,9 @@ const handleSubmit = async(value: string) => {
     // 重新加载数据
     await more()
   }
+  else {
+    message.error('发表失败')
+  }
   input.value.content = ''
 }
 const handleComment = async() => {
@@ -123,7 +126,11 @@ onClickOutside(
       <!-- 回复 -->
       <div v-if="replies && replies.length > 0" class="bg-[#F7F8FA] p-1">
         <div v-for="(reply, i) in replies" :key="`reply-${i}`">
-          <reply :reply="reply" />
+          <reply
+            :reply="reply"
+            :comment-id="props.comment.comment_id"
+            :more="more"
+          />
         </div>
         <div v-if="isFetching" pl-10>
           加载中...
