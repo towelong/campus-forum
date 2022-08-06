@@ -1,11 +1,14 @@
 <script setup lang="ts">
+import { useMessage } from 'naive-ui'
+import { collect } from '~/logic'
+import { useUserStore } from '~/store/user'
+
 const router = useRouter()
+const message = useMessage()
 const go = (id: number) => {
   if (id)
     router.push(`/forum/detail/${id}`)
 }
-const star = ref(false)
-const toggleStar = useToggle(star)
 
 const props = defineProps<{
   data: {
@@ -18,8 +21,32 @@ const props = defineProps<{
       avatar: string
       src: string
     }[]
+    is_collected: boolean
   }
 }>()
+
+const star = ref(props.data.is_collected)
+const toggleStar = useToggle(star)
+
+const userStore = useUserStore()
+const sectionId = ref(props.data.id)
+const { execute, statusCode, data } = collect(sectionId)
+
+async function stared() {
+  await execute()
+  if (statusCode.value === 201)
+    toggleStar()
+  else
+    message.error(data.value.message)
+}
+
+async function cancel() {
+  // const { sectionId, execute, statusCode } = collect()
+  // sectionId.value = props.data.id
+  // await execute()
+  // if (statusCode.value === 201)
+  toggleStar()
+}
 
 </script>
 
@@ -30,8 +57,10 @@ const props = defineProps<{
         rounded w-10 h-10 mb-2
         :src="props.data.logo"
       >
-      <p v-if="!star" i-carbon-star @click.stop="toggleStar()" />
-      <p v-else i-carbon-star-filled text-yellow @click.stop="toggleStar()" />
+      <template v-if="userStore.isExist">
+        <p v-if="!star" i-carbon-star @click.stop="stared" />
+        <p v-else i-carbon-star-filled text-yellow @click.stop="cancel" />
+      </template>
     </div>
     <p class="text-color mb-2 text-xl">
       {{ props.data.name }}
