@@ -1,25 +1,28 @@
-import querystring from 'query-string'
 import { useAuthFetch, useFetch } from '~/request'
 import { useUserStore } from '~/store'
 
 export function getSectionList() {
-  const page = ref(0)
-  const count = ref(10)
-  const initurl = '/section'
-  const url = ref(initurl)
   const user = useUserStore()
+  const page = ref(1)
+  const count = ref(10)
+  let prefix = '/section'
+  if (user.isExist)
+    prefix = `${prefix}/auth`
+  const initurl = `${prefix}?page=${page.value - 1}&count=${count.value}`
+  const url = ref(initurl)
+
   let res
   if (user.isExist) {
-    url.value = `${initurl}/auth`
+    url.value = initurl
     res = useAuthFetch(url, { refetch: true }).get().json()
   }
   else { res = useFetch(url, { refetch: true }).get().json() }
   const { data, error, statusCode, isFetching, isFinished, execute } = res
 
-  watch([page, count],
+  watch(page,
     (value) => {
-      const res = querystring.stringify({ page: value[0], count: value[1] })
-      url.value = `${initurl}?${res}`
+      const query = `page=${value - 1}`
+      url.value = `${prefix}?${query}&count=${count.value}`
     },
   )
 
