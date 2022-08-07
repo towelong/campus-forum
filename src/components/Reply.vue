@@ -54,6 +54,10 @@ onClickOutside(
   },
 )
 const user = useUserStore()
+const router = useRouter()
+function gotoUser(id: number) {
+  router.push(`/user/${id}`)
+}
 </script>
 
 <template>
@@ -68,7 +72,10 @@ const user = useUserStore()
       <div flex flex-col flex-1>
         <!-- 内容 -->
         <div flex>
-          <p v-if="props.reply.parent_reply" ml-1>
+          <p
+            v-if="props.reply.parent_reply" ml-1 cursor-pointer
+            @click="gotoUser(props.reply.user_info.id)"
+          >
             <span text-emerald-700>
               <n-ellipsis style="max-width: 100px">
                 {{ props.reply.user_info.nickname }}
@@ -76,13 +83,19 @@ const user = useUserStore()
               <span v-if="props.reply.is_author" text-emerald-700>(作者)</span>
             </span>
             <span px-2>回复</span>
-            <span text-emerald-700>
+            <span
+              text-emerald-700 cursor-pointer
+              @click="gotoUser(props.reply.reply_user.id)"
+            >
               <n-ellipsis style="max-width: 100px">
                 {{ props.reply.reply_user.nickname }}
               </n-ellipsis>
             </span>
           </p>
-          <p v-else text-emerald-700 ml-1>
+          <p
+            v-else text-emerald-700 ml-1 cursor-pointer
+            @click="gotoUser(props.reply.user_info.id)"
+          >
             <n-ellipsis style="max-width: 100px">
               {{ props.reply.user_info.nickname }}
             </n-ellipsis>

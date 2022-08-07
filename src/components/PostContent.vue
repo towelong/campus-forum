@@ -31,6 +31,10 @@ onMounted(() => {
   }
 })
 const user = useUserStore()
+const router = useRouter()
+function gotoUser(id: number) {
+  router.push(`/user/${id}`)
+}
 </script>
 
 <template>
@@ -46,7 +50,7 @@ const user = useUserStore()
           class="w-30 h-30 rounded-[50%]"
         >
         <div flex flex-col text-sm justify-between max-h-12 mx-2 mt-2>
-          <p>
+          <p hover:text-emerald-700 cursor-pointer @click="gotoUser(props.data.user.id)">
             <n-ellipsis :line-clamp="1">
               {{ props.data.user.nickname }}
             </n-ellipsis>
