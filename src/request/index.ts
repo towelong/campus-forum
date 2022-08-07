@@ -1,4 +1,5 @@
 import { createFetch } from '@vueuse/core'
+import { useMessage } from 'naive-ui'
 import { apiBaseUrl } from '~/composables'
 import { useUserStore } from '~/store'
 
@@ -17,8 +18,14 @@ export const useAuthFetch = createFetch({
     },
     onFetchError(ctx) {
       const user = useUserStore()
-      if (ctx.response?.status === 401)
+      const router = useRouter()
+      const message = useMessage()
+      if (ctx.response?.status === 401) {
+        message.error('用户登录状态失效')
         user.logout()
+        router.push('/')
+      }
+
       return ctx
     },
   },
