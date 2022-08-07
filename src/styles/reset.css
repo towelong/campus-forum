@@ -22,10 +22,10 @@ a:active {
   text-decoration: none;
 }
 
-ol,
+/* ol,
 ul {
   list-style: none;
-}
+} */
 
 input,
 textarea {

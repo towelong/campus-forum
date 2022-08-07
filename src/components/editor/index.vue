@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { editorConfig, toolbarConfig } from './config'
 import type { EditorModel } from './model'
@@ -58,18 +57,19 @@ const handleSubmit = () => {
           />
           <Editor
             v-model="valueHtml"
-            style="height: 500px; overflow-y: hidden;"
+            class="overflow-y-hidden"
+            style="height: 500px;"
             :default-config="editorConfig"
             :mode="mode"
             @on-created="handleCreated"
           />
         </div>
+        <div flex justify-end mt-2>
+          <n-button type="primary" @click="handleSubmit">
+            立即发布
+          </n-button>
+        </div>
       </n-space>
     </n-space>
-    <div flex justify-end mt-2>
-      <n-button type="primary" @click="handleSubmit">
-        立即发布
-      </n-button>
-    </div>
   </div>
 </template>
