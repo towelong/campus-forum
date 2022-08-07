@@ -42,3 +42,12 @@ export function getSectionDetail(id: string) {
   const { data, isFinished, isFetching, error, statusCode } = useFetch(`/section/${id}`).get().json()
   return { detail: data, isFinished, isFetching, error, statusCode }
 }
+
+export function getSectionByPostId(postId: string) {
+  const {
+    data,
+    isFinished, isFetching,
+    error, statusCode, execute,
+  } = useFetch(`/section/post/${postId}`, { immediate: false }).get().json()
+  return { data, isFinished, isFetching, error, statusCode, execute }
+}
