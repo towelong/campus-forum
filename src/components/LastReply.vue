@@ -1,16 +1,19 @@
 <script setup lang="ts">
-const props = withDefaults(defineProps<{
+const props = defineProps<{
   name: string
   last: string
-}>(), {
-  name: '李四',
-  last: '2020-01-01 13:14:15',
-})
+  userId: number
+}>()
+const router = useRouter()
+function gotoUser() {
+  if (props.userId !== 0)
+    router.push(`/user/${props.userId}`)
+}
 </script>
 
 <template>
   <div flex flex-col text-sm justify-between>
-    <p hover:text-emerald-700 cursor-pointer>
+    <p hover:text-emerald-700 cursor-pointer @click="gotoUser">
       {{ props.name }}
     </p>
     <p text-xs text-neutral mt-1>

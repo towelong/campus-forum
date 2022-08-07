@@ -8,7 +8,7 @@ export const toolbarConfig: Partial<IToolbarConfig> = {
     'headerSelect', 'blockquote', '|',
     'bold', 'underline', 'italic', 'color',
     'bgColor', '|', 'fontSize', 'bulletedList', 'numberedList',
-    '|', 'justifyLeft', 'justifyRight', 'justifyCenter', 'justifyJustify',
+    '|', 'justifyLeft', 'justifyCenter', 'justifyRight', 'justifyJustify',
     '|', 'emotion', 'uploadImage', 'insertTable', 'codeBlock', 'divider',
   ],
 }

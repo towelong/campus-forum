@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import {
-  Pencil as EditIcon,
   LogOutOutline as LogoutIcon,
   PersonCircleOutline as UserIcon,
 } from '@vicons/ionicons5'
@@ -10,6 +9,7 @@ import { useUserStore } from '~/store/user.js'
 
 const user = useUserStore()
 const message = useMessage()
+const router = useRouter()
 
 const renderIcon = (icon: Component) => {
   return () => {
@@ -21,14 +21,9 @@ const renderIcon = (icon: Component) => {
 
 const options = [
   {
-    label: '用户资料',
+    label: '个人主页',
     key: 'profile',
     icon: renderIcon(UserIcon),
-  },
-  {
-    label: '编辑用户资料',
-    key: 'edit',
-    icon: renderIcon(EditIcon),
   },
   {
     label: '退出登录',
@@ -46,7 +41,7 @@ function handleSelect(key: string) {
       message.info('编辑用户')
       break
     case 'profile':
-      message.info('用户信息')
+      router.push(`/user/${user.user.id}`)
       break
   }
 }

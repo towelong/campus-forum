@@ -44,8 +44,10 @@ interface List {
   last_comment_user: {
     create_time: string
     nickname: string
+    id: number
   }
   is_top: boolean
+  user_id: number
 }
 const createColumns = ({
   play,
@@ -103,6 +105,7 @@ const createColumns = ({
         return h(
           UserProfile,
           {
+            userId: row.user_id,
             name: row.nickname,
             avatar: row.avatar,
             time: fromNow(row.create_time),
@@ -121,6 +124,7 @@ const createColumns = ({
         return h(
           LastReply,
           {
+            userId: row.last_comment_user ? row.last_comment_user.id : 0,
             last: row.last_comment_user ? `最后评论于${fromNow(row.last_comment_user.create_time)}` : '',
             name: row.last_comment_user ? row.last_comment_user.nickname : '无',
           },

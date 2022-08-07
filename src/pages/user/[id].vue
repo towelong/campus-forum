@@ -15,7 +15,7 @@ const {
 async function gotoPost(id: string) {
   const { data, execute } = getSectionByPostId(id)
   await execute()
-  router.push(`/post/${id}?forum=${id}&name=${data.value.name}`)
+  router.push(`/post/${id}?forum=${data.value.id}&name=${data.value.name}`)
 }
 </script>
 <template>
