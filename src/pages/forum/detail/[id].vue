@@ -153,6 +153,10 @@ const handleBack = () => {
   router.push('/forum')
 }
 
+const handleEditor = () => {
+  router.push(`/editor?fromSection=${props.id}`)
+}
+
 </script>
 
 <template>
@@ -179,7 +183,7 @@ const handleBack = () => {
           </n-page-header>
         </template>
         <template #header-extra>
-          <n-button type="primary">
+          <n-button type="primary" @click="handleEditor">
             发表
           </n-button>
         </template>

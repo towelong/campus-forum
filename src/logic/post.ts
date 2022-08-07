@@ -1,4 +1,6 @@
-import { useFetch } from '~/request'
+import type { Ref } from 'vue'
+import { useAuthFetch, useFetch } from '~/request'
+import type { PostModel } from '~/models/post'
 
 export function getPostDetail(id: string) {
   const page = ref(1)
@@ -42,5 +44,22 @@ export function getPostComment(id: string) {
     isFetching,
     isFinished,
     error,
+  }
+}
+
+export function createPost(model: Ref<PostModel>) {
+  const { data, statusCode, post, execute } = useAuthFetch('/post',
+    { immediate: false })
+    .post(model.value).json()
+
+  const form = computed(() => model.value)
+  watchEffect(() => {
+    post(form)
+  })
+
+  return {
+    data,
+    statusCode,
+    execute,
   }
 }
