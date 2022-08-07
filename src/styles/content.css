@@ -1,7 +1,3 @@
-#post-content blockquote {
-  border: 1px solid red;
-}
-
 /* table样式 */
 #post-content table {
   font-family: verdana, arial, sans-serif;
@@ -32,7 +28,7 @@
 
 #post-content a {
   text-decoration: none;
-  color: inherit;
+  color: #292525;
   border-bottom: 3px solid #cbf8df;
   box-shadow: inset 0 -2px 0 #cbf8df;
   background: transparent;
@@ -41,4 +37,80 @@
 
 #post-content a:hover {
   background: #cbf8df;
+}
+
+
+#post-content ol, #post-content ul {
+  padding-left: 12px;
+  padding-right: 36px;
+  margin: 40px auto;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box
+}
+
+#post-content ol li, #post-content ul li {
+  margin: 10px 0;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 31px;
+  color: #4c4e4d
+}
+
+#post-content ol ol, #post-content ol ul, #post-content ul ol, #post-content ul ul {
+  border-left: none
+}
+
+#post-content ul {
+  list-style-type: disc
+}
+
+#post-content ol {
+  list-style-type: decimal
+}
+
+#post-content ol li, #post-content ul li {
+  margin: 10px 0;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 31px;
+  color: #4c4e4d
+}
+
+#post-content blockquote {
+  background: #f9f9f9;
+  border-left: 10px solid #ccc;
+  margin: 1.5em 0;
+  padding: 0.5em 10px;
+  quotes: "\201C""\201D""\2018""\2019";
+  font-size: 16px;
+}
+
+
+
+#post-content blockquote:before {
+  color: #ccc;
+  content: open-quote;
+  font-size: 4em;
+  line-height: 0.1em;
+  margin-right: 0.25em;
+  vertical-align: -0.4em;
+}
+
+
+#post-content blockquote p {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 160%
+}
+
+#post-content blockquote p:last-child {
+  margin-bottom: 0
+}
+
+
+#post-content blockquote a {
+  color: #8e8787;
+  border-bottom: 1px solid #8e8787
 }

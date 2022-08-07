@@ -13,4 +13,4 @@ export const toolbarConfig: Partial<IToolbarConfig> = {
   ],
 }
 
-export const editorConfig = { placeholder: '请输入内容...' }
+export const editorConfig = { placeholder: '请输入正文内容...' }

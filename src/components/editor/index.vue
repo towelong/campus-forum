@@ -37,39 +37,37 @@ const handleSubmit = () => {
 
 <template>
   <div p-2>
-    <n-space justify="space-between">
-      <n-space flex items-center>
-        <p>标题: </p>
-        <n-input
-          v-model:value="title"
-          maxlength="30" show-count clearable
-          type="text" placeholder="请输入标题"
+    <n-space flex items-center>
+      <p>标题: </p>
+      <n-input
+        v-model:value="title"
+        maxlength="30" show-count clearable
+        type="text" placeholder="请输入标题"
+      />
+    </n-space>
+    <n-space vertical mt-2 w-full>
+      <p>内容：</p>
+      <div style="border: 1px solid #ccc">
+        <Toolbar
+          style="border-bottom: 1px solid #ccc"
+          :editor="editorRef"
+          :default-config="toolbarConfig"
+          :mode="mode"
         />
-      </n-space>
-      <n-space vertical mt-2>
-        <p>内容：</p>
-        <div style="border: 1px solid #ccc">
-          <Toolbar
-            style="border-bottom: 1px solid #ccc"
-            :editor="editorRef"
-            :default-config="toolbarConfig"
-            :mode="mode"
-          />
-          <Editor
-            v-model="valueHtml"
-            class="overflow-y-hidden"
-            style="height: 500px;"
-            :default-config="editorConfig"
-            :mode="mode"
-            @on-created="handleCreated"
-          />
-        </div>
-        <div flex justify-end mt-2>
-          <n-button type="primary" @click="handleSubmit">
-            立即发布
-          </n-button>
-        </div>
-      </n-space>
+        <Editor
+          v-model="valueHtml"
+          class="overflow-y-hidden"
+          style="height: 400px;"
+          :default-config="editorConfig"
+          :mode="mode"
+          @on-created="handleCreated"
+        />
+      </div>
+      <div flex justify-end mt-2>
+        <n-button type="primary" @click="handleSubmit">
+          立即发布
+        </n-button>
+      </div>
     </n-space>
   </div>
 </template>
