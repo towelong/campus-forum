@@ -104,10 +104,14 @@ const handleComment = () => {
         <div id="comment-card-input" mt-1>
           <n-card title="评论">
             <Input
+              v-if="user.isExist"
               ref="input"
               :avatar="user.user.avatar"
               @submit="handleSubmit"
             />
+            <p v-else>
+              请先登录
+            </p>
           </n-card>
         </div>
         <template #footer>

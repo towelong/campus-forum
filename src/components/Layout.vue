@@ -75,14 +75,16 @@ provide('contentRef', contentRef)
           </div>
           <div flex items-center justify-center>
             <div flex items-center justify-center>
-              <p v-if="!user.isExist" mx-6 @click="toggleModal()">
-                注册/登录
+              <p v-if="!user.isExist" mx-4 @click="toggleModal()">
+                <n-button>
+                  注册/登录
+                </n-button>
               </p>
-              <p v-else mx-6 flex items-center justify-center>
+              <p v-else mx-4 flex items-center justify-center>
                 <!-- 退出 -->
                 <user-info />
               </p>
-              <p mx-6>
+              <p mx-4>
                 帮助中心
               </p>
               <n-modal

@@ -7,7 +7,9 @@ import UserProfile from '~/components/UserProfile.vue'
 import LastReply from '~/components/LastReply.vue'
 import { getSectionDetail } from '~/logic'
 import { fromNow } from '~/utils/time'
+import { useUserStore } from '~/store'
 
+const user = useUserStore()
 const props = defineProps<{ id: string }>()
 const message = useMessage()
 const router = useRouter()
@@ -183,7 +185,7 @@ const handleEditor = () => {
           </n-page-header>
         </template>
         <template #header-extra>
-          <n-button type="primary" @click="handleEditor">
+          <n-button v-if="user.isExist" type="primary" @click="handleEditor">
             发表
           </n-button>
         </template>
