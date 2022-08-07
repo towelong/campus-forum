@@ -1,0 +1,44 @@
+#post-content blockquote {
+  border: 1px solid red;
+}
+
+/* table样式 */
+#post-content table {
+  font-family: verdana, arial, sans-serif;
+  font-size: 11px;
+  color: #333333;
+  border-width: 1px;
+  border-color: #666666;
+  border-collapse: collapse;
+}
+
+#post-content table th {
+  border-width: 1px;
+  padding: 8px;
+  border-style: solid;
+  border-color: #666666;
+  background-color: #dedede;
+}
+
+#post-content table td {
+  border-width: 1px;
+  padding: 8px;
+  border-style: solid;
+  border-color: #666666;
+  background-color: #ffffff;
+}
+
+/* a标签样式 */
+
+#post-content a {
+  text-decoration: none;
+  color: inherit;
+  border-bottom: 3px solid #cbf8df;
+  box-shadow: inset 0 -2px 0 #cbf8df;
+  background: transparent;
+  transition: background 200ms ease;
+}
+
+#post-content a:hover {
+  background: #cbf8df;
+}

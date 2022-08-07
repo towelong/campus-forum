@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import hljs from 'highlight.js'
 import type { Comment } from '~/models/comments'
 import type { User } from '~/models/user'
 import { fromNow } from '~/utils/time'
@@ -20,8 +21,15 @@ const props = defineProps<{
   }
 }>()
 
-// const page = ref(1)
-// const [open, toggle] = useToggle(false)
+const postContentRef = ref<HTMLElement | null>(null)
+
+onMounted(() => {
+  if (postContentRef) {
+    // const e = document.getElementById('post-content')
+    hljs.highlightAll()
+  }
+})
+
 </script>
 
 <template>
@@ -49,9 +57,14 @@ const props = defineProps<{
         </n-tag>
       </div>
       <div class="px-6 py-2 flex flex-col justify-between flex-1">
-        <p pb-42>
+        <!-- <p pb-42>
           {{ props.data.content }}
-        </p>
+        </p> -->
+        <!-- 渲染html -->
+        <div
+          id="post-content" ref="postContentRef"
+          pb-42 v-html="props.data.content"
+        />
         <div flex justify-between w-full>
           <div flex>
             <div flex justify-center items-center text-sm cursor-pointer text-slate-400>
@@ -71,3 +84,7 @@ const props = defineProps<{
     </div>
   </div>
 </template>
+
+<style>
+@import url("~/styles/content.css")
+</style>

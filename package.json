@@ -15,6 +15,7 @@
     "@wangeditor/editor": "^5.1.14",
     "@wangeditor/editor-for-vue": "^5.1.12",
     "dayjs": "^1.11.4",
+    "highlight.js": "^11.6.0",
     "pinia": "^2.0.17",
     "pinia-plugin-persistedstate": "^2.1.0",
     "vue": "^3.2.37",

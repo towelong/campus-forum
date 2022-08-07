@@ -45,6 +45,7 @@ const handleSubmit = async(value: string) => {
   }
 }
 const handleComment = () => {
+  location.href = '#comment-card-input'
   input.value?.focusToInput()
 }
 
@@ -100,7 +101,7 @@ const handleComment = () => {
         <p border-b border-slate-200 />
         <PostContent :data="data" />
         <!-- [帖子->评论] -->
-        <div mt-1>
+        <div id="comment-card-input" mt-1>
           <n-card title="评论">
             <Input
               ref="input"
