@@ -48,7 +48,9 @@ const handleComment = () => {
   location.href = '#comment-card-input'
   input.value?.focusToInput()
 }
-
+function goTo(path: string) {
+  router.push(path)
+}
 </script>
 
 <template>
@@ -86,8 +88,12 @@ const handleComment = () => {
             </template>
             <template #header>
               <n-breadcrumb>
-                <n-breadcrumb-item>所有板块</n-breadcrumb-item>
-                <n-breadcrumb-item>{{ route.query.name }}</n-breadcrumb-item>
+                <n-breadcrumb-item @click="goTo('/forum')">
+                  所有板块
+                </n-breadcrumb-item>
+                <n-breadcrumb-item @click="goTo('/forum/detail/'+route.query.forum)">
+                  {{ route.query.name }}
+                </n-breadcrumb-item>
                 <n-breadcrumb-item>{{ data.title }}</n-breadcrumb-item>
               </n-breadcrumb>
             </template>

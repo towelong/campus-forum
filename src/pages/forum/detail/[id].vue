@@ -159,6 +159,10 @@ const handleEditor = () => {
   router.push(`/editor?fromSection=${props.id}`)
 }
 
+const handleToForum = () => {
+  router.push('/forum')
+}
+
 </script>
 
 <template>
@@ -178,7 +182,9 @@ const handleEditor = () => {
             </template>
             <template #header>
               <n-breadcrumb>
-                <n-breadcrumb-item>所有板块</n-breadcrumb-item>
+                <n-breadcrumb-item @click="handleToForum">
+                  所有板块
+                </n-breadcrumb-item>
                 <n-breadcrumb-item>{{ dataDetail.name }}</n-breadcrumb-item>
               </n-breadcrumb>
             </template>
