@@ -6,6 +6,7 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Counter: typeof import('./src/components/Counter.vue')['default']
+    Editor: typeof import('./src/components/editor/index.vue')['default']
     Footer: typeof import('./src/components/Footer.vue')['default']
     Input: typeof import('./src/components/Input.vue')['default']
     LastReply: typeof import('./src/components/LastReply.vue')['default']
@@ -35,6 +36,7 @@ declare module '@vue/runtime-core' {
     NPageHeader: typeof import('naive-ui')['NPageHeader']
     NPagination: typeof import('naive-ui')['NPagination']
     NSkeleton: typeof import('naive-ui')['NSkeleton']
+    NSpace: typeof import('naive-ui')['NSpace']
     NTabPane: typeof import('naive-ui')['NTabPane']
     NTabs: typeof import('naive-ui')['NTabs']
     NTooltip: typeof import('naive-ui')['NTooltip']
