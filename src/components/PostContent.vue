@@ -2,6 +2,7 @@
 import hljs from 'highlight.js'
 import type { Comment } from '~/models/comments'
 import type { User } from '~/models/user'
+import { useUserStore } from '~/store'
 import { fromNow } from '~/utils/time'
 
 const props = defineProps<{
@@ -29,7 +30,7 @@ onMounted(() => {
     hljs.highlightAll()
   }
 })
-
+const user = useUserStore()
 </script>
 
 <template>
@@ -67,7 +68,7 @@ onMounted(() => {
         />
         <div flex justify-between w-full>
           <div flex>
-            <div flex justify-center items-center text-sm cursor-pointer text-slate-400>
+            <div v-if="user.isExist" flex justify-center items-center text-sm cursor-pointer text-slate-400>
               <p i-carbon-warning-alt />
               <p>举报</p>
             </div>

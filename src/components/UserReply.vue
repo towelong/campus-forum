@@ -2,6 +2,7 @@
 import { useMessage } from 'naive-ui'
 import { createReply, getReplies } from '~/logic'
 import type { Comment, ReplyInfo } from '~/models/comments'
+import { useUserStore } from '~/store'
 import { fromNow } from '~/utils/time'
 
 const props = defineProps<{
@@ -63,7 +64,7 @@ onClickOutside(
     open.value = false
   },
 )
-
+const user = useUserStore()
 </script>
 
 <template>
@@ -95,25 +96,27 @@ onClickOutside(
       </p>
       <div flex justify-between w-full>
         <div flex text-slate-400>
-          <div
-            v-if="!open"
-            flex justify-center items-center text-sm cursor-pointer
-            @click="handleComment"
-          >
-            <p i-ri-chat-4-line />
-            <p>回复</p>
-          </div>
-          <div
-            v-else
-            flex justify-center items-center text-sm cursor-pointer
-            @click="handleCancelComment"
-          >
-            <p i-ri-chat-4-fill />
-            <p>取消回复</p>
-          </div>
-          <div flex justify-center items-center px-2 text-sm cursor-pointer>
-            <p i-carbon-warning-alt />
-            <p>举报</p>
+          <div v-if="user.isExist" flex>
+            <div
+              v-if="!open"
+              flex justify-center items-center text-sm cursor-pointer
+              @click="handleComment"
+            >
+              <p i-ri-chat-4-line />
+              <p>回复</p>
+            </div>
+            <div
+              v-else
+              flex justify-center items-center text-sm cursor-pointer
+              @click="handleCancelComment"
+            >
+              <p i-ri-chat-4-fill />
+              <p>取消回复</p>
+            </div>
+            <div flex justify-center items-center px-2 text-sm cursor-pointer>
+              <p i-carbon-warning-alt />
+              <p>举报</p>
+            </div>
           </div>
           <div flex justify-center items-center px-2 text-sm>
             <p>回复({{ props.comment.reply_total }})</p>

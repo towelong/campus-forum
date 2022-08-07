@@ -2,6 +2,7 @@
 import { useMessage } from 'naive-ui'
 import { createReply } from '~/logic'
 import type { ReplyInfo } from '~/models/comments'
+import { useUserStore } from '~/store'
 import { fromNow } from '~/utils/time'
 
 const [open, toggle] = useToggle(false)
@@ -52,7 +53,7 @@ onClickOutside(
     open.value = false
   },
 )
-
+const user = useUserStore()
 </script>
 
 <template>
@@ -93,24 +94,27 @@ onClickOutside(
           </p>
         </div>
         <div flex justify-between items-center text-slate-400 text-sm>
-          <div
-            v-if="!open"
-            flex justify-center items-center cursor-pointer
-            text-slate-400 m-2
-            @click="handleReply"
-          >
-            <p i-ri-chat-4-line />
-            <p>回复</p>
+          <div v-if="user.isExist">
+            <div
+              v-if="!open"
+              flex justify-center items-center cursor-pointer
+              text-slate-400 m-2
+              @click="handleReply"
+            >
+              <p i-ri-chat-4-line />
+              <p>回复</p>
+            </div>
+            <div
+              v-else
+              flex justify-center items-center cursor-pointer
+              text-slate-400 m-2
+              @click="toggle(false)"
+            >
+              <p i-ri-chat-4-fill />
+              <p>取消回复</p>
+            </div>
           </div>
-          <div
-            v-else
-            flex justify-center items-center cursor-pointer
-            text-slate-400 m-2
-            @click="toggle(false)"
-          >
-            <p i-ri-chat-4-fill />
-            <p>取消回复</p>
-          </div>
+          <div />
           <p mr-1>
             发表于{{ fromNow(props.reply.reply_info.create_time) }}
           </p>
