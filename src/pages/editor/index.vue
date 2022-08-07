@@ -27,7 +27,7 @@ async function handleSubmit(editorContent: EditorModel) {
     router.push(`/forum/detail/${sectionId}`)
   }
   else {
-    message.success('发表失败')
+    message.error('发表失败')
   }
 }
 </script>
