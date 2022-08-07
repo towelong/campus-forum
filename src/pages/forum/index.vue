@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { getSectionList } from '~/logic'
+import { useUserStore } from '~/store'
 
+const user = useUserStore()
 const { data, isFetching, isFinished, error, execute } = getSectionList()
-
+watchEffect(() => {
+  if (user.isExist)
+    execute()
+})
 const items = computed(() => data.value?.items)
 
 </script>

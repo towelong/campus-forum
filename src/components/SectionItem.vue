@@ -35,11 +35,9 @@ const sectionId = ref(props.data.id)
 async function stared() {
   const { execute, statusCode, data } = collect(sectionId)
   await execute()
-  if (statusCode.value === 201) {
-    await props.refresh()
+  if (statusCode.value === 201)
     toggleStar()
-  }
-  else { message.error(data.value.message) }
+  else message.error(data.value.message)
 }
 
 async function cancel() {
