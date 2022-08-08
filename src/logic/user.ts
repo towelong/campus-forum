@@ -4,9 +4,13 @@ export const userLogin = () => {
   const model = ref({
     username: '',
     password: '',
+    captcha: '',
+    tag: '',
   })
+
   const {
-    post, data, statusCode, execute, error, isFetching,
+    data, statusCode, execute, error,
+    isFetching, isFinished, post,
   } = useFetch('/user/login', { immediate: false }).json()
 
   watchEffect(() => {
@@ -16,10 +20,25 @@ export const userLogin = () => {
   return {
     model,
     data,
-    error,
     statusCode,
     execute,
+    error,
     isFetching,
+    isFinished,
+  }
+}
+
+export const getCaptcha = () => {
+  const {
+    data, statusCode, execute, error, isFetching, isFinished,
+  } = useFetch('/user/captcha').post().json()
+  return {
+    captchaData: data,
+    captchaStatusCode: statusCode,
+    captchaExecute: execute,
+    captchaError: error,
+    captchaFetching: isFetching,
+    captchaFinished: isFinished,
   }
 }
 

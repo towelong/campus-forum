@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { FormInst, FormItemRule, FormRules } from 'naive-ui'
 import { useMessage } from 'naive-ui'
-import { userLogin, userRegister } from '~/logic'
+import { getCaptcha, userLogin, userRegister } from '~/logic'
 import { useUserStore } from '~/store'
 
 const props = defineProps<{
@@ -9,6 +9,9 @@ const props = defineProps<{
 }>()
 
 const message = useMessage()
+const {
+  captchaData, captchaExecute, captchaError, captchaFinished,
+} = getCaptcha()
 const { model, execute, data, statusCode, isFetching } = userLogin()
 const {
   registerModel,
@@ -36,6 +39,11 @@ const rules: FormRules = {
   password: {
     required: true,
     message: '请输入密码',
+    trigger: ['blur', 'input'],
+  },
+  capture: {
+    required: true,
+    message: '请输入验证码',
     trigger: ['blur', 'input'],
   },
 }
@@ -74,6 +82,7 @@ const login = async(e: MouseEvent) => {
   e.preventDefault()
   formRef.value?.validate(async(errors) => {
     if (!errors) {
+      model.value.tag = captchaData.value.tag
       await execute()
       if (statusCode.value === 200) {
         message.success('登录成功！')
@@ -85,6 +94,8 @@ const login = async(e: MouseEvent) => {
         model.value = {
           username: '',
           password: '',
+          captcha: '',
+          tag: '',
         }
       }
     }
@@ -125,6 +136,20 @@ const register = async(e: MouseEvent) => {
             type="password" placeholder="请输入密码"
             show-password-on="click"
           />
+        </n-form-item>
+        <n-form-item label="验证码" path="captcha">
+          <div flex items-center justify-between flex-1>
+            <n-input
+              v-model:value="model.captcha"
+              flex-1
+              placeholder="请输入验证码"
+              show-password-on="click"
+            />
+            <img
+              v-if="captchaFinished && !captchaError" pl-2 w-20 h-8
+              :src="captchaData.image" @click="captchaExecute()"
+            >
+          </div>
         </n-form-item>
         <n-button
           type="primary" block secondary strong
