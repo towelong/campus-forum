@@ -1,4 +1,5 @@
-import { useFetch } from '~/request'
+import { useAuthFetch, useFetch } from '~/request'
+import { useUserStore } from '~/store'
 
 export const userLogin = () => {
   const model = ref({
@@ -112,5 +113,38 @@ export function getUserDetail(id: string) {
     error,
     page,
     count,
+  }
+}
+
+export const follow = (id: number) => {
+  const userStore = useUserStore()
+  const { data, execute, post, statusCode } = useAuthFetch('/user/follow', { immediate: false }).json()
+  watchEffect(() => {
+    post({
+      user_id: userStore.user.id,
+      followed_user_id: id,
+    })
+  })
+  return { data, execute, statusCode }
+}
+
+export const getFollowList = (id: string) => {
+  const userStore = useUserStore()
+  let url = `/user/follow/${id}`
+  if (userStore.isExist)
+    url = `${url}?current=${userStore.user.id}`
+
+  const {
+    data, execute,
+    statusCode, isFinished, isFetching, error,
+  } = useFetch(url, { immediate: false }).get().json()
+
+  return {
+    followList: data,
+    execute,
+    statusCode,
+    followFinished: isFinished,
+    followFetching: isFetching,
+    followError: error,
   }
 }

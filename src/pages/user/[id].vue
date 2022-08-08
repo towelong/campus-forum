@@ -1,10 +1,13 @@
 <script setup lang="ts">
-import { getSectionByPostId, getUserDetail } from '~/logic'
+import { useMessage } from 'naive-ui'
+import { follow, getFollowList, getSectionByPostId, getUserDetail } from '~/logic'
+import type { Follow } from '~/models/follow'
 import { fromNow } from '~/utils/time'
 const props = defineProps<{
   id: string
 }>()
 const router = useRouter()
+const message = useMessage()
 const {
   data,
   // execute,
@@ -17,6 +20,36 @@ async function gotoPost(id: string) {
   await execute()
   router.push(`/post/${id}?forum=${data.value.id}&name=${data.value.name}`)
 }
+const isFollow = ref(false)
+const toggleFollow = useToggle(isFollow)
+async function handleFollow(id: number) {
+  const { data, execute, statusCode } = follow(id)
+  await execute()
+  if (statusCode.value === 201) {
+    message.success('关注成功')
+    toggleFollow()
+  }
+  else { message.error(data.value.message) }
+}
+
+const follows = ref<Follow[]>()
+
+const {
+  followList,
+  followFinished,
+  followFetching,
+  execute,
+} = getFollowList(props.id)
+async function getFollows() {
+  await execute()
+  follows.value = followList.value.items as Follow[]
+}
+
+async function handleTabs(value: string) {
+  if (value === 'follow')
+    await getFollows()
+}
+
 </script>
 <template>
   <n-card>
@@ -62,45 +95,72 @@ async function gotoPost(id: string) {
         <n-skeleton text :repeat="3" />
       </n-space>
     </div>
-    <n-tabs v-if="isFinished" type="line" animated>
+    <n-tabs
+      v-if="isFinished"
+      type="line" animated @update:value="handleTabs"
+    >
       <n-tab-pane name="post" tab="帖子">
-        <n-list
-          v-for="(post) in data.posts.items" :key="post.post_id"
-          bordered
-        >
-          <n-list-item>
-            <div flex justify-between items-center @click="gotoPost(post.post_id)">
-              <n-button quaternary>
-                {{ post.title }}
-              </n-button>
-              <p>{{ fromNow(post.create_time) }}</p>
-            </div>
-          </n-list-item>
-        </n-list>
+        <template v-if="isFinished">
+          <n-list
+            v-for="(post) in data.posts.items" :key="post.post_id"
+            bordered
+          >
+            <n-list-item>
+              <div flex justify-between items-center @click="gotoPost(post.post_id)">
+                <n-button quaternary>
+                  {{ post.title }}
+                </n-button>
+                <p>{{ fromNow(post.create_time) }}</p>
+              </div>
+            </n-list-item>
+          </n-list>
+        </template>
       </n-tab-pane>
 
       <n-tab-pane name="follow" tab="关注">
-        <n-list bordered>
-          <n-list-item>
-            <div flex justify-between items-center>
-              <div flex items-center>
-                <n-avatar
-                  round
-                  :size="70"
-                  src="https://p3-passport.byteacctimg.com/img/user-avatar/73fd7785126ca8b41deb62360ff6f482~300x300.image"
-                />
-                <p ml-2>
-                  WeLong
-                </p>
+        <div v-if="followFetching" flex-1 flex items-center ml-1>
+          <n-space flex-1 vertical>
+            <n-skeleton text style="width: 60%" />
+            <n-skeleton text :repeat="3" />
+          </n-space>
+        </div>
+        <template v-if="followFinished">
+          <template v-if="follows?.length === 0">
+            <n-empty description="你什么也找不到" />
+          </template>
+          <n-list
+            v-for="fl in follows"
+            :key="fl.user_id"
+            bordered
+          >
+            <n-list-item>
+              <div flex justify-between items-center>
+                <div flex items-center>
+                  <n-avatar
+                    round
+                    :size="70"
+                    :src="fl.avatar"
+                  />
+                  <p ml-2>
+                    {{ fl.nickname }}
+                  </p>
+                </div>
+                <div>
+                  <n-button
+                    v-if="!fl.followed"
+                    type="primary" ghost px-6
+                    @click="handleFollow(fl.user_id)"
+                  >
+                    关注
+                  </n-button>
+                  <n-button v-else type="primary" px-6>
+                    已关注
+                  </n-button>
+                </div>
               </div>
-              <div>
-                <n-button type="primary" ghost px-6>
-                  关注
-                </n-button>
-              </div>
-            </div>
-          </n-list-item>
-        </n-list>
+            </n-list-item>
+          </n-list>
+        </template>
       </n-tab-pane>
     </n-tabs>
   </n-card>
