@@ -18,6 +18,8 @@ export const useUserStore = defineStore('user', {
   } as UserStore),
   getters: {
     isExist: state => state.user.id !== undefined,
+    accessToken: state => `Bearer ${state.tokens.access_token}`,
+    refreshToken: state => `Bearer ${state.tokens.refresh_token}`,
   },
   actions: {
     save(userStore: UserStore) {
@@ -25,6 +27,9 @@ export const useUserStore = defineStore('user', {
         user: userStore.user,
         tokens: userStore.tokens,
       })
+    },
+    saveAccessToken(token: string) {
+      this.$state.tokens.access_token = token
     },
     logout() {
       this.$reset()

@@ -1,5 +1,6 @@
 import { useAuthFetch, useFetch } from '~/request'
 import { useUserStore } from '~/store'
+import { _delete } from '~/request/axios'
 
 export const userLogin = () => {
   const model = ref({
@@ -81,12 +82,13 @@ export const userRegister = () => {
   }
 }
 
-export function getUserDetail(id: string) {
+export function getUserDetail(i: string) {
   const page = ref(1)
   const count = ref(10)
+  const id = ref(i)
 
-  const prefix = `/user/${id}`
-  const initurl = `${prefix}?page=${page.value - 1}&count=${count.value}`
+  const prefix = '/user'
+  const initurl = `${prefix}/${id.value}?page=${page.value - 1}&count=${count.value}`
 
   const url = ref(initurl)
 
@@ -98,21 +100,22 @@ export function getUserDetail(id: string) {
     execute,
   } = useFetch(url, { refetch: true }).get().json()
 
-  watch(page,
+  watch([page, id],
     (value) => {
-      const query = `page=${value - 1}`
-      url.value = `${prefix}?${query}&count=${count.value}`
+      const query = `page=${value[0] - 1}`
+      url.value = `${prefix}/${value[1]}?${query}&count=${count.value}`
     },
   )
 
   return {
     data,
-    execute,
+    query: execute,
     isFetching,
     isFinished,
     error,
     page,
     count,
+    id,
   }
 }
 
@@ -147,4 +150,13 @@ export const getFollowList = (id: string) => {
     followFetching: isFetching,
     followError: error,
   }
+}
+
+export const cancelFollow = async(id: number) => {
+  const userStore = useUserStore()
+  const res = await _delete('/user/follow', {
+    user_id: userStore.user.id,
+    followed_user_id: id,
+  })
+  return res
 }

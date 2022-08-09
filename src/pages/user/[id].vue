@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useMessage } from 'naive-ui'
-import { follow, getFollowList, getSectionByPostId, getUserDetail } from '~/logic'
+import { cancelFollow, follow, getFollowList, getSectionByPostId, getUserDetail } from '~/logic'
 import type { Follow } from '~/models/follow'
 import { fromNow } from '~/utils/time'
 const props = defineProps<{
@@ -10,11 +10,21 @@ const router = useRouter()
 const message = useMessage()
 const {
   data,
-  // execute,
   error,
   isFetching,
   isFinished,
+  id,
 } = getUserDetail(props.id)
+watch(
+  () => router.currentRoute.value.path,
+  (newValue, oldValue) => {
+    // query()
+    if (newValue.startsWith('/user/')) {
+      const newId = newValue.replaceAll('/user/', '')
+      id.value = newId
+    }
+  })
+
 async function gotoPost(id: string) {
   const { data, execute } = getSectionByPostId(id)
   await execute()
@@ -50,6 +60,11 @@ async function handleTabs(value: string) {
     await getFollows()
 }
 
+async function handleCancelFollow(id: number) {
+  const res = await cancelFollow(id)
+  // console.log(res.data)
+}
+
 </script>
 <template>
   <n-card>
@@ -64,11 +79,7 @@ async function handleTabs(value: string) {
     </div>
     <div v-if="isFinished" flex justify-between>
       <div>
-        <n-avatar
-          round
-          :size="100"
-          :src="data.avatar"
-        />
+        <n-avatar round :size="100" :src="data.avatar" />
       </div>
 
       <div flex-1 ml-2 flex flex-col justify-around>
@@ -82,9 +93,12 @@ async function handleTabs(value: string) {
         </div>
       </div>
       <div>
-        <n-button type="primary" ghost>
-          编辑个人资料
+        <n-button type="primary" ghost @click="handleFollow(parseInt(props.id))">
+          关注
         </n-button>
+        <!-- <n-button type="primary" ghost>
+          编辑个人资料
+        </n-button> -->
       </div>
     </div>
   </n-card>
@@ -95,16 +109,10 @@ async function handleTabs(value: string) {
         <n-skeleton text :repeat="3" />
       </n-space>
     </div>
-    <n-tabs
-      v-if="isFinished"
-      type="line" animated @update:value="handleTabs"
-    >
+    <n-tabs v-if="isFinished" type="line" animated @update:value="handleTabs">
       <n-tab-pane name="post" tab="帖子">
         <template v-if="isFinished">
-          <n-list
-            v-for="(post) in data.posts.items" :key="post.post_id"
-            bordered
-          >
+          <n-list v-for="(post) in data.posts.items" :key="post.post_id" bordered>
             <n-list-item>
               <div flex justify-between items-center @click="gotoPost(post.post_id)">
                 <n-button quaternary>
@@ -128,32 +136,20 @@ async function handleTabs(value: string) {
           <template v-if="follows?.length === 0">
             <n-empty description="你什么也找不到" />
           </template>
-          <n-list
-            v-for="fl in follows"
-            :key="fl.user_id"
-            bordered
-          >
+          <n-list v-for="fl in follows" :key="fl.user_id" bordered>
             <n-list-item>
               <div flex justify-between items-center>
                 <div flex items-center>
-                  <n-avatar
-                    round
-                    :size="70"
-                    :src="fl.avatar"
-                  />
+                  <n-avatar round :size="70" :src="fl.avatar" />
                   <p ml-2>
                     {{ fl.nickname }}
                   </p>
                 </div>
                 <div>
-                  <n-button
-                    v-if="!fl.followed"
-                    type="primary" ghost px-6
-                    @click="handleFollow(fl.user_id)"
-                  >
+                  <n-button v-if="!fl.followed" type="primary" ghost px-6 @click="handleFollow(fl.user_id)">
                     关注
                   </n-button>
-                  <n-button v-else type="primary" px-6>
+                  <n-button v-else type="primary" px-6 @click="handleCancelFollow(fl.user_id)">
                     已关注
                   </n-button>
                 </div>
