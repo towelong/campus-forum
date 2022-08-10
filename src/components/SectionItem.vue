@@ -33,22 +33,20 @@ const userStore = useUserStore()
 const sectionId = ref(props.data.id)
 
 async function stared() {
-  const { execute, statusCode, data } = collect(sectionId)
-  await execute()
-  if (statusCode.value === 201)
+  const res = await collect(sectionId)
+  if (res.code === 1)
     toggleStar()
-  else message.error(data.value.message)
+  else message.error(res.message)
 }
 
 async function cancel() {
-  const { execute, statusCode, data } = cancelCollect(sectionId)
   sectionId.value = props.data.id
-  await execute()
-  if (statusCode.value === 200) {
+  const res = await cancelCollect(sectionId)
+  if (res.code === 3) {
     await props.refresh()
     toggleStar()
   }
-  else { message.error(data.value.message) }
+  else { message.error(res.message) }
 }
 
 </script>

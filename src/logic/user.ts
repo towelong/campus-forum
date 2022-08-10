@@ -1,4 +1,4 @@
-import { useAuthFetch, useFetch } from '~/request'
+import { useFetch } from '~/request'
 import { useUserStore } from '~/store'
 import { _delete, post } from '~/request/axios'
 

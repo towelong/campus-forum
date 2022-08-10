@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import { getMyCollections } from '~/logic'
-const items = ref([])
+const result = ref<any>(null)
+const loading = ref(true)
 
 async function getData() {
+  loading.value = true
   const res = await getMyCollections()
-  items.value = res.items
+  result.value = res
+  loading.value = false
 }
 
 onMounted(async() => {
@@ -15,7 +18,7 @@ onMounted(async() => {
 
 <template>
   <div>
-    <div v-if="items.length == 0" p-4>
+    <div v-if="loading" p-4>
       <h1 text-2xl mb-4 class="text-color">
         我的收藏
       </h1>
@@ -30,13 +33,13 @@ onMounted(async() => {
         我的收藏
       </h1>
       <n-grid x-gap="12" :cols="3" :y-gap="8">
-        <n-gi v-for="(item, i) in items" :key="i">
+        <n-gi v-for="(item, i) in result.items" :key="i">
           <SectionItem :data="item" :refresh="getData" />
         </n-gi>
       </n-grid>
     </div>
     <n-grid
-      v-if="items && items.length === 0"
+      v-if="result && result.items.length === 0"
       x-gap="12" :cols="4" :y-gap="8" mb-4
     >
       <n-gi>

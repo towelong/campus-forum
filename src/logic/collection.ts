@@ -1,6 +1,5 @@
 import type { Ref } from 'vue'
-import { useAuthFetch } from '~/request'
-import { get } from '~/request/axios'
+import { _delete, get, post } from '~/request/axios'
 
 export async function getMyCollections() {
   const page = ref(1)
@@ -15,56 +14,17 @@ export async function getMyCollections() {
   return res
 }
 
-export function cancelCollect(sectionId: Ref<number>) {
-  const res = useAuthFetch('/section/collection', { immediate: false }).json()
-  const {
-    data,
-    isFetching,
-    isFinished,
-    error,
-    execute,
-    statusCode,
-  } = res
-
-  watchEffect(() => {
-    res.delete({
-      section_id: sectionId.value,
-    })
+export async function cancelCollect(sectionId: Ref<number>) {
+  const res = await _delete('/section/collection', {
+    section_id: sectionId.value,
   })
-
-  return {
-    data,
-    execute,
-    statusCode,
-    isFetching,
-    isFinished,
-    error,
-  }
+  return res
 }
 
-export function collect(sectionId: Ref<number>) {
-  const {
-    data,
-    isFetching,
-    isFinished,
-    error,
-    post,
-    execute,
-    statusCode,
-  } = useAuthFetch('/section/collection', { immediate: false }).json()
-
-  watchEffect(() => {
-    post({
-      section_id: sectionId.value,
-    })
+export async function collect(sectionId: Ref<number>) {
+  const res = await post('/section/collection', {
+    section_id: sectionId.value,
   })
 
-  return {
-    data,
-    isFetching,
-    isFinished,
-    error,
-    execute,
-    statusCode,
-  }
+  return res
 }
