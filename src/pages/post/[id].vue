@@ -32,15 +32,14 @@ const next = (currentPage: number) => {
 }
 
 const input = ref<any>(null)
-const { comment, commentData, commentExecute, commentStatusCode } = createComment()
 const handleSubmit = async(value: string) => {
-  comment.value = {
+  const comment = {
     post_id: props.id,
     comment_content: value,
   }
-  await commentExecute()
-  if (commentStatusCode.value === 201) {
-    message.success(commentData.value.message)
+  const res = await createComment(comment)
+  if (res.code === 1) {
+    message.success('评论成功')
     await execute()
   }
 }

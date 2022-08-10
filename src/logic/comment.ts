@@ -1,30 +1,7 @@
 import type { CommentModel } from '~/models/comments'
-import { useAuthFetch } from '~/request'
+import { post } from '~/request/axios'
 
-export function createComment() {
-  const comment = ref<CommentModel>({
-    post_id: '',
-    comment_content: '',
-    comment_pics: [],
-  })
-
-  const {
-    execute,
-    data,
-    post,
-    statusCode,
-  } = useAuthFetch('/comment', { immediate: false }).json()
-
-  const form = computed(() => comment.value)
-
-  watchEffect(() => {
-    post(form)
-  })
-
-  return {
-    commentExecute: execute,
-    commentData: data,
-    comment,
-    commentStatusCode: statusCode,
-  }
+export async function createComment(comment: CommentModel) {
+  const res = await post('/comment', comment)
+  return res
 }

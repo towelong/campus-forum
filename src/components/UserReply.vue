@@ -25,22 +25,15 @@ const more = async() => {
   replies.value = data.value
 }
 
-const {
-  replyForm,
-  replyData,
-  replyExecute,
-  replyStatusCode,
-} = createReply()
-
 const input = ref<any>(null)
 const handleSubmit = async(value: string) => {
-  replyForm.value = {
+  const replyForm = {
     comment_id: props.comment.comment_id,
     reply_content: value,
   }
-  await replyExecute()
-  if (replyStatusCode.value === 201) {
-    message.success(replyData.value.message)
+  const res = await createReply(replyForm)
+  if (res.code === 1) {
+    message.success('回复成功')
     // 重新加载数据
     await more()
   }

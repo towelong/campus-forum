@@ -13,24 +13,17 @@ const props = defineProps<{
   more: () => void
 }>()
 
-const {
-  replyForm,
-  replyData,
-  replyExecute,
-  replyStatusCode,
-} = createReply()
-
 const input = ref<any>(null)
 const handleSubmit = async(value: string) => {
-  replyForm.value = {
+  const replyForm = {
     comment_id: props.commentId,
     reply_content: value,
     reply_to_user_id: props.reply.user_info.id,
     reply_to_reply_id: props.reply.reply_info.reply_id,
   }
-  await replyExecute()
-  if (replyStatusCode.value === 201) {
-    message.success(replyData.value.message)
+  const res = await createReply(replyForm)
+  if (res.code === 1) {
+    message.success('发表成功')
     // 重新加载数据
     await props.more()
   }

@@ -133,7 +133,7 @@ _axios.interceptors.response.use(
       if (Object.prototype.toString.call(message) === '[object Array]')
         [tipMessage] = message
 
-      message.error(tipMessage)
+      nIMessage.error(tipMessage)
       reject(res)
     })
   },
