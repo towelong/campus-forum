@@ -91,7 +91,9 @@ export function getUserDetail(i: string) {
   const initurl = `${prefix}/${id.value}?page=${page.value - 1}&count=${count.value}`
 
   const url = ref(initurl)
-
+  const userStore = useUserStore()
+  if (userStore.isExist)
+    url.value = `${initurl}&current=${userStore.user.id}`
   const {
     data,
     isFetching,
@@ -103,7 +105,10 @@ export function getUserDetail(i: string) {
   watch([page, id],
     (value) => {
       const query = `page=${value[0] - 1}`
-      url.value = `${prefix}/${value[1]}?${query}&count=${count.value}`
+      const temp = `${prefix}/${value[1]}?${query}&count=${count.value}`
+      url.value = userStore.isExist
+        ? `${temp}&current=${userStore.user.id}`
+        : temp
     },
   )
 

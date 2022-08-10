@@ -2,11 +2,13 @@
 import { useMessage } from 'naive-ui'
 import { cancelFollow, follow, getFollowList, getSectionByPostId, getUserDetail } from '~/logic'
 import type { Follow } from '~/models/follow'
+import { useUserStore } from '~/store'
 import { fromNow } from '~/utils/time'
 const props = defineProps<{
   id: string
 }>()
 const router = useRouter()
+const user = useUserStore()
 const message = useMessage()
 const {
   data,
@@ -14,6 +16,7 @@ const {
   isFetching,
   isFinished,
   id,
+  query,
 } = getUserDetail(props.id)
 
 async function gotoPost(id: string) {
@@ -21,13 +24,12 @@ async function gotoPost(id: string) {
   await execute()
   router.push(`/post/${id}?forum=${data.value.id}&name=${data.value.name}`)
 }
-const isFollow = ref(false)
-const toggleFollow = useToggle(isFollow)
+
 async function handleFollow(id: number) {
   const res = await follow(id)
   if (res.code === 1) {
     message.success('关注成功')
-    toggleFollow()
+    await query()
   }
   else { message.error(res.message) }
 }
@@ -64,7 +66,10 @@ async function handleTabs(value: string) {
 
 async function handleCancelFollow(id: number) {
   const res = await cancelFollow(id)
-  console.log(res.data)
+  if (res.code === 3) {
+    message.success('取关成功')
+    await query()
+  }
 }
 
 </script>
@@ -95,8 +100,20 @@ async function handleCancelFollow(id: number) {
         </div>
       </div>
       <div>
-        <n-button type="primary" ghost @click="handleFollow(parseInt(props.id))">
+        <n-button
+          v-if="parseInt(props.id) != user.user.id && !data.followed"
+          type="primary" ghost
+          px-6
+          @click="handleFollow(parseInt(props.id))"
+        >
           关注
+        </n-button>
+        <n-button
+          v-if="data.followed"
+          type="primary" px-6 ghost
+          @click="handleCancelFollow(parseInt(props.id))"
+        >
+          取消关注
         </n-button>
         <!-- <n-button type="primary" ghost>
           编辑个人资料
