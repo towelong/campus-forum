@@ -126,14 +126,6 @@ export const follow = async(id: number) => {
     followed_user_id: id,
   })
   return res
-  // const { data, execute, post, statusCode } = useAuthFetch('/user/follow', { immediate: false }).json()
-  // watchEffect(() => {
-  //   post({
-  //     user_id: userStore.user.id,
-  //     followed_user_id: id,
-  //   })
-  // })
-  // return { data, execute, statusCode }
 }
 
 export const getFollowList = (fid: string) => {

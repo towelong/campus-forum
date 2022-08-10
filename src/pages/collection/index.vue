@@ -1,20 +1,21 @@
 <script setup lang="ts">
 import { getMyCollections } from '~/logic'
+const items = ref([])
 
-const {
-  data,
-  isFetching,
-  isFinished,
-  error,
-  execute,
-} = getMyCollections()
-const items = computed(() => data.value?.items)
+async function getData() {
+  const res = await getMyCollections()
+  items.value = res.items
+}
+
+onMounted(async() => {
+  await getData()
+})
 
 </script>
 
 <template>
   <div>
-    <div v-if="isFetching || error" p-4>
+    <div v-if="items.length == 0" p-4>
       <h1 text-2xl mb-4 class="text-color">
         我的收藏
       </h1>
@@ -24,13 +25,13 @@ const items = computed(() => data.value?.items)
         </n-gi>
       </n-grid>
     </div>
-    <div v-if="isFinished && !error" p-4>
+    <div v-else p-4>
       <h1 text-2xl mb-4 class="text-color">
         我的收藏
       </h1>
       <n-grid x-gap="12" :cols="3" :y-gap="8">
         <n-gi v-for="(item, i) in items" :key="i">
-          <SectionItem :data="item" :refresh="execute" />
+          <SectionItem :data="item" :refresh="getData" />
         </n-gi>
       </n-grid>
     </div>
