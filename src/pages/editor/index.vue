@@ -14,15 +14,16 @@ const form = ref<PostModel>({
   title: '',
   content: '',
 })
-const { execute, statusCode } = createPost(form)
+// const { execute, statusCode } = createPost(form)
 async function handleSubmit(editorContent: EditorModel) {
   form.value = {
     section_id: parseInt(sectionId),
     title: editorContent.title,
     content: editorContent.content,
   }
-  await execute()
-  if (statusCode.value === 201) {
+  const res = await createPost(form)
+
+  if (res.code === 1) {
     message.success('发表成功')
     router.push(`/forum/detail/${sectionId}`)
   }

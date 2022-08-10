@@ -1,3 +1,4 @@
+import type { AxiosRequestConfig, AxiosResponse } from 'axios'
 import axios from 'axios'
 import { useMessage } from 'naive-ui'
 import { apiBaseUrl } from '~/composables'
@@ -25,7 +26,7 @@ function refreshTokenException(code: number) {
 const _axios = axios.create(config)
 
 _axios.interceptors.request.use(
-  (originConfig) => {
+  (originConfig: AxiosRequestConfig) => {
     const reqConfig = { ...originConfig }
 
     // step1: 容错处理
@@ -64,7 +65,7 @@ _axios.interceptors.request.use(
     }
 
     // step2: permission 处理
-    if (reqConfig.url === 'v1/user/refresh') {
+    if (reqConfig.url === 'user/refresh') {
       const user = useUserStore()
       const refreshToken = user.refreshToken
       if (refreshToken)
@@ -84,7 +85,7 @@ _axios.interceptors.request.use(
 
 // Add a response interceptor
 _axios.interceptors.response.use(
-  async(res) => {
+  async(res: AxiosResponse) => {
     if (res.status.toString().charAt(0) === '2')
       return res.data
 
@@ -109,7 +110,7 @@ _axios.interceptors.response.use(
         const cache = { url: '' }
         if (cache.url !== url) {
           cache.url = url as string
-          const refreshResult = await _axios('v1/user/refresh')
+          const refreshResult = await _axios('user/refresh')
           const user = useUserStore()
           user.saveAccessToken((refreshResult as any).access_token)
           // 将上次失败请求重发
@@ -150,13 +151,12 @@ _axios.interceptors.response.use(
 )
 
 // 导出常用函数
-
 /**
  * @param {string} url
  * @param {object} data
  * @param {object} params
  */
-export function post(url: string, data = {}, params = {}) {
+export function post(url: string, data = {}, params = {}): Promise<any> {
   return _axios({
     method: 'post',
     url,
@@ -169,7 +169,7 @@ export function post(url: string, data = {}, params = {}) {
  * @param {string} url
  * @param {object} params
  */
-export function get(url: string, params = {}) {
+export function get(url: string, params = {}): Promise<any> {
   return _axios({
     method: 'get',
     url,
@@ -182,7 +182,7 @@ export function get(url: string, params = {}) {
  * @param {object} data
  * @param {object} params
  */
-export function put(url: string, data = {}, params = {}) {
+export function put(url: string, data = {}, params = {}): Promise<any> {
   return _axios({
     method: 'put',
     url,
@@ -195,7 +195,7 @@ export function put(url: string, data = {}, params = {}) {
  * @param {string} url
  * @param {object} params
  */
-export function _delete(url: string, data = {}, params = {}) {
+export function _delete(url: string, data = {}, params = {}): Promise<any> {
   return _axios({
     method: 'delete',
     url,

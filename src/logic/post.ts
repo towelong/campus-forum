@@ -1,5 +1,6 @@
 import type { Ref } from 'vue'
-import { useAuthFetch, useFetch } from '~/request'
+import { useFetch } from '~/request'
+import { post } from '~/request/axios'
 import type { PostModel } from '~/models/post'
 
 export function getPostDetail(id: string) {
@@ -47,19 +48,7 @@ export function getPostComment(id: string) {
   }
 }
 
-export function createPost(model: Ref<PostModel>) {
-  const { data, statusCode, post, execute } = useAuthFetch('/post',
-    { immediate: false })
-    .post(model.value).json()
-
-  const form = computed(() => model.value)
-  watchEffect(() => {
-    post(form)
-  })
-
-  return {
-    data,
-    statusCode,
-    execute,
-  }
+export async function createPost(model: Ref<PostModel>) {
+  const res = await post('/post', model.value)
+  return res
 }

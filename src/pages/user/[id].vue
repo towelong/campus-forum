@@ -66,7 +66,7 @@ async function handleTabs(value: string) {
 
 async function handleCancelFollow(id: number) {
   const res = await cancelFollow(id)
-  // console.log(res.data)
+  console.log(res.data)
 }
 
 </script>

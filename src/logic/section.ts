@@ -1,27 +1,24 @@
-import { useAuthFetch, useFetch } from '~/request'
+import { useFetch } from '~/request'
 import { useUserStore } from '~/store'
 
 export function getSectionList() {
   const user = useUserStore()
   const page = ref(1)
   const count = ref(10)
-  let prefix = '/section'
-  if (user.isExist)
-    prefix = `${prefix}/auth`
-  const initurl = `${prefix}?page=${page.value - 1}&count=${count.value}`
+  const prefix = '/section'
+
+  const temp = `${prefix}?page=${page.value - 1}&count=${count.value}`
+  const initurl = user.isExist ? `${temp}&current=${user.user.id}` : temp
   const url = ref(initurl)
 
-  let res
-  if (user.isExist) {
-    url.value = initurl
-    res = useAuthFetch(url, { refetch: true }).get().json()
-  }
-  else { res = useFetch(url, { refetch: true }).get().json() }
+  const res = useFetch(url, { refetch: true }).get().json()
   const { data, error, statusCode, isFetching, isFinished, execute } = res
 
   watch(page,
     (value) => {
-      const query = `page=${value - 1}`
+      const query = user.isExist
+        ? `page=${value - 1}&current=${user.user.id}`
+        : `page=${value - 1}`
       url.value = `${prefix}?${query}&count=${count.value}`
     },
   )
