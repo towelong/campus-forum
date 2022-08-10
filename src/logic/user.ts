@@ -131,16 +131,24 @@ export const follow = (id: number) => {
   return { data, execute, statusCode }
 }
 
-export const getFollowList = (id: string) => {
+export const getFollowList = (fid: string) => {
   const userStore = useUserStore()
-  let url = `/user/follow/${id}`
+  const id = ref(fid)
+  const prefix = '/user/follow'
+  const url = ref(prefix)
   if (userStore.isExist)
-    url = `${url}?current=${userStore.user.id}`
+    url.value = `${url.value}/${id.value}?current=${userStore.user.id}`
 
   const {
     data, execute,
     statusCode, isFinished, isFetching, error,
-  } = useFetch(url, { immediate: false }).get().json()
+  } = useFetch(url, { immediate: false, refetch: true }).get().json()
+
+  watch(id, (value) => {
+    url.value = userStore.isExist
+      ? `${prefix}/${value}?current=${userStore.user.id}`
+      : prefix
+  })
 
   return {
     followList: data,
@@ -149,6 +157,7 @@ export const getFollowList = (id: string) => {
     followFinished: isFinished,
     followFetching: isFetching,
     followError: error,
+    followId: id,
   }
 }
 

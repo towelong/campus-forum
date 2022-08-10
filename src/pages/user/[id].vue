@@ -15,15 +15,6 @@ const {
   isFinished,
   id,
 } = getUserDetail(props.id)
-watch(
-  () => router.currentRoute.value.path,
-  (newValue, oldValue) => {
-    // query()
-    if (newValue.startsWith('/user/')) {
-      const newId = newValue.replaceAll('/user/', '')
-      id.value = newId
-    }
-  })
 
 async function gotoPost(id: string) {
   const { data, execute } = getSectionByPostId(id)
@@ -49,11 +40,24 @@ const {
   followFinished,
   followFetching,
   execute,
+  followId,
 } = getFollowList(props.id)
 async function getFollows() {
   await execute()
   follows.value = followList.value.items as Follow[]
 }
+
+watch(
+  () => router.currentRoute.value.path,
+  (newValue, oldValue) => {
+    // query()
+    if (newValue.startsWith('/user/')) {
+      const newId = newValue.replaceAll('/user/', '')
+      id.value = newId
+      followId.value = newId
+    }
+  },
+)
 
 async function handleTabs(value: string) {
   if (value === 'follow')
