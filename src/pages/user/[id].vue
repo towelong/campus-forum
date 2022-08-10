@@ -7,6 +7,12 @@ import { fromNow } from '~/utils/time'
 const props = defineProps<{
   id: string
 }>()
+// 局部关注或未关注状态，刷新页面会闪动一下，
+// 这样就不用刷新页面，提升用户体验
+type followType = '' | 'follow' | 'cancel'
+const followStatus = ref<followType>('')
+const followListStatus = ref<followType>('')
+
 const router = useRouter()
 const user = useUserStore()
 const message = useMessage()
@@ -16,7 +22,7 @@ const {
   isFetching,
   isFinished,
   id,
-  query,
+  // query,
 } = getUserDetail(props.id)
 
 async function gotoPost(id: string) {
@@ -29,7 +35,10 @@ async function handleFollow(id: number) {
   const res = await follow(id)
   if (res.code === 1) {
     message.success('关注成功')
-    await query()
+    // await query()
+    // 关注成功则开启 `取消关注` 按钮
+    followStatus.value = 'cancel'
+    followListStatus.value = 'cancel'
   }
   else { message.error(res.message) }
 }
@@ -68,8 +77,15 @@ async function handleCancelFollow(id: number) {
   const res = await cancelFollow(id)
   if (res.code === 3) {
     message.success('取关成功')
-    await query()
+    // await query()
+    // 关注成功则开启 `关注` 按钮
+    followStatus.value = 'follow'
+    followListStatus.value = 'follow'
   }
+}
+
+function gotoUser(id: number) {
+  router.push(`/user/${id}`)
 }
 
 </script>
@@ -99,25 +115,46 @@ async function handleCancelFollow(id: number) {
           </n-tag>
         </div>
       </div>
-      <div>
-        <n-button
-          v-if="parseInt(props.id) != user.user.id && !data.followed"
-          type="primary" ghost
-          px-6
-          @click="handleFollow(parseInt(props.id))"
-        >
-          关注
-        </n-button>
-        <n-button
-          v-if="data.followed"
-          type="primary" px-6 ghost
-          @click="handleCancelFollow(parseInt(props.id))"
-        >
-          取消关注
-        </n-button>
-        <!-- <n-button type="primary" ghost>
+      <div v-if="parseInt(props.id) != user.user.id">
+        <template v-if="followStatus == '' ">
+          <n-button
+            v-if="!data.followed"
+            type="primary" ghost
+            px-6
+            @click="handleFollow(parseInt(props.id))"
+          >
+            关注
+          </n-button>
+          <n-button
+            v-if="data.followed"
+            type="primary" px-6
+            @click="handleCancelFollow(parseInt(props.id))"
+          >
+            取消关注
+          </n-button>
+        </template>
+        <template v-else>
+          <n-button
+            v-if="followStatus == 'follow'"
+            type="primary" ghost
+            px-6
+            @click="handleFollow(parseInt(props.id))"
+          >
+            关注
+          </n-button>
+          <n-button
+            v-if="followStatus == 'cancel'"
+            type="primary" px-6
+            @click="handleCancelFollow(parseInt(props.id))"
+          >
+            取消关注
+          </n-button>
+        </template>
+      </div>
+      <div v-else>
+        <n-button type="primary" ghost>
           编辑个人资料
-        </n-button> -->
+        </n-button>
       </div>
     </div>
   </n-card>
@@ -160,17 +197,44 @@ async function handleCancelFollow(id: number) {
               <div flex justify-between items-center>
                 <div flex items-center>
                   <n-avatar round :size="70" :src="fl.avatar" />
-                  <p ml-2>
+                  <p
+                    ml-2 hover:text-emerald-700 cursor-pointer
+                    @click="gotoUser(fl.user_id)"
+                  >
                     {{ fl.nickname }}
                   </p>
                 </div>
                 <div>
-                  <n-button v-if="!fl.followed" type="primary" ghost px-6 @click="handleFollow(fl.user_id)">
-                    关注
-                  </n-button>
-                  <n-button v-else type="primary" px-6 @click="handleCancelFollow(fl.user_id)">
-                    已关注
-                  </n-button>
+                  <template v-if="followListStatus == ''">
+                    <n-button
+                      v-if="!fl.followed" type="primary" ghost px-6
+                      @click="handleFollow(fl.user_id)"
+                    >
+                      关注
+                    </n-button>
+                    <n-button
+                      v-else type="primary" px-6
+                      @click="handleCancelFollow(fl.user_id)"
+                    >
+                      已关注
+                    </n-button>
+                  </template>
+                  <template v-else>
+                    <n-button
+                      v-if="followListStatus == 'follow'" type="primary"
+                      ghost px-6
+                      @click="handleFollow(fl.user_id)"
+                    >
+                      关注
+                    </n-button>
+                    <n-button
+                      v-if="followListStatus == 'cancel'"
+                      type="primary" px-6
+                      @click="handleCancelFollow(fl.user_id)"
+                    >
+                      已关注
+                    </n-button>
+                  </template>
                 </div>
               </div>
             </n-list-item>
