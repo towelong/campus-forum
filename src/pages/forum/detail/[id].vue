@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // import { useMessage } from 'naive-ui'
-import { computed, h } from 'vue'
+import { h } from 'vue'
 import type { DataTableColumns } from 'naive-ui'
 import { NButton, NTag, useMessage } from 'naive-ui'
 import UserProfile from '~/components/UserProfile.vue'
@@ -22,16 +22,28 @@ const pagination = ref({
   pageSize: 10,
   // 总条数
   itemCount: 0,
+  page: 1,
+})
+const detail = ref()
+const loading = ref(true)
+
+async function getData(page = 1) {
+  loading.value = true
+  const res = await getSectionDetail(props.id, page - 1, pagination.value.pageSize)
+  detail.value = res
+  pagination.value.pageSize = res.posts.count
+  pagination.value.itemCount = res.posts.total
+  loading.value = false
+}
+
+onMounted(async() => {
+  await getData()
 })
 
-const { detail, isFinished, isFetching, error } = getSectionDetail(props.id)
-const dataDetail = computed(() => detail.value)
-watch(dataDetail, () => {
-  if (dataDetail.value) {
-    pagination.value.itemCount = dataDetail.value.posts.total
-    pagination.value.pageSize = dataDetail.value.posts.count
-  }
-})
+async function next(currentPage: number) {
+  pagination.value.page = currentPage
+  await getData(currentPage)
+}
 
 interface List {
   id: number
@@ -87,7 +99,7 @@ const createColumns = ({
           {
             onClick: () => {
               // message.info(row.title)
-              router.push(`/post/${row.id}?forum=${props.id}&name=${dataDetail.value.name}`)
+              router.push(`/post/${row.id}?forum=${props.id}&name=${detail.value.name}`)
             },
             style: {
               cursor: 'pointer',
@@ -171,25 +183,25 @@ const handleToForum = () => {
 
 <template>
   <div>
-    <div v-if="isFetching" class="flex justify-center items-center">
+    <div v-if="loading" class="flex justify-center items-center">
       <!-- <n-spin size="large" /> -->
       <n-card>
         <n-skeleton text :repeat="8" />
       </n-card>
     </div>
-    <div v-if="isFinished && !error">
+    <div v-else px-2>
       <n-card style="margin-bottom: 16px">
         <template #header>
           <n-page-header @back="handleBack">
             <template #title>
-              <p>{{ dataDetail.name }}</p>
+              <p>{{ detail.name }}</p>
             </template>
             <template #header>
               <n-breadcrumb>
                 <n-breadcrumb-item @click="handleToForum">
                   所有板块
                 </n-breadcrumb-item>
-                <n-breadcrumb-item>{{ dataDetail.name }}</n-breadcrumb-item>
+                <n-breadcrumb-item>{{ detail.name }}</n-breadcrumb-item>
               </n-breadcrumb>
             </template>
           </n-page-header>
@@ -200,21 +212,28 @@ const handleToForum = () => {
           </n-button>
         </template>
         <div flex gap-2 mb-4>
-          <p>今日：<span class="p-color">{{ dataDetail.today_total }}</span></p>
-          <p>帖数：<span class="p-color">{{ dataDetail.total }}</span></p>
+          <p>今日：<span class="p-color">{{ detail.today_total }}</span></p>
+          <p>帖数：<span class="p-color">{{ detail.total }}</span></p>
         </div>
         <p mb-4>
-          {{ dataDetail.info }}
+          {{ detail.info }}
         </p>
         <n-tabs type="line" animated @update:value="handleUpdateValue">
           <n-tab-pane name="oasis" tab="帖子">
             <n-data-table
               :columns="columns"
-              :data="dataDetail.posts.items"
-              :pagination="pagination"
+              :data="detail.posts.items"
               :bordered="false"
               :stripe="true"
             />
+            <div flex justify-end pt-2 mr-12>
+              <n-pagination
+                v-model:page="pagination.page"
+                :item-count="pagination.itemCount"
+                :page-size="pagination.pageSize"
+                :on-update:page="next"
+              />
+            </div>
           </n-tab-pane>
           <n-tab-pane name="the beatles" tab="精华">
             Hey Jude

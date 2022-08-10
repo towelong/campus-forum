@@ -1,4 +1,5 @@
 import { useFetch } from '~/request'
+import { get } from '~/request/axios'
 import { useUserStore } from '~/store'
 
 export function getSectionList() {
@@ -35,9 +36,9 @@ export function getSectionList() {
   }
 }
 
-export function getSectionDetail(id: string) {
-  const { data, isFinished, isFetching, error, statusCode } = useFetch(`/section/${id}`).get().json()
-  return { detail: data, isFinished, isFetching, error, statusCode }
+export async function getSectionDetail(id: string, page: number, count: number) {
+  const res = await get(`/section/${id}?page=${page}&count${count}`)
+  return res
 }
 
 export function getSectionByPostId(postId: string) {
