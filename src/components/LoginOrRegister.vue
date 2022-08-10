@@ -41,8 +41,8 @@ const rules: FormRules = {
     message: '请输入密码',
     trigger: ['blur', 'input'],
   },
-  capture: {
-    required: true,
+  captcha: {
+    required: false,
     message: '请输入验证码',
     trigger: ['blur', 'input'],
   },
