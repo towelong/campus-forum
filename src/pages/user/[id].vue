@@ -24,13 +24,12 @@ async function gotoPost(id: string) {
 const isFollow = ref(false)
 const toggleFollow = useToggle(isFollow)
 async function handleFollow(id: number) {
-  const { data, execute, statusCode } = follow(id)
-  await execute()
-  if (statusCode.value === 201) {
+  const res = await follow(id)
+  if (res.code === 1) {
     message.success('关注成功')
     toggleFollow()
   }
-  else { message.error(data.value.message) }
+  else { message.error(res.message) }
 }
 
 const follows = ref<Follow[]>()
@@ -50,7 +49,6 @@ async function getFollows() {
 watch(
   () => router.currentRoute.value.path,
   (newValue, oldValue) => {
-    // query()
     if (newValue.startsWith('/user/')) {
       const newId = newValue.replaceAll('/user/', '')
       id.value = newId

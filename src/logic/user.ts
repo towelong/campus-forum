@@ -1,6 +1,6 @@
 import { useAuthFetch, useFetch } from '~/request'
 import { useUserStore } from '~/store'
-import { _delete } from '~/request/axios'
+import { _delete, post } from '~/request/axios'
 
 export const userLogin = () => {
   const model = ref({
@@ -119,16 +119,21 @@ export function getUserDetail(i: string) {
   }
 }
 
-export const follow = (id: number) => {
+export const follow = async(id: number) => {
   const userStore = useUserStore()
-  const { data, execute, post, statusCode } = useAuthFetch('/user/follow', { immediate: false }).json()
-  watchEffect(() => {
-    post({
-      user_id: userStore.user.id,
-      followed_user_id: id,
-    })
+  const res = await post('/user/follow', {
+    user_id: userStore.user.id,
+    followed_user_id: id,
   })
-  return { data, execute, statusCode }
+  return res
+  // const { data, execute, post, statusCode } = useAuthFetch('/user/follow', { immediate: false }).json()
+  // watchEffect(() => {
+  //   post({
+  //     user_id: userStore.user.id,
+  //     followed_user_id: id,
+  //   })
+  // })
+  // return { data, execute, statusCode }
 }
 
 export const getFollowList = (fid: string) => {
