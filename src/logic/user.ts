@@ -172,7 +172,7 @@ export const cancelFollow = async(id: number) => {
   return res
 }
 
-export const getUserDynamic = async() => {
-  const res = await get('/user/follow')
+export const getUserDynamic = async(page = 1, count = 6) => {
+  const res = await get(`/user/follow?page=${page - 1}&count=${count}`)
   return res
 }

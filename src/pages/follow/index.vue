@@ -5,10 +5,26 @@ import { fromNow } from '~/utils/time'
 
 const router = useRouter()
 const dynamicList = ref<UserDynamic[]>([])
+const result = ref()
+const loading = ref(true)
+const more = ref(false)
+const page = ref(1)
 
 async function getUserDynamicList() {
-  const res = await getUserDynamic()
+  loading.value = true
+  const res = await getUserDynamic(page.value)
   dynamicList.value = res.items
+  result.value = res
+  loading.value = false
+}
+
+async function loadMore() {
+  more.value = true
+  page.value++
+  const res = await getUserDynamic(page.value)
+  dynamicList.value = dynamicList.value.concat(res.items)
+  result.value = res
+  more.value = false
 }
 
 onMounted(async() => {
@@ -24,36 +40,46 @@ async function gotoPost(id: number) {
 
 <template>
   <n-card>
-    <div v-if="dynamicList.length == 0" flex-1 flex items-center ml-1>
+    <div v-if="loading" flex-1 flex items-center ml-1>
       <n-space flex-1 vertical>
         <n-skeleton text style="width: 60%" />
         <n-skeleton text :repeat="3" />
       </n-space>
     </div>
     <template v-else>
-      <n-list v-for="(item) in dynamicList" :key="`user-${item.user.id}`" bordered>
-        <n-list-item v-if="item.posts.length > 0">
-          <div flex items-center @click="router.push('/user/'+item.user.id)">
+      <n-empty v-if="dynamicList.length == 0" description="你什么也找不到" />
+      <n-list v-for="(item) in dynamicList" :key="`user-${item.user_id}`" bordered>
+        <n-list-item>
+          <div flex items-center @click="router.push('/user/'+item.user_id)">
             <n-space :vertical="false">
-              <n-avatar :src="item.user.avatar" />
+              <n-avatar :src="item.avatar" />
               <p cursor-pointer>
-                <span text-emerald-700>{{ item.user.nickname }}</span>
+                <span text-emerald-700>{{ item.nickname }}</span>
                 发表了帖子
               </p>
             </n-space>
           </div>
         </n-list-item>
-        <template v-for="post in item.posts" :key="`post-${post.post_id}`">
-          <n-list-item>
-            <div flex justify-between items-center @click="gotoPost(post.post_id)">
-              <p hover:text-emerald-700 cursor-pointer>
-                {{ post.title }}
-              </p>
-              <p>{{ fromNow(post.create_time) }}</p>
-            </div>
-          </n-list-item>
-        </template>
+        <n-list-item>
+          <div flex justify-between items-center @click="gotoPost(item.post_id)">
+            <p hover:text-emerald-700 cursor-pointer>
+              {{ item.title }}
+            </p>
+            <p>{{ fromNow(item.create_time) }}</p>
+          </div>
+        </n-list-item>
       </n-list>
+      <div v-if="dynamicList.length < result.total" flex py-2 justify-center>
+        <div v-if="more" flex-1 flex items-center ml-1>
+          <n-space flex-1 vertical>
+            <n-skeleton text style="width: 60%" />
+            <n-skeleton text :repeat="3" />
+          </n-space>
+        </div>
+        <n-button :loading="more" @click="loadMore">
+          加载更多
+        </n-button>
+      </div>
     </template>
   </n-card>
 </template>

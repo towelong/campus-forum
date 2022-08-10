@@ -7,19 +7,10 @@ export interface Follow {
 }
 
 export interface UserDynamic {
-  user: User
-  posts: Post[]
-}
-
-export interface Post {
-  post_id: number
-  title: string
-  create_time: string
-}
-
-export interface User {
-  id: number
+  user_id: number
   nickname: string
   avatar: string
+  post_id: number
+  title: string
   create_time: string
 }
