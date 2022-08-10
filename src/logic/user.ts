@@ -1,6 +1,6 @@
 import { useFetch } from '~/request'
 import { useUserStore } from '~/store'
-import { _delete, post } from '~/request/axios'
+import { _delete, get, post } from '~/request/axios'
 
 export const userLogin = () => {
   const model = ref({
@@ -169,5 +169,10 @@ export const cancelFollow = async(id: number) => {
     user_id: userStore.user.id,
     followed_user_id: id,
   })
+  return res
+}
+
+export const getUserDynamic = async() => {
+  const res = await get('/user/follow')
   return res
 }

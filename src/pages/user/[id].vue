@@ -171,9 +171,9 @@ function gotoUser(id: number) {
           <n-list v-for="(post) in data.posts.items" :key="post.post_id" bordered>
             <n-list-item>
               <div flex justify-between items-center @click="gotoPost(post.post_id)">
-                <n-button quaternary>
+                <p hover:text-emerald-700 cursor-pointer>
                   {{ post.title }}
-                </n-button>
+                </p>
                 <p>{{ fromNow(post.create_time) }}</p>
               </div>
             </n-list-item>
