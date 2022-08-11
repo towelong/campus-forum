@@ -99,7 +99,7 @@ function gotoUser(id: number) {
             {{ props.reply.reply_info.reply_content }}
           </p>
         </div>
-        <div flex justify-between items-center text-slate-400 text-sm>
+        <div flex justify-between items-center text-slate-400 text-xs lg:text-sm>
           <div v-if="user.isExist">
             <div
               v-if="!open"
@@ -121,7 +121,7 @@ function gotoUser(id: number) {
             </div>
           </div>
           <div />
-          <p mr-1>
+          <p mr-1 text-xs lg:text-sm>
             发表于{{ fromNow(props.reply.reply_info.create_time) }}
           </p>
         </div>

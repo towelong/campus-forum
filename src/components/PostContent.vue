@@ -40,26 +40,37 @@ function gotoUser(id: number) {
 <template>
   <div>
     <!-- 帖子内容 -->
-    <div v-if="props.data.comments.page === 0" class="flex border-b border-slate-200">
+    <div
+      v-if="props.data.comments.page === 0"
+      class="flex flex-col lg:flex-row border-b border-slate-200"
+    >
       <div
-        flex flex-col items-center max-w-38
-        px-4 py-6 border-r border-slate-200
+        flex lg:flex-col lg:items-center lg:max-w-38 px-1 py-2
+        lg:px-4 lg:py-6 border-b lg:border-r border-slate-200
       >
         <img
           :src="props.data.user.avatar"
-          class="w-30 h-30 rounded-[50%]"
+          class="w-16 h-16 lg:w-30 lg:h-30 rounded-[50%]"
         >
-        <div flex flex-col text-sm justify-between max-h-12 mx-2 mt-2>
+        <div
+          flex flex-col text-sm lg:justify-between justify-around items-center
+          lg:max-h-12 mx-2 lg:mt-2
+        >
           <p hover:text-emerald-700 cursor-pointer @click="gotoUser(props.data.user.id)">
             <n-ellipsis :line-clamp="1">
               {{ props.data.user.nickname }}
             </n-ellipsis>
           </p>
           <!-- <p>发帖数：31</p> -->
+          <p>
+            <n-tag type="success" size="small">
+              作者
+            </n-tag>
+          </p>
         </div>
-        <n-tag type="success" size="small">
-          作者
-        </n-tag>
+        <p class="text-slate-400 text-xs lg:hidden ml-auto">
+          发表于{{ fromNow(props.data.create_time) }}
+        </p>
       </div>
       <div class="px-6 py-2 flex flex-col justify-between flex-1">
         <!-- <p pb-42>
@@ -72,12 +83,12 @@ function gotoUser(id: number) {
         />
         <div flex justify-between w-full>
           <div flex>
-            <div v-if="user.isExist" flex justify-center items-center text-sm cursor-pointer text-slate-400>
+            <div v-if="user.isExist" flex justify-center items-center text-xs lg:text-sm cursor-pointer text-slate-400>
               <p i-carbon-warning-alt />
               <p>举报</p>
             </div>
           </div>
-          <p class="text-slate-400">
+          <p class="text-slate-400 hidden lg:block">
             发表于{{ fromNow(props.data.create_time) }}
           </p>
         </div>

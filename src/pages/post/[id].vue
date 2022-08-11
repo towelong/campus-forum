@@ -54,7 +54,7 @@ function goTo(path: string) {
 
 <template>
   <div>
-    <div v-if="error || isFetching" px-6>
+    <div v-if="error || isFetching" lg:px-6>
       <n-card>
         <template #header>
           <n-page-header @back="handleBack">
@@ -78,28 +78,38 @@ function goTo(path: string) {
         </div>
       </n-card>
     </div>
-    <div v-if="isFinished" ref="el" px-6>
+    <div v-if="isFinished" ref="el" lg:px-6>
       <n-card>
         <template #header>
           <n-page-header @back="handleBack">
             <template #title>
-              <p>{{ data.title }}</p>
+              <p text-xs>
+                {{ data.title }}
+              </p>
             </template>
             <template #header>
               <n-breadcrumb>
                 <n-breadcrumb-item @click="goTo('/forum')">
-                  所有板块
+                  <p text-xs>
+                    所有板块
+                  </p>
                 </n-breadcrumb-item>
                 <n-breadcrumb-item @click="goTo('/forum/detail/'+route.query.forum)">
-                  {{ route.query.name }}
+                  <p text-xs>
+                    {{ route.query.name }}
+                  </p>
                 </n-breadcrumb-item>
-                <n-breadcrumb-item>{{ data.title }}</n-breadcrumb-item>
+                <n-breadcrumb-item>
+                  <p text-xs>
+                    {{ data.title }}
+                  </p>
+                </n-breadcrumb-item>
               </n-breadcrumb>
             </template>
           </n-page-header>
         </template>
         <template #header-extra>
-          <n-button type="primary" @click="handleComment">
+          <n-button hidden lg:block type="primary" @click="handleComment">
             回复
           </n-button>
         </template>

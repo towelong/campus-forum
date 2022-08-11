@@ -66,26 +66,34 @@ function gotoUser(id: number) {
 
 <template>
   <!-- [帖子-> 评论 -> 回复] -->
-  <div class="flex border-b border-slate-200">
+  <div class="flex flex-col lg:flex-row border-b border-slate-200">
     <div
-      flex flex-col items-center max-w-38
-      px-4 py-6 border-r border-slate-200
+      flex lg:flex-col lg:items-center lg:max-w-38 px-1 py-2
+      lg:px-4 lg:py-6 border-b lg:border-r border-slate-200
     >
       <img
         :src="props.comment.user_info.avatar"
-        class="w-30 h-30 rounded-[50%]"
+        class="w-16 h-16 lg:w-30 lg:h-30 rounded-[50%]"
       >
-      <div flex flex-col text-sm justify-between max-h-12 mx-2 mt-2>
+      <div
+        flex flex-col text-sm lg:justify-between justify-around items-center
+        lg:max-h-12 mx-2 lg:mt-2
+      >
         <p hover:text-emerald-700 cursor-pointer @click="gotoUser(props.comment.user_info.id)">
           <n-ellipsis :line-clamp="1">
             {{ props.comment.user_info.nickname }}
           </n-ellipsis>
         </p>
         <!-- <p>发帖数：31</p> -->
+        <p>
+          <n-tag type="success" size="small">
+            作者
+          </n-tag>
+        </p>
       </div>
-      <n-tag v-if="props.comment.is_author" type="success" size="small">
-        作者
-      </n-tag>
+      <p class="text-slate-400 text-xs lg:hidden ml-auto">
+        发表于{{ fromNow(props.comment.comment_info.create_time) }}
+      </p>
     </div>
     <div class="px-6 py-2 flex flex-col justify-between flex-1">
       <p pb-42>
@@ -93,10 +101,10 @@ function gotoUser(id: number) {
       </p>
       <div flex justify-between w-full>
         <div flex text-slate-400>
-          <div v-if="user.isExist" flex>
+          <div v-if="user.isExist" flex text-xs lg:text-sm>
             <div
               v-if="!open"
-              flex justify-center items-center text-sm cursor-pointer
+              flex justify-center items-center cursor-pointer
               @click="handleComment"
             >
               <p i-ri-chat-4-line />
@@ -104,22 +112,22 @@ function gotoUser(id: number) {
             </div>
             <div
               v-else
-              flex justify-center items-center text-sm cursor-pointer
+              flex justify-center items-center cursor-pointer
               @click="handleCancelComment"
             >
               <p i-ri-chat-4-fill />
               <p>取消回复</p>
             </div>
-            <div flex justify-center items-center px-2 text-sm cursor-pointer>
+            <div flex justify-center items-center px-2 cursor-pointer>
               <p i-carbon-warning-alt />
               <p>举报</p>
             </div>
           </div>
-          <div flex justify-center items-center px-2 text-sm>
+          <div flex justify-center items-center px-2 text-xs lg:text-sm>
             <p>回复({{ props.comment.reply_total }})</p>
           </div>
         </div>
-        <p class="text-slate-400 text-sm">
+        <p class="text-slate-400 text-xs lg:text-sm hidden">
           发表于{{ fromNow(props.comment.comment_info.create_time) }}
         </p>
       </div>
