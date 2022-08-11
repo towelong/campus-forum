@@ -73,7 +73,7 @@ provide('contentRef', contentRef)
       >
         <router-link v-for="menu in menus" :key="menu.path" :to="menu.path">
           <div flex="~" items-center mx-4 px-1 py-2 my-1 rounded class="hover:bg-[#F4F5F7]">
-            <p :class="menu.icon" text-xl />
+            <!-- <p :class="menu.icon" text-xl /> -->
             <p ml-2>
               {{ menu.name }}
             </p>
