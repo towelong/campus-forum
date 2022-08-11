@@ -22,7 +22,7 @@ watch(isLargeScreen, (value) => {
   else
     cols.value = 2
 })
-
+useTitle('板块收藏 - 校园论坛')
 </script>
 
 <template>

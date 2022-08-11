@@ -13,6 +13,8 @@ const user = useUserStore()
 const props = defineProps<{ id: string }>()
 const message = useMessage()
 const router = useRouter()
+const title = useTitle()
+
 const handleUpdateValue = (value: string) => {
   message.info(value)
 }
@@ -31,6 +33,7 @@ async function getData(page = 1) {
   loading.value = true
   const res = await getSectionDetail(props.id, page - 1, pagination.value.pageSize)
   detail.value = res
+  title.value = `${res.name} - 校园论坛`
   pagination.value.pageSize = res.posts.count
   pagination.value.itemCount = res.posts.total
   loading.value = false
@@ -39,7 +42,6 @@ async function getData(page = 1) {
 onMounted(async() => {
   await getData()
 })
-
 async function next(currentPage: number) {
   pagination.value.page = currentPage
   await getData(currentPage)

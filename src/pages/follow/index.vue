@@ -36,6 +36,7 @@ async function gotoPost(id: number) {
   await execute()
   router.push(`/post/${id}?forum=${data.value.id}&name=${data.value.name}`)
 }
+useTitle('我的关注 - 校园论坛')
 </script>
 
 <template>

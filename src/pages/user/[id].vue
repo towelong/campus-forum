@@ -25,6 +25,11 @@ const {
   // query,
 } = getUserDetail(props.id)
 
+watch(isFinished, (value) => {
+  if (value)
+    useTitle(`${data.value.nickname}的个人主页 - 校园论坛`)
+})
+
 async function gotoPost(id: string) {
   const { data, execute } = getSectionByPostId(id)
   await execute()
@@ -87,7 +92,6 @@ async function handleCancelFollow(id: number) {
 function gotoUser(id: number) {
   router.push(`/user/${id}`)
 }
-
 </script>
 <template>
   <n-card>

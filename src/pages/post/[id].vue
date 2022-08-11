@@ -25,6 +25,11 @@ const {
   page,
   execute,
 } = getPostDetail(props.id)
+watch(isFinished, (value) => {
+  if (value)
+    useTitle(`${data.value.title} - 校园论坛`)
+})
+
 const contentRef = inject<Ref>('contentRef')
 const next = (currentPage: number) => {
   page.value = currentPage

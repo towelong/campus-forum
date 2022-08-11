@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { getHotSpot, getSectionByPostId, getSectionPostBySectionId } from '~/logic'
 import type { Hot, Post } from '~/models/home'
-
 const hots = ref<Hot[]>([])
 const lostThings = ref<Post[]>([])
 const hometowns = ref<Post[]>([])
@@ -31,6 +30,7 @@ watch(isLargeScreen, (value) => {
   else
     cols.value = 1
 })
+useTitle('首页 - 校园论坛')
 </script>
 
 <template>

@@ -35,7 +35,7 @@ watch(isLargeScreen, (value) => {
   else
     cols.value = 2
 })
-
+useTitle('所有板块 - 校园论坛')
 </script>
 <template>
   <div>
