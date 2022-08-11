@@ -14,6 +14,15 @@ onMounted(async() => {
   await getData()
 })
 
+const isLargeScreen = useMediaQuery('(min-width: 1024px)')
+const cols = ref(2)
+watch(isLargeScreen, (value) => {
+  if (value)
+    cols.value = 3
+  else
+    cols.value = 2
+})
+
 </script>
 
 <template>
@@ -22,7 +31,7 @@ onMounted(async() => {
       <h1 text-2xl mb-4 class="text-color">
         我的收藏
       </h1>
-      <n-grid x-gap="12" :cols="3" :y-gap="8">
+      <n-grid x-gap="12" :cols="cols" :y-gap="8">
         <n-gi v-for="(_, i) in 12" :key="i">
           <n-skeleton h-42 rounded-2xl />
         </n-gi>
@@ -32,7 +41,7 @@ onMounted(async() => {
       <h1 text-2xl mb-4 class="text-color">
         我的收藏
       </h1>
-      <n-grid x-gap="12" :cols="3" :y-gap="8">
+      <n-grid x-gap="12" :cols="cols" :y-gap="8">
         <n-gi v-for="(item, i) in result.items" :key="i">
           <SectionItem :data="item" :refresh="getData" />
         </n-gi>
@@ -40,7 +49,7 @@ onMounted(async() => {
     </div>
     <n-grid
       v-if="result && result.items.length === 0"
-      x-gap="12" :cols="4" :y-gap="8" mb-4
+      x-gap="12" :cols="cols" :y-gap="8" mb-4
     >
       <n-gi>
         <div

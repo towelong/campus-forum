@@ -2,47 +2,11 @@
 import type { LayoutInst } from 'naive-ui'
 
 import { useUserStore } from '~/store'
+import { useMenu } from '~/composables'
 
 const user = useUserStore()
 const router = useRouter()
-interface Menu {
-  name: string
-  path: string
-  icon: string
-}
-const initMenus: Menu[] = [
-  {
-    name: '首页',
-    path: '/',
-    icon: 'i-carbon-home',
-  },
-  {
-    name: '所有板块',
-    path: '/forum',
-    icon: 'i-carbon-template',
-  },
-]
-
-const authMenus = [
-  {
-    name: '板块收藏',
-    path: '/collection',
-    icon: 'i-carbon-star',
-  },
-  {
-    name: '关注',
-    path: '/follow',
-    icon: 'i-carbon-user-favorite',
-  },
-]
-
-const menus = ref<Menu[]>(initMenus)
-watchEffect(() => {
-  if (user.isExist)
-    menus.value = menus.value.concat(authMenus)
-  else
-    menus.value = initMenus
-})
+const menus = useMenu()
 
 const showModal = ref(false)
 const toggleModal = useToggle(showModal)
