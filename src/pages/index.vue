@@ -23,12 +23,20 @@ async function gotoPost(id: number) {
   await execute()
   router.push(`/post/${id}?forum=${data.value.id}&name=${data.value.name}`)
 }
+const isLargeScreen = useMediaQuery('(min-width: 1024px)')
+const cols = ref(1)
+watch(isLargeScreen, (value) => {
+  if (value)
+    cols.value = 2
+  else
+    cols.value = 1
+})
 </script>
 
 <template>
-  <div mx-1 mt-4 flex justify-between>
-    <div flex-1>
-      <n-grid x-gap="12" :cols="2">
+  <div mx-1 mt-4 flex flex-col lg:flex-row lg:justify-between>
+    <div flex-1 flex flex-col>
+      <n-grid x-gap="12" :cols="cols">
         <n-gi>
           <n-card
             title="全站十大" :segmented="{
@@ -73,47 +81,53 @@ async function gotoPost(id: number) {
         </n-gi>
       </n-grid>
     </div>
-    <div w-70 ml-6 flex flex-col>
-      <n-card
-        title="失物招领" :segmented="{
-          content: true,
-        }"
-        mb-6
-      >
-        <template #header-extra>
-          <p
-            hover:text-emerald-700 cursor-pointer
-            @click="router.push('/forum/detail/2')"
+    <div lg:w-70 lg:ml-6 flex flex-col>
+      <n-grid :cols="1">
+        <n-gi>
+          <n-card
+            title="失物招领" :segmented="{
+              content: true,
+            }"
+            mb-6
           >
-            更多
-          </p>
-        </template>
-        <skeleton v-if="loading" />
-        <n-list v-else bordered>
-          <template v-for="lostThing in lostThings" :key="lostThing.post_id">
-            <n-list-item>
+            <template #header-extra>
               <p
                 hover:text-emerald-700 cursor-pointer
-                @click="gotoPost(lostThing.post_id)"
+                @click="router.push('/forum/detail/2')"
               >
-                {{ lostThing.title }}
+                更多
               </p>
-            </n-list-item>
-          </template>
-        </n-list>
-      </n-card>
-      <n-card
-        title="热门版面" :segmented="{
-          content: true,
-        }"
-        mb-6
-      >
-        <skeleton v-if="loading" />
-        <n-list v-else bordered>
-          <n-list-item>校园趣事</n-list-item>
-          <n-list-item>失物招领</n-list-item>
-        </n-list>
-      </n-card>
+            </template>
+            <skeleton v-if="loading" />
+            <n-list v-else bordered>
+              <template v-for="lostThing in lostThings" :key="lostThing.post_id">
+                <n-list-item>
+                  <p
+                    hover:text-emerald-700 cursor-pointer
+                    @click="gotoPost(lostThing.post_id)"
+                  >
+                    {{ lostThing.title }}
+                  </p>
+                </n-list-item>
+              </template>
+            </n-list>
+          </n-card>
+        </n-gi>
+        <n-gi>
+          <n-card
+            title="热门版面" :segmented="{
+              content: true,
+            }"
+            mb-6
+          >
+            <skeleton v-if="loading" />
+            <n-list v-else bordered>
+              <n-list-item>校园趣事</n-list-item>
+              <n-list-item>失物招领</n-list-item>
+            </n-list>
+          </n-card>
+        </n-gi>
+      </n-grid>
     </div>
   </div>
 </template>
