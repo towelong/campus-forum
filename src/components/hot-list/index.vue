@@ -8,11 +8,11 @@ const props = defineProps<{
 
 </script>
 <template>
-  <div flex flex-col>
+  <n-list bordered>
     <template v-for="hot in props.hots" :key="hot.post_id">
       <Item :title="hot.post.title" :post-id="hot.post_id" :total="hot.total" />
     </template>
-  </div>
+  </n-list>
 </template>
 <style scoped>
 </style>
