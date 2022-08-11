@@ -2,38 +2,16 @@ import { useFetch } from '~/request'
 import { get } from '~/request/axios'
 import { useUserStore } from '~/store'
 
-export function getSectionList() {
+export async function getSectionList(page = 1, count = 10) {
   const user = useUserStore()
-  const page = ref(1)
-  const count = ref(10)
   const prefix = '/section'
 
-  const temp = `${prefix}?page=${page.value - 1}&count=${count.value}`
+  const temp = `${prefix}?page=${page - 1}&count=${count}`
   const initurl = user.isExist ? `${temp}&current=${user.user.id}` : temp
-  const url = ref(initurl)
 
-  const res = useFetch(url, { refetch: true }).get().json()
-  const { data, error, statusCode, isFetching, isFinished, execute } = res
+  const res = await get(initurl)
 
-  watch(page,
-    (value) => {
-      const query = user.isExist
-        ? `page=${value - 1}&current=${user.user.id}`
-        : `page=${value - 1}`
-      url.value = `${prefix}?${query}&count=${count.value}`
-    },
-  )
-
-  return {
-    data,
-    error,
-    statusCode,
-    page,
-    count,
-    isFetching,
-    isFinished,
-    execute,
-  }
+  return res
 }
 
 export async function getSectionDetail(id: string, page: number, count: number) {
