@@ -48,26 +48,28 @@ async function gotoPost(id: number) {
     </div>
     <template v-else>
       <n-empty v-if="dynamicList.length == 0" description="你什么也找不到" />
-      <n-list v-for="(item) in dynamicList" :key="`user-${item.user_id}`" bordered>
-        <n-list-item>
-          <div flex items-center @click="router.push('/user/'+item.user_id)">
-            <n-space :vertical="false">
-              <n-avatar :src="item.avatar" />
-              <p cursor-pointer>
-                <span text-emerald-700>{{ item.nickname }}</span>
-                发表了帖子
+      <n-list bordered>
+        <template v-for="(item) in dynamicList" :key="`user-${item.user_id}`">
+          <n-list-item>
+            <div flex items-center @click="router.push('/user/'+item.user_id)">
+              <n-space :vertical="false">
+                <n-avatar :src="item.avatar" />
+                <p cursor-pointer>
+                  <span text-emerald-700>{{ item.nickname }}</span>
+                  发表了帖子
+                </p>
+              </n-space>
+            </div>
+          </n-list-item>
+          <n-list-item>
+            <div flex justify-between items-center @click="gotoPost(item.post_id)">
+              <p hover:text-emerald-700 cursor-pointer>
+                {{ item.title }}
               </p>
-            </n-space>
-          </div>
-        </n-list-item>
-        <n-list-item>
-          <div flex justify-between items-center @click="gotoPost(item.post_id)">
-            <p hover:text-emerald-700 cursor-pointer>
-              {{ item.title }}
-            </p>
-            <p>{{ fromNow(item.create_time) }}</p>
-          </div>
-        </n-list-item>
+              <p>{{ fromNow(item.create_time) }}</p>
+            </div>
+          </n-list-item>
+        </template>
       </n-list>
       <div v-if="dynamicList.length < result.total" flex py-2 justify-center>
         <div v-if="more" flex-1 flex items-center ml-1>
