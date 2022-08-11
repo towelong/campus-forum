@@ -1,6 +1,6 @@
 <template>
   <n-message-provider>
-    <main font-sans>
+    <main>
       <Layout>
         <router-view />
         <n-back-top :right="30" />
