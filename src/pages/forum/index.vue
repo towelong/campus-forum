@@ -26,6 +26,16 @@ const handleMore = async() => {
 }
 
 const hasMore = computed(() => items.value.length < total.value)
+
+const isLargeScreen = useMediaQuery('(min-width: 1024px)')
+const cols = ref(2)
+watch(isLargeScreen, (value) => {
+  if (value)
+    cols.value = 3
+  else
+    cols.value = 2
+})
+
 </script>
 <template>
   <div>
@@ -33,7 +43,7 @@ const hasMore = computed(() => items.value.length < total.value)
       <h1 text-2xl mb-4 class="text-color">
         所有板块
       </h1>
-      <n-grid x-gap="12" :cols="3" :y-gap="8">
+      <n-grid x-gap="12" :cols="cols" :y-gap="8">
         <n-gi v-for="(_, i) in 12" :key="i">
           <n-skeleton h-42 rounded-2xl />
         </n-gi>
@@ -43,7 +53,7 @@ const hasMore = computed(() => items.value.length < total.value)
       <h1 text-2xl mb-4 class="text-color">
         所有板块
       </h1>
-      <n-grid x-gap="12" :cols="3" :y-gap="8">
+      <n-grid x-gap="12" :cols="cols" :y-gap="8">
         <n-gi v-for="(item, i) in items" :key="i">
           <SectionItem :data="item" :refresh="getData" />
         </n-gi>

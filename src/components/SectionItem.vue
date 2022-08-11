@@ -52,7 +52,7 @@ async function cancel() {
 </script>
 
 <template>
-  <div class="card h-50" flex="~ col" p-6 @click="go(props.data.id)">
+  <div class="card h-46" flex="~ col" p-6 @click="go(props.data.id)">
     <div flex items-center justify-between>
       <img
         rounded w-10 h-10 mb-2
@@ -63,10 +63,10 @@ async function cancel() {
         <p v-else i-carbon-star-filled text-yellow @click.stop="cancel" />
       </template>
     </div>
-    <p class="text-color mb-2 text-xl">
+    <p class="text-color mb-2 lg:text-xl">
       {{ props.data.name }}
     </p>
-    <p mb-2>
+    <p mb-2 text-xs lg:text-sm>
       <n-ellipsis :line-clamp="2">
         {{ props.data.info }}
       </n-ellipsis>

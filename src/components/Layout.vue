@@ -4,6 +4,7 @@ import type { LayoutInst } from 'naive-ui'
 import { useUserStore } from '~/store'
 
 const user = useUserStore()
+const router = useRouter()
 interface Menu {
   name: string
   path: string
@@ -56,9 +57,9 @@ provide('contentRef', contentRef)
       <div flex items-center justify-between>
         <!-- left  -->
         <div w-55 flex px-2>
-          <div flex items-center>
-            <p i-carbon-ibm-z-cloud-mod-stack text-2xl />
-            <p font-serif ml-2 text-2xl>
+          <div flex items-center @click="router.push('/')">
+            <p i-carbon-ibm-z-cloud-mod-stack lg:text-2xl />
+            <p font-serif ml-2 lg:text-2xl>
               Cloud Shadow
             </p>
           </div>
@@ -66,7 +67,7 @@ provide('contentRef', contentRef)
         <!-- right -->
         <div flex flex-1 justify-between px-4>
           <div flex items-center>
-            <n-input-group>
+            <n-input-group hidden md:flex lg:flex>
               <n-input placeholder="搜索板块、帖子、用户" />
               <n-button type="primary" ghost>
                 搜索
@@ -75,18 +76,16 @@ provide('contentRef', contentRef)
           </div>
           <div flex items-center justify-center>
             <div flex items-center justify-center>
-              <p v-if="!user.isExist" mx-4 @click="toggleModal()">
+              <p v-if="!user.isExist" mx-4 lg:mx-10 @click="toggleModal()">
                 <n-button>
                   注册/登录
                 </n-button>
               </p>
-              <p v-else mx-4 flex items-center justify-center>
+              <p v-else mx-4 lg:mx-10 hidden lg:flex lg:items-center lg:justify-center>
                 <!-- 退出 -->
                 <user-info />
               </p>
-              <p mx-4>
-                帮助中心
-              </p>
+              <mobile-menu />
               <n-modal
                 v-model:show="showModal"
                 preset="card"
@@ -103,6 +102,7 @@ provide('contentRef', contentRef)
     </n-layout-header>
     <n-layout position="absolute" style="top: 64px" has-sider class="bg-[#F4F5F8]">
       <n-layout-sider
+        lg:block hidden
         bordered show-trigger collapse-mode="width"
         :native-scrollbar="false" :collapsed-width="16"
         :width="220" mr-4 mb-2
@@ -116,7 +116,11 @@ provide('contentRef', contentRef)
           </div>
         </router-link>
       </n-layout-sider>
-      <n-layout ref="contentRef" content-style="padding:10px 20px 20px 0;" :native-scrollbar="false" class="bg-[#F4F5F8]">
+      <n-layout
+        ref="contentRef"
+        lg:pt-1 lg:pr-6 lg:pb-6 lg:pl-0
+        :native-scrollbar="false" class="bg-[#F4F5F8]"
+      >
         <slot />
       </n-layout>
     </n-layout>

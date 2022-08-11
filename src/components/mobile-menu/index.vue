@@ -17,7 +17,6 @@ const renderIcon = (icon: Component) => {
     })
   }
 }
-
 const options = [
   {
     label: '个人主页',
@@ -41,19 +40,16 @@ function handleSelect(key: string) {
       break
   }
 }
-
 </script>
 <template>
   <n-dropdown
+    v-if="user.isExist"
     :options="options" trigger="click" :show-arrow="true"
     @select="handleSelect"
   >
-    <n-avatar
-      round
-      :size="38"
-      :src="user.user.avatar"
-      cursor-pointer
-    />
+    <n-button lg:hidden>
+      <p i-carbon-menu />
+    </n-button>
   </n-dropdown>
 </template>
 <style scoped>
