@@ -28,7 +28,7 @@ onMounted(async() => {
               <n-skeleton text style="width: 60%" />
               <n-skeleton text :repeat="3" />
             </n-space>
-            <list v-else :hots="hots" />
+            <hot-list v-else :hots="hots" />
           </n-card>
         </n-gi>
 
