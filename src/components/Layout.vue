@@ -13,12 +13,27 @@ const toggleModal = useToggle(showModal)
 
 const contentRef = ref<LayoutInst | null>(null)
 provide('contentRef', contentRef)
-
+const position = ref<'static' | 'absolute' | undefined>('static')
+const style = ref('top: 0')
+const isLargeScreen = useMediaQuery('(min-width: 1024px)')
+watch(isLargeScreen, (value) => {
+  if (value) {
+    position.value = 'absolute'
+    style.value = 'top: 64px'
+  }
+  else {
+    position.value = 'static'
+    style.value = 'top: 0'
+  }
+})
 </script>
 <template>
   <n-layout h-screen>
-    <n-layout-header style="height: 64px;" flex flex-col justify-center bordered>
-      <div flex items-center justify-between>
+    <n-layout-header h-16 flex flex-col justify-center bordered>
+      <div
+        flex items-center justify-between h-16 z-99
+        fixed top-0 left-0 lg:static bg-white w-full shadow-sm
+      >
         <!-- left  -->
         <div w-55 flex px-2>
           <div flex items-center @click="router.push('/')">
@@ -64,7 +79,7 @@ provide('contentRef', contentRef)
         </div>
       </div>
     </n-layout-header>
-    <n-layout position="absolute" style="top: 64px" has-sider class="bg-[#F4F5F8]">
+    <n-layout :position="position" :style="style" has-sider class="bg-[#F4F5F8]">
       <n-layout-sider
         lg:block hidden
         bordered show-trigger collapse-mode="width"

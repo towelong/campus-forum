@@ -46,7 +46,7 @@ function gotoUser(id: number) {
     >
       <div
         flex lg:flex-col lg:items-center lg:max-w-38 px-1 py-2
-        lg:px-4 lg:py-6 border-b lg:border-r border-slate-200
+        lg:px-4 lg:py-6 border-b lg:border-b-none lg:border-r border-slate-200
       >
         <img
           :src="props.data.user.avatar"

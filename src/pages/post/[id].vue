@@ -88,24 +88,24 @@ function goTo(path: string) {
         <template #header>
           <n-page-header @back="handleBack">
             <template #title>
-              <p text-xs>
+              <p text-xs lg:text-base>
                 {{ data.title }}
               </p>
             </template>
             <template #header>
               <n-breadcrumb>
                 <n-breadcrumb-item @click="goTo('/forum')">
-                  <p text-xs>
+                  <p text-xs lg:text-sm>
                     所有板块
                   </p>
                 </n-breadcrumb-item>
                 <n-breadcrumb-item @click="goTo('/forum/detail/'+route.query.forum)">
-                  <p text-xs>
+                  <p text-xs lg:text-sm>
                     {{ route.query.name }}
                   </p>
                 </n-breadcrumb-item>
                 <n-breadcrumb-item>
-                  <p text-xs>
+                  <p text-xs lg:text-sm>
                     {{ data.title }}
                   </p>
                 </n-breadcrumb-item>
