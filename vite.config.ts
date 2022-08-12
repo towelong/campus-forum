@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 
 import path from 'path'
-import { defineConfig } from 'vite'
+import { defineConfig, splitVendorChunkPlugin } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import Pages from 'vite-plugin-pages'
 import Components from 'unplugin-vue-components/vite'
@@ -10,25 +10,13 @@ import Unocss from 'unocss/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 
 export default defineConfig({
-  base: './',
-  build: {
-    chunkSizeWarningLimit: 1500,
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules'))
-            return id.toString().split('node_modules/')[1].split('/')[0].toString()
-        },
-      },
-    },
-  },
   resolve: {
     alias: {
       '~/': `${path.resolve(__dirname, 'src')}/`,
     },
   },
   plugins: [
-    // splitVendorChunkPlugin(),
+    splitVendorChunkPlugin(),
     Vue({
       reactivityTransform: true,
     }),
