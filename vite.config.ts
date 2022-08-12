@@ -10,6 +10,7 @@ import Unocss from 'unocss/vite'
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 
 export default defineConfig({
+  base: './',
   build: {
     chunkSizeWarningLimit: 1500,
     rollupOptions: {
