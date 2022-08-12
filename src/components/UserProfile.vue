@@ -14,8 +14,11 @@ function gotoUser() {
 
 <template>
   <div flex items-center>
-    <img :src="props.avatar" w-6 h-6 rounded-2xl lg:w-12 lg:h-12 lg:rounded-3xl>
-    <div flex flex-col text-sm justify-between max-h-12 ml-2>
+    <img
+      :src="props.avatar"
+      hidden lg:block lg:w-12 lg:h-12 lg:rounded-3xl
+    >
+    <div flex flex-col text-sm lg:justify-between max-h-12 lg:ml-2>
       <h3 text-xs hover:text-emerald-700 cursor-pointer @click="gotoUser">
         {{ props.name }}
       </h3>

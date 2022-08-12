@@ -12,7 +12,9 @@ const router = useRouter()
 const message = useMessage()
 const route = useRoute()
 const handleBack = () => {
-  router.push(`/forum/detail/${route.query.forum}`)
+  if (route.query.forum)
+    router.push(`/forum/detail/${route.query.forum}`)
+  else router.back()
 }
 const user = useUserStore()
 
@@ -99,9 +101,12 @@ function goTo(path: string) {
                     所有板块
                   </p>
                 </n-breadcrumb-item>
-                <n-breadcrumb-item @click="goTo('/forum/detail/'+route.query.forum)">
-                  <p text-xs lg:text-sm>
+                <n-breadcrumb-item>
+                  <p v-if="route.query.name" text-xs lg:text-sm @click="goTo('/forum/detail/'+route.query.forum)">
                     {{ route.query.name }}
+                  </p>
+                  <p v-if="!route.query.name" text-xs lg:text-sm>
+                    帖子
                   </p>
                 </n-breadcrumb-item>
                 <n-breadcrumb-item>

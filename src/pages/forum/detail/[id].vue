@@ -170,7 +170,7 @@ const columns = createColumns({
 })
 
 const handleBack = () => {
-  router.push('/forum')
+  router.back()
 }
 
 const handleEditor = () => {
@@ -191,7 +191,7 @@ const handleToForum = () => {
         <n-skeleton text :repeat="8" />
       </n-card>
     </div>
-    <div v-else px-2>
+    <div v-else lg:px-2>
       <n-card style="margin-bottom: 16px">
         <template #header>
           <n-page-header @back="handleBack">

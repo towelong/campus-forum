@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { getSectionByPostId } from '~/logic'
 
 const props = defineProps<{
   postId: number
@@ -8,10 +7,8 @@ const props = defineProps<{
 }>()
 const router = useRouter()
 
-async function gotoPost(id: number) {
-  const { data, execute } = getSectionByPostId(id.toString())
-  await execute()
-  router.push(`/post/${id}?forum=${data.value.id}&name=${data.value.name}`)
+function gotoPost(id: number) {
+  router.push(`/post/${id}`)
 }
 </script>
 <template>

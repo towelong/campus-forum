@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { getHotSpot, getSectionByPostId, getSectionPostBySectionId } from '~/logic'
+import { getHotSpot, getSectionPostBySectionId } from '~/logic'
 import type { Hot, Post } from '~/models/home'
 const hots = ref<Hot[]>([])
 const lostThings = ref<Post[]>([])
@@ -17,10 +17,8 @@ onMounted(async() => {
   hometowns.value = hometown
   loading.value = false
 })
-async function gotoPost(id: number) {
-  const { data, execute } = getSectionByPostId(id.toString())
-  await execute()
-  router.push(`/post/${id}?forum=${data.value.id}&name=${data.value.name}`)
+function gotoPost(id: number) {
+  router.push(`/post/${id}`)
 }
 const isLargeScreen = useMediaQuery('(min-width: 1024px)')
 const cols = ref(1)
