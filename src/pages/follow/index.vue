@@ -49,7 +49,7 @@ useTitle('我的关注 - 校园论坛')
     </div>
     <template v-else>
       <n-empty v-if="dynamicList.length == 0" description="你什么也找不到" />
-      <n-list bordered>
+      <n-list v-else bordered>
         <template v-for="(item) in dynamicList" :key="`user-${item.user_id}`">
           <n-list-item>
             <div flex items-center @click="router.push('/user/'+item.user_id)">
