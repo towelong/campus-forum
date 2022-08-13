@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import hljs from 'highlight.js'
 import type { Comment } from '~/models/comments'
 import type { User } from '~/models/user'
 import { useUserStore } from '~/store'
@@ -22,14 +21,6 @@ const props = defineProps<{
   }
 }>()
 
-const postContentRef = ref<HTMLElement | null>(null)
-
-onMounted(() => {
-  if (postContentRef) {
-    // const e = document.getElementById('post-content')
-    hljs.highlightAll()
-  }
-})
 const user = useUserStore()
 const router = useRouter()
 function gotoUser(id: number) {
@@ -78,7 +69,7 @@ function gotoUser(id: number) {
         </p> -->
         <!-- 渲染html -->
         <div
-          id="post-content" ref="postContentRef"
+          id="post-content" ref="postContentRef" v-highlight
           pb-42 v-html="props.data.content"
         />
         <div flex justify-between w-full>
