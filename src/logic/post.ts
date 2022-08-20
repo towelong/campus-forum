@@ -1,7 +1,7 @@
 import type { Ref } from 'vue'
 import { useFetch } from '~/request'
-import { post } from '~/request/axios'
-import type { PostModel } from '~/models/post'
+import { get, post, put } from '~/request/axios'
+import type { PostEditModel, PostModel } from '~/models/post'
 
 export function getPostDetail(id: string) {
   const page = ref(1)
@@ -50,5 +50,15 @@ export function getPostComment(id: string) {
 
 export async function createPost(model: Ref<PostModel>) {
   const res = await post('/post', model.value)
+  return res
+}
+
+export async function getOnePost(id: number) {
+  const res = await get(`/post/detail/${id}`)
+  return res
+}
+
+export async function editPost(post: PostEditModel) {
+  const res = await put(`/post/${post.id}`, post)
   return res
 }

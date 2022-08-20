@@ -12,6 +12,8 @@ const props = defineProps<{
 type followType = '' | 'follow' | 'cancel'
 const followStatus = ref<followType>('')
 const followListStatus = ref<followType>('')
+const showModal = ref(false)
+const toggleModal = useToggle(showModal)
 
 const router = useRouter()
 const user = useUserStore()
@@ -120,46 +122,44 @@ function gotoUser(id: number) {
         </div>
       </div>
       <div v-if="parseInt(props.id) != user.user.id">
-        <template v-if="followStatus == '' ">
-          <n-button
-            v-if="!data.followed"
-            type="primary" ghost
-            px-6
-            @click="handleFollow(parseInt(props.id))"
-          >
+        <template v-if="followStatus == ''">
+          <n-button v-if="!data.followed" type="primary" ghost px-6 @click="handleFollow(parseInt(props.id))">
             关注
           </n-button>
-          <n-button
-            v-if="data.followed"
-            type="primary" px-6
-            @click="handleCancelFollow(parseInt(props.id))"
-          >
+          <n-button v-if="data.followed" type="primary" px-6 @click="handleCancelFollow(parseInt(props.id))">
             取消关注
           </n-button>
         </template>
         <template v-else>
-          <n-button
-            v-if="followStatus == 'follow'"
-            type="primary" ghost
-            px-6
-            @click="handleFollow(parseInt(props.id))"
-          >
+          <n-button v-if="followStatus == 'follow'" type="primary" ghost px-6 @click="handleFollow(parseInt(props.id))">
             关注
           </n-button>
-          <n-button
-            v-if="followStatus == 'cancel'"
-            type="primary" px-6
-            @click="handleCancelFollow(parseInt(props.id))"
-          >
+          <n-button v-if="followStatus == 'cancel'" type="primary" px-6 @click="handleCancelFollow(parseInt(props.id))">
             取消关注
           </n-button>
         </template>
       </div>
       <div v-else>
-        <n-button type="primary" ghost>
+        <n-button type="primary" ghost @click="toggleModal()">
           编辑个人资料
         </n-button>
       </div>
+      <n-modal
+        v-model:show="showModal" preset="card" :auto-focus="false" title="编辑资料" :mask-closable="false"
+        style="width: 360px;"
+      >
+        <n-form>
+          <n-form-item label="昵称">
+            <n-input />
+          </n-form-item>
+          <n-form-item label="密码">
+            <n-input />
+          </n-form-item>
+          <n-form-item label="确认密码">
+            <n-input />
+          </n-form-item>
+        </n-form>
+      </n-modal>
     </div>
   </n-card>
   <n-card>
@@ -172,6 +172,9 @@ function gotoUser(id: number) {
     <n-tabs v-if="isFinished" type="line" animated @update:value="handleTabs">
       <n-tab-pane name="post" tab="帖子">
         <template v-if="isFinished">
+          <template v-if="data.posts.items.length === 0">
+            <n-empty description="你什么也找不到" />
+          </template>
           <n-list v-for="(post) in data.posts.items" :key="post.post_id" bordered>
             <n-list-item>
               <div flex justify-between items-center @click="gotoPost(post.post_id)">
@@ -201,39 +204,28 @@ function gotoUser(id: number) {
               <div flex justify-between items-center>
                 <div flex items-center>
                   <n-avatar round :size="70" :src="fl.avatar" />
-                  <p
-                    ml-2 hover:text-emerald-700 cursor-pointer
-                    @click="gotoUser(fl.user_id)"
-                  >
+                  <p ml-2 hover:text-emerald-700 cursor-pointer @click="gotoUser(fl.user_id)">
                     {{ fl.nickname }}
                   </p>
                 </div>
                 <div>
                   <template v-if="followListStatus == ''">
-                    <n-button
-                      v-if="!fl.followed" type="primary" ghost px-6
-                      @click="handleFollow(fl.user_id)"
-                    >
+                    <n-button v-if="!fl.followed" type="primary" ghost px-6 @click="handleFollow(fl.user_id)">
                       关注
                     </n-button>
-                    <n-button
-                      v-else type="primary" px-6
-                      @click="handleCancelFollow(fl.user_id)"
-                    >
+                    <n-button v-else type="primary" px-6 @click="handleCancelFollow(fl.user_id)">
                       已关注
                     </n-button>
                   </template>
                   <template v-else>
                     <n-button
-                      v-if="followListStatus == 'follow'" type="primary"
-                      ghost px-6
+                      v-if="followListStatus == 'follow'" type="primary" ghost px-6
                       @click="handleFollow(fl.user_id)"
                     >
                       关注
                     </n-button>
                     <n-button
-                      v-if="followListStatus == 'cancel'"
-                      type="primary" px-6
+                      v-if="followListStatus == 'cancel'" type="primary" px-6
                       @click="handleCancelFollow(fl.user_id)"
                     >
                       已关注

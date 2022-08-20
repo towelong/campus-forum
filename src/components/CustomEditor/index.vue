@@ -6,12 +6,26 @@ const emit = defineEmits<{
   (e: 'submit', editorContent: EditorModel): void
 }>()
 
+const props = withDefaults(defineProps<{
+  title?: string
+  content?: string
+}>(), {
+  title: '',
+  content: '',
+})
+
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef()
+
 // 标题
-const title = ref('')
+const title = ref(props.title)
 // 内容 HTML
-const valueHtml = ref('')
+const valueHtml = ref(props.content)
+
+watchEffect(() => {
+  title.value = props.title
+  valueHtml.value = props.content
+})
 
 // 组件销毁时，也及时销毁编辑器
 onBeforeUnmount(() => {
@@ -39,29 +53,15 @@ const handleSubmit = () => {
   <div p-2>
     <n-space flex items-center>
       <p>标题: </p>
-      <n-input
-        v-model:value="title"
-        maxlength="30" show-count clearable
-        type="text" placeholder="请输入标题"
-      />
+      <n-input v-model:value="title" maxlength="30" show-count clearable type="text" placeholder="请输入标题" />
     </n-space>
     <n-space vertical mt-2 w-full>
       <p>内容：</p>
       <div style="border: 1px solid #ccc">
-        <Toolbar
-          style="border-bottom: 1px solid #ccc"
-          :editor="editorRef"
-          :default-config="toolbarConfig"
-          :mode="mode"
-        />
-        <Editor
-          v-model="valueHtml"
-          class="overflow-y-hidden"
-          style="height: 400px;"
-          :default-config="editorConfig"
-          :mode="mode"
-          @on-created="handleCreated"
-        />
+        <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :default-config="toolbarConfig"
+          :mode="mode" />
+        <Editor v-model="valueHtml" class="overflow-y-hidden" style="height: 400px;" :default-config="editorConfig"
+          :mode="mode" @on-created="handleCreated" />
       </div>
       <div flex justify-end mt-2>
         <n-button type="primary" @click="handleSubmit">

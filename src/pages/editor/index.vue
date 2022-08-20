@@ -35,6 +35,6 @@ async function handleSubmit(editorContent: EditorModel) {
 
 <template>
   <n-card title="发布帖子">
-    <editor @submit="handleSubmit" />
+    <custom-editor @submit="handleSubmit" />
   </n-card>
 </template>

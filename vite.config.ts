@@ -39,7 +39,7 @@ export default defineConfig({
         'vue-router',
         '@vueuse/core',
       ],
-      dts: true,
+      dts: false,
     }),
 
     // https://github.com/antfu/vite-plugin-components
@@ -54,7 +54,7 @@ export default defineConfig({
   ],
 
   // https://github.com/vitest-dev/vitest
-  test: {
-    environment: 'jsdom',
-  },
+  // test: {
+  //   environment: 'jsdom',
+  // },
 })

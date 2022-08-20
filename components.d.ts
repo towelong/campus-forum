@@ -5,7 +5,7 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Editor: typeof import('./src/components/editor/index.vue')['default']
+    CustomEditor: typeof import('./src/components/CustomEditor/index.vue')['default']
     HotList: typeof import('./src/components/hot-list/index.vue')['default']
     Input: typeof import('./src/components/Input.vue')['default']
     Item: typeof import('./src/components/hot-list/item/index.vue')['default']
@@ -20,9 +20,9 @@ declare module '@vue/runtime-core' {
     NBreadcrumbItem: typeof import('naive-ui')['NBreadcrumbItem']
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']
+    NDataTable: typeof import('naive-ui')['NDataTable']
     NDropdown: typeof import('naive-ui')['NDropdown']
     NEllipsis: typeof import('naive-ui')['NEllipsis']
-    NEmpty: typeof import('naive-ui')['NEmpty']
     NForm: typeof import('naive-ui')['NForm']
     NFormItem: typeof import('naive-ui')['NFormItem']
     NGi: typeof import('naive-ui')['NGi']
