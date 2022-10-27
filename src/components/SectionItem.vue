@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useMessage } from 'naive-ui'
 import { cancelCollect, collect } from '~/logic'
+import { _delete } from '~/request/axios'
 import { useUserStore } from '~/store/user'
 
 const router = useRouter()
@@ -49,6 +50,14 @@ async function cancel() {
   else { message.error(res.message) }
 }
 
+async function handleDelete() {
+  const res = await _delete(`/section/info/${props.data.id}`)
+  if (res.code === 3) {
+    message.success('删除成功')
+    await props.refresh()
+  }
+}
+
 </script>
 
 <template>
@@ -59,8 +68,12 @@ async function cancel() {
         :src="props.data.logo"
       >
       <template v-if="userStore.isExist">
-        <p v-if="!star" i-carbon-star @click.stop="stared" />
-        <p v-else i-carbon-star-filled text-yellow @click.stop="cancel" />
+        <div flex gap-1>
+          <p v-if="userStore.user.id === 1" i-carbon-edit @click.stop="router.push(`/forum/edit/${props.data.id}`)" />
+          <p v-if="userStore.user.id === 1" i-carbon-row-delete @click.stop="handleDelete" />
+          <p v-if="!star" i-carbon-star @click.stop="stared" />
+          <p v-else i-carbon-star-filled text-yellow @click.stop="cancel" />
+        </div>
       </template>
     </div>
     <p class="text-color mb-2 lg:text-xl">

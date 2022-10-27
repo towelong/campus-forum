@@ -46,12 +46,12 @@ watch(isLargeScreen, (value) => {
         <!-- right -->
         <div flex flex-1 justify-between px-4>
           <div flex items-center>
-            <n-input-group hidden md:flex lg:flex>
+            <!-- <n-input-group hidden md:flex lg:flex>
               <n-input placeholder="搜索板块、帖子、用户" />
               <n-button type="primary" ghost>
                 搜索
               </n-button>
-            </n-input-group>
+            </n-input-group> -->
           </div>
           <div flex items-center justify-center>
             <div flex items-center justify-center>

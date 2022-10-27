@@ -4,10 +4,12 @@ import { getSectionList } from '~/logic'
 const items = ref([])
 const page = ref(1)
 const total = ref(0)
+const router = useRouter()
 
 const loading = ref(false)
 const getData = async() => {
   loading.value = true
+  items.value = []
   const res = await getSectionList(page.value)
   if (items.value.length === 0)
     items.value = res.items
@@ -54,7 +56,7 @@ useTitle('所有板块 - 校园论坛')
         <h1 text-2xl mb-4 class="text-color">
           所有板块
         </h1>
-        <n-button type="primary" ghost>
+        <n-button type="primary" ghost @click="router.push('/forum/add')">
           新增板块
         </n-button>
       </div>
