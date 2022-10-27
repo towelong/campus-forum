@@ -120,8 +120,12 @@ useTitle('首页 - 校园论坛')
           >
             <skeleton v-if="loading" />
             <n-list v-else bordered>
-              <n-list-item>校园趣事</n-list-item>
-              <n-list-item>失物招领</n-list-item>
+              <n-list-item cursor-pointer @click="router.push('/forum/detail/3')">
+                校园趣事
+              </n-list-item>
+              <n-list-item cursor-pointer @click="router.push('/forum/detail/2')">
+                失物招领
+              </n-list-item>
             </n-list>
           </n-card>
         </n-gi>
