@@ -3,11 +3,13 @@
 import { h } from 'vue'
 import type { DataTableColumns } from 'naive-ui'
 import { NButton, NTag, useMessage } from 'naive-ui'
+import type { TableColumn } from 'naive-ui/es/data-table/src/interface'
 import UserProfile from '~/components/UserProfile.vue'
 import LastReply from '~/components/LastReply.vue'
 import { getSectionDetail } from '~/logic'
 import { fromNow } from '~/utils/time'
 import { useUserStore } from '~/store'
+import ActionGroup from '~/components/ActionGroup.vue'
 
 const user = useUserStore()
 const props = defineProps<{ id: string }>()
@@ -63,111 +65,109 @@ interface List {
   is_top: boolean
   user_id: number
 }
-const createColumns = ({
-  play,
-}: {
-  play: (row: List) => void
-}): DataTableColumns<List> => {
-  return [
-    {
-      title: '序号',
-      key: 'id',
-      render: (row) => {
-        if (row.is_top) {
-          return h(
-            NTag,
-            {
-              type: 'success',
-              size: 'small',
-            },
-            '置顶',
-          )
-        }
-        else {
-          return h(
-            'span',
-            {},
-            row.id,
-          )
-        }
-      },
-    },
-    {
-      title: '标题',
-      key: 'title',
-      render: (row) => {
+
+const initCols: DataTableColumns<List> = [
+  {
+    title: '序号',
+    key: 'id',
+    render: (row) => {
+      if (row.is_top) {
         return h(
-          'a',
+          NTag,
           {
-            onClick: () => {
-              // message.info(row.title)
-              router.push(`/post/${row.id}?forum=${props.id}&name=${detail.value.name}`)
-            },
-            style: {
-              cursor: 'pointer',
-            },
-            class: ['hover:text-emerald-700'],
+            type: 'success',
+            size: 'small',
           },
-          row.title,
+          '置顶',
         )
-      },
-    },
-    {
-      title: '作者',
-      key: 'author',
-      render: (row) => {
+      }
+      else {
         return h(
-          UserProfile,
-          {
-            userId: row.user_id,
-            name: row.nickname,
-            avatar: row.avatar,
-            time: fromNow(row.create_time),
-          },
+          'span',
+          {},
+          row.id,
         )
-      },
+      }
     },
-    {
-      title: '回复',
-      key: 'comment_count',
-    },
-    {
-      title: '最后评论',
-      key: 'last',
-      render: (row) => {
-        return h(
-          LastReply,
-          {
-            userId: row.last_comment_user ? row.last_comment_user.id : 0,
-            last: row.last_comment_user ? `最后评论于${fromNow(row.last_comment_user.create_time)}` : '',
-            name: row.last_comment_user ? row.last_comment_user.nickname : '无',
-          },
-        )
-      },
-    },
-    // {
-    //   title: 'Action',
-    //   key: 'actions',
-    //   render(row) {
-    //     return h(
-    //       NButton,
-    //       {
-    //         strong: true,
-    //         tertiary: true,
-    //         size: 'small',
-    //         onClick: () => play(row),
-    //       },
-    //       { default: () => 'Play' },
-    //     )
-    //   },
-    // },
-  ]
-}
-const columns = createColumns({
-  play(row: List) {
-    message.info(row.title)
   },
-})
+  {
+    title: '标题',
+    key: 'title',
+    render: (row) => {
+      return h(
+        'a',
+        {
+          onClick: () => {
+            // message.info(row.title)
+            router.push(`/post/${row.id}?forum=${props.id}&name=${detail.value.name}`)
+          },
+          style: {
+            cursor: 'pointer',
+          },
+          class: ['hover:text-emerald-700'],
+        },
+        row.title,
+      )
+    },
+  },
+  {
+    title: '作者',
+    key: 'author',
+    render: (row) => {
+      return h(
+        UserProfile,
+        {
+          userId: row.user_id,
+          name: row.nickname,
+          avatar: row.avatar,
+          time: fromNow(row.create_time),
+        },
+      )
+    },
+  },
+  {
+    title: '回复',
+    key: 'comment_count',
+  },
+  {
+    title: '最后评论',
+    key: 'last',
+    render: (row) => {
+      return h(
+        LastReply,
+        {
+          userId: row.last_comment_user ? row.last_comment_user.id : 0,
+          last: row.last_comment_user ? `最后评论于${fromNow(row.last_comment_user.create_time)}` : '',
+          name: row.last_comment_user ? row.last_comment_user.nickname : '无',
+        },
+      )
+    },
+  },
+]
+
+const authCols: TableColumn<List> = {
+  title: '操作',
+  key: 'actions',
+  render(row) {
+    return h(
+      ActionGroup,
+      {
+        id: row.id,
+        refresh: getData,
+        isTop: row.is_top,
+      },
+    )
+  },
+}
+
+const cols = ref<DataTableColumns<List>>(initCols)
+if (user.user.id === 1) {
+  const newCols = cols.value
+  newCols.push(authCols)
+  cols.value = newCols
+}
+
+const columns: DataTableColumns<List> = cols.value
 
 const handleBack = () => {
   router.back()
@@ -222,28 +222,18 @@ const handleToForum = () => {
         </p>
         <n-tabs type="line" animated @update:value="handleUpdateValue">
           <n-tab-pane name="oasis" tab="帖子">
-            <n-data-table
-              :columns="columns"
-              :data="detail.posts.items"
-              :bordered="false"
-              :stripe="true"
-            />
+            <n-data-table :columns="columns" :data="detail.posts.items" :bordered="false" :stripe="true" />
             <div flex justify-end pt-2 mr-12>
               <n-pagination
-                v-model:page="pagination.page"
-                :item-count="pagination.itemCount"
-                :page-size="pagination.pageSize"
-                :on-update:page="next"
+                v-model:page="pagination.page" :item-count="pagination.itemCount"
+                :page-size="pagination.pageSize" :on-update:page="next"
               />
             </div>
           </n-tab-pane>
-          <n-tab-pane name="the beatles" tab="精华">
+          <!-- <n-tab-pane name="the beatles" tab="精华">
             Hey Jude
-            <n-pagination
-              :item-count="200"
-              :page-size="5"
-            />
-          </n-tab-pane>
+            <n-pagination :item-count="200" :page-size="5" />
+          </n-tab-pane> -->
         </n-tabs>
       </n-card>
     </div>
@@ -252,6 +242,6 @@ const handleToForum = () => {
 
 <style scoped>
 .p-color {
-color: #18A058;
+  color: #18A058;
 }
 </style>

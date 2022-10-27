@@ -5,6 +5,8 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    Action: typeof import('./src/components/Action/index.vue')['default']
+    ActionGroup: typeof import('./src/components/ActionGroup.vue')['default']
     CustomEditor: typeof import('./src/components/CustomEditor/index.vue')['default']
     HotList: typeof import('./src/components/hot-list/index.vue')['default']
     Input: typeof import('./src/components/Input.vue')['default']

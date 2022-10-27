@@ -50,9 +50,14 @@ useTitle('所有板块 - 校园论坛')
       </n-grid>
     </div>
     <div v-else p-4>
-      <h1 text-2xl mb-4 class="text-color">
-        所有板块
-      </h1>
+      <div flex gap-2>
+        <h1 text-2xl mb-4 class="text-color">
+          所有板块
+        </h1>
+        <n-button type="primary" ghost>
+          新增板块
+        </n-button>
+      </div>
       <n-grid x-gap="12" :cols="cols" :y-gap="8">
         <n-gi v-for="(item, i) in items" :key="i">
           <SectionItem :data="item" :refresh="getData" />
