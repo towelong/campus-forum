@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useMessage } from 'naive-ui'
+import { put } from '~/request/axios'
 import { cancelFollow, follow, getFollowList, getSectionByPostId, getUserDetail } from '~/logic'
 import type { Follow } from '~/models/follow'
 import { useUserStore } from '~/store'
@@ -94,6 +95,19 @@ async function handleCancelFollow(id: number) {
 function gotoUser(id: number) {
   router.push(`/user/${id}`)
 }
+
+const nickname = ref('')
+async function handleChange() {
+  const res = await put('/user', {
+    nickname: nickname.value,
+  })
+  if (res.code === 2) {
+    showModal.value = false
+    data.value.nickname = nickname.value
+    message.success('更新成功')
+  }
+  else { message.error('更新失败') }
+}
 </script>
 <template>
   <n-card>
@@ -117,7 +131,7 @@ function gotoUser(id: number) {
         </p>
         <div>
           <n-tag type="success">
-            {{ data.is_admin ? '超级管理员' : '普通用户' }}
+            {{ data.is_admin ? '管理员' : '普通用户' }}
           </n-tag>
         </div>
       </div>
@@ -150,10 +164,12 @@ function gotoUser(id: number) {
       >
         <n-form>
           <n-form-item label="昵称">
-            <n-input placeholder="请输入昵称" />
+            <n-input v-model:value="nickname" placeholder="请输入昵称" />
           </n-form-item>
           <div flex justify-center>
-            <n-button>确认修改</n-button>
+            <n-button type="primary" @click="handleChange">
+              确认修改
+            </n-button>
           </div>
           <!-- <n-form-item label="密码">
             <n-input />
