@@ -85,7 +85,7 @@ function gotoUser(id: number) {
           </n-ellipsis>
         </p>
         <!-- <p>发帖数：31</p> -->
-        <p>
+        <p v-if="props.comment.is_author">
           <n-tag type="success" size="small">
             作者
           </n-tag>

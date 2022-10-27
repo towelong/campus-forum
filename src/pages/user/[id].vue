@@ -117,7 +117,7 @@ function gotoUser(id: number) {
         </p>
         <div>
           <n-tag type="success">
-            普通用户
+            {{ data.is_admin ? '超级管理员' : '普通用户' }}
           </n-tag>
         </div>
       </div>
@@ -150,14 +150,17 @@ function gotoUser(id: number) {
       >
         <n-form>
           <n-form-item label="昵称">
-            <n-input />
+            <n-input placeholder="请输入昵称" />
           </n-form-item>
-          <n-form-item label="密码">
+          <div flex justify-center>
+            <n-button>确认修改</n-button>
+          </div>
+          <!-- <n-form-item label="密码">
             <n-input />
           </n-form-item>
           <n-form-item label="确认密码">
             <n-input />
-          </n-form-item>
+          </n-form-item> -->
         </n-form>
       </n-modal>
     </div>
@@ -241,4 +244,5 @@ function gotoUser(id: number) {
   </n-card>
 </template>
 <style scoped>
+
 </style>

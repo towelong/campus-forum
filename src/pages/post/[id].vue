@@ -120,7 +120,7 @@ function goTo(path: string) {
         </template>
         <template #header-extra>
           <n-button hidden lg:block type="primary" @click="handleComment">
-            回复
+            评论
           </n-button>
         </template>
         <p border-b border-slate-200 />

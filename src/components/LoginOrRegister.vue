@@ -73,7 +73,7 @@ const registerRules: FormRules = {
   nickname:
     {
       required: true,
-      message: '请输入密码',
+      message: '请输入昵称',
       trigger: ['blur', 'input'],
     },
 }
