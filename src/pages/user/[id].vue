@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useMessage } from 'naive-ui'
-import { put } from '~/request/axios'
+import { _delete, put } from '~/request/axios'
 import { cancelFollow, follow, getFollowList, getSectionByPostId, getUserDetail } from '~/logic'
 import type { Follow } from '~/models/follow'
 import { useUserStore } from '~/store'
@@ -25,7 +25,7 @@ const {
   isFetching,
   isFinished,
   id,
-  // query,
+  query,
 } = getUserDetail(props.id)
 
 watch(isFinished, (value) => {
@@ -107,6 +107,12 @@ async function handleChange() {
     message.success('更新成功')
   }
   else { message.error('更新失败') }
+}
+
+async function handleDelete(id: number) {
+  const res = await _delete(`/post/${id}`)
+  if (res.code === 3)
+    await query()
 }
 </script>
 <template>
@@ -200,7 +206,12 @@ async function handleChange() {
                 <p hover:text-emerald-700 cursor-pointer>
                   {{ post.title }}
                 </p>
-                <p>{{ fromNow(post.create_time) }}</p>
+                <div flex justify-around items-center gap-2>
+                  <p>{{ fromNow(post.create_time) }}</p>
+                  <n-button v-if="parseInt(props.id) == user.user.id" @click.stop="handleDelete(post.post_id)">
+                    删除
+                  </n-button>
+                </div>
               </div>
             </n-list-item>
           </n-list>
