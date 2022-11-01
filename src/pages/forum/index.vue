@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { getSectionList } from '~/logic'
+import { useUserStore } from '~/store'
+
+const user = useUserStore()
 
 const items = ref([])
 const page = ref(1)
@@ -56,7 +59,7 @@ useTitle('所有板块 - 校园论坛')
         <h1 text-2xl mb-4 class="text-color">
           所有板块
         </h1>
-        <n-button type="primary" ghost @click="router.push('/forum/add')">
+        <n-button v-if="user.user.id == 1" type="primary" ghost @click="router.push('/forum/add')">
           新增板块
         </n-button>
       </div>

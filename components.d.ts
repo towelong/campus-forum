@@ -5,7 +5,6 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    Action: typeof import('./src/components/Action/index.vue')['default']
     ActionGroup: typeof import('./src/components/ActionGroup.vue')['default']
     CustomEditor: typeof import('./src/components/CustomEditor/index.vue')['default']
     HotList: typeof import('./src/components/hot-list/index.vue')['default']
@@ -32,7 +31,6 @@ declare module '@vue/runtime-core' {
     NGrid: typeof import('naive-ui')['NGrid']
     NIcon: typeof import('naive-ui')['NIcon']
     NInput: typeof import('naive-ui')['NInput']
-    NInputGroup: typeof import('naive-ui')['NInputGroup']
     NLayout: typeof import('naive-ui')['NLayout']
     NLayoutHeader: typeof import('naive-ui')['NLayoutHeader']
     NLayoutSider: typeof import('naive-ui')['NLayoutSider']

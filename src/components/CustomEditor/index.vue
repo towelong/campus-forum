@@ -58,10 +58,14 @@ const handleSubmit = () => {
     <n-space vertical mt-2 w-full>
       <p>内容：</p>
       <div style="border: 1px solid #ccc">
-        <Toolbar style="border-bottom: 1px solid #ccc" :editor="editorRef" :default-config="toolbarConfig"
-          :mode="mode" />
-        <Editor v-model="valueHtml" class="overflow-y-hidden" style="height: 400px;" :default-config="editorConfig"
-          :mode="mode" @on-created="handleCreated" />
+        <Toolbar
+          style="border-bottom: 1px solid #ccc" :editor="editorRef" :default-config="toolbarConfig"
+          :mode="mode"
+        />
+        <Editor
+          v-model="valueHtml" class="overflow-y-hidden" style="height: 400px;" :default-config="editorConfig"
+          :mode="mode" @on-created="handleCreated"
+        />
       </div>
       <div flex justify-end mt-2>
         <n-button type="primary" @click="handleSubmit">
